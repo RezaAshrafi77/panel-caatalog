@@ -1,0 +1,1 @@
+export const loginBG = "https://colorlib.com/etc/lf/Login_v4/images/bg-01.jpg";
