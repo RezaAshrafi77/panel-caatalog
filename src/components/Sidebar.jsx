@@ -23,9 +23,11 @@ export default function Sidebar({ classNames, data, events, ...props }) {
         {props?.routes?.map((route, index) => (
           <li
             onClick={() => events["onChangeRoute"](route?.name)}
-            className={`${
-              props?.activeRoute === route?.name ? "text-green-400 !text-base" : ""
-            } cursor-pointer flex justify-between px-4 py-4 text-sm font-medium`}
+            className={`transition-all cursor-pointer flex justify-between px-4 text-sm font-medium ${
+              props?.activeRoute === route?.name
+                ? "text-green-400 !text-base py-6"
+                : "py-5 hover:text-gray-400"
+            }`}
             key={`sidebar-routes-${index}`}
           >
             {route?.title}
@@ -43,11 +45,15 @@ Sidebar.defaultProps = {
   routes: [
     {
       title: "صفحه اصلی",
-      name: "home",
+      name: "report",
     },
     {
       title: "مشتریان",
       name: "templates",
+    },
+    {
+      title: "ایجاد مشتری",
+      name: "createTemplate",
     },
     {
       title: "ویرایش ظاهر",
