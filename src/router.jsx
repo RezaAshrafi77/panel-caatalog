@@ -54,7 +54,7 @@ export const Router = ({ admin }) => {
             <Route
               path="/"
               element={
-                splashDuration ? <Splash /> : true ? <Home /> : <Login />
+                splashDuration ? <Splash /> : admin ? <Home /> : <Login />
               }
             />
             <Route path="*" element={<NotFound />} />

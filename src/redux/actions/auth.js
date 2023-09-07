@@ -1,11 +1,18 @@
-import proxy from "~/redux/proxy";
+import axios from "axios";
+import { baseUrl } from "../../config";
+import { setTokens } from "../../middleware";
 
-const prefix = "auth/";
 const auth = {
   login:
     (data = {}) =>
     async (dispatch) => {
-      await proxy.login(prefix + "login", data, { dispatch });
+      dispatch({ type: "auth/loading" });
+      await axios
+        .post(baseUrl + "/" + "auth/login", data)
+        .then((res) => {
+          setTokens(res?.data);
+        })
+        .catch((err) => dispatch({ type: "auth/error", data: err?.message }));
     },
 };
 

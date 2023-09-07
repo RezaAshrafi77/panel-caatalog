@@ -2,7 +2,6 @@ import proxy from "~/redux/proxy";
 import { toast } from "react-toastify";
 
 const status = proxy.status();
-const prefix = "user/";
 
 const initialState = {
   status,
@@ -11,17 +10,17 @@ const initialState = {
 };
 
 export default function auth(state = initialState, action) {
-  let { type, data, schema, count, params } = action;
+  let { type, data } = action;
   switch (type) {
-    case prefix + "login":
+    case "user/login":
       return {
         ...state,
         loading: false,
         status: data,
       };
-    case prefix + "loading":
+    case "user/loading":
       return { ...state, loading: true };
-    case prefix + "error":
+    case "user/error":
       toast.error(data.message);
       return { ...state, loading: false, error: data.message };
     default:
