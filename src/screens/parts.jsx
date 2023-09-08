@@ -8,6 +8,7 @@ export const Parts = ({
   getAdminCategories,
   categories,
   template,
+  events,
   loading,
 }) => {
   useEffect(() => {
@@ -40,7 +41,10 @@ export const Parts = ({
                     key={"vitrin-items-" + index}
                     style={"square"}
                     events={{
-                      onClick: () => setPart(part),
+                      onClick: () => {
+                        events["changeActivePart"](part);
+                        events["changeRoute"]("editPart");
+                      },
                     }}
                   />
                 ))}

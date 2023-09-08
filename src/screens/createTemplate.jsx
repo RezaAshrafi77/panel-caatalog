@@ -5,7 +5,7 @@ import { Navbar, Button, Loading, Tab } from "../components";
 import { MdChevronLeft } from "react-icons/md";
 import { template } from "../redux/actions";
 
-import { Parts } from "./index";
+import { Parts, Information } from "./index";
 
 export const CreateTemplate = ({
   template,
@@ -43,7 +43,16 @@ export const CreateTemplate = ({
         classNames="sticky top-[54px] z-10"
       />
       <div className="flex-1 px-6 py-5">
-        <Parts />
+        {activeTab === 0 ? (
+          <Parts
+            events={{
+              changeRoute: events["changeRoute"],
+              changeActivePart: events["changeActivePart"]
+            }}
+          />
+        ) : (
+          <Information />
+        )}
       </div>
     </div>
   );
