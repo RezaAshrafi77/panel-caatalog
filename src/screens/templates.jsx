@@ -6,7 +6,7 @@ import { template } from "../redux/actions";
 import { Table, Button } from "../components";
 import { adminsTemplatesTheads } from "../shared/data";
 
-export const Templates = ({ getAdminsTemplates, templates }) => {
+export const Templates = ({ getAdminsTemplates, templates, events }) => {
   useEffect(() => {
     getAdminsTemplates();
   }, []);
@@ -37,7 +37,10 @@ export const Templates = ({ getAdminsTemplates, templates }) => {
                       icon={
                         <MdZoomIn className="text-green-500" size="1.5rem" />
                       }
-                      events={{ onSubmit: () => {} }}
+                      events={{
+                        onSubmit: () =>
+                          events["changeRoute"]("editTemplate", row["_id"]),
+                      }}
                     />
                   </div>
                 ) : (

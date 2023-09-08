@@ -9,17 +9,33 @@ import { baseUrl } from "../config";
 export const Home = ({ template, ...props }) => {
   const navigation = useNavigate();
   const [activeRoute, setActiveRoute] = useState("report");
+  const [templateID, setTemplateID] = useState(null);
 
   const content = {
     report: <Report />,
-    templates: <Templates />,
+    templates: (
+      <Templates
+        events={{
+          changeRoute: (route, ID) => {
+            setTemplateID(ID);
+            setActiveRoute(route);
+          },
+        }}
+      />
+    ),
+    editTemplate: (
+      <CreateTemplate
+        type="edit"
+        templateID={templateID}
+        events={{
+          changeRoute: (route) => setActiveRoute(route),
+        }}
+      />
+    ),
     createTemplate: <CreateTemplate />,
-    editUI: <EditUI />
+    editUI: <EditUI />,
   };
-
-  useEffect(() => {
-    console.log(activeRoute);
-  }, [activeRoute]);
+  
   return (
     <div className="flex flex-1 flex-col md:flex-row max-w-full max-h-full h-full overflow-hidden bg-gray-800 text-background">
       <Navbar
@@ -28,6 +44,9 @@ export const Home = ({ template, ...props }) => {
       />
       <Sidebar
         activeRoute={activeRoute}
+        data={{
+          categories: template,
+        }}
         events={{
           onChangeRoute: (val) => setActiveRoute(val),
         }}

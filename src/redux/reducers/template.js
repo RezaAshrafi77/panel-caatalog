@@ -12,6 +12,8 @@ export default function template(state = initialState, action) {
   switch (type) {
     case "template/getTemplate":
       return { ...state, template: data, loading: false, error: null };
+    case "template/admin/{id}":
+      return { ...state, template: data, loading: false, error: null };
     case "template/admin/list":
       return { ...state, templates: data, loading: false, error: null };
     case "template/loading":

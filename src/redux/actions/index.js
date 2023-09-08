@@ -5,6 +5,7 @@ export { default as template } from "./template.js";
 export { default as files } from "./files.js";
 export { default as user } from "./user.js";
 export { default as auth } from "./auth.js";
+export { default as category } from "./category.js";
 // export { default as comment } from "./comment.js";
 // export { default as config } from "./config.js";
 // export { default as faq } from "./faq.js";
