@@ -15,6 +15,8 @@ export { default as Product } from "./product";
 export { default as Loading } from "./Loading";
 export { default as Carousel } from "./Carousel";
 export { default as Sidebar } from "./Sidebar";
+export { default as Table } from "./Table";
+
 
 // List
 export { default as ListView } from "./ListView";

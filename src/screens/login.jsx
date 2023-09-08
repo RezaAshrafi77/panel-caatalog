@@ -12,6 +12,7 @@ export const Login = ({ admin, login, loading, ...props }) => {
     username: "",
     password: "",
   });
+  const [formLoading, setFormLoading] = useState(false);
   return (
     <div className="flex-center-center flex-1 max-w-full max-h-full h-full overflow-hidden">
       <Image
@@ -59,14 +60,19 @@ export const Login = ({ admin, login, loading, ...props }) => {
               classNames="w-full mt-4 text-white bg-gradient-to-l from-[#DD36E8] to-[#71D5D9] !rounded-full md:!max-h-[45px] text-sm"
               type="contained"
               primary="primary"
-              loading={loading}
+              loading={loading || formLoading}
               title="LOGIN"
               events={{
-                onSubmit: (e) =>
-                  login({
-                    username: formValues?.username,
-                    password: formValues?.password,
-                  }),
+                onSubmit: (e) => {
+                  setFormLoading(true);
+                  setTimeout(() => {
+                    setFormLoading(false);
+                    login({
+                      username: formValues?.username,
+                      password: formValues?.password,
+                    });
+                  }, 1500);
+                },
               }}
             />
           </form>

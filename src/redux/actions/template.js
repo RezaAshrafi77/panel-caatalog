@@ -1,6 +1,8 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import ApiConfig from "~/config";
+import { apiErrorHandler, getHeaders } from "../../middleware";
+
 const { baseUrl } = ApiConfig;
 
 const template = {
@@ -18,6 +20,18 @@ const template = {
         })
         .catch((error) => {
           dispatch({ type: "template/error", data: error });
+        });
+    },
+  getAdminsTemplates:
+    (data = {}) =>
+    async (dispatch) => {
+      await axios
+        .get(`${baseUrl}/templates/admin/list`, { headers: getHeaders() })
+        .then((res) => {
+          console.log(res?.data);
+        })
+        .catch((error) => {
+          apiErrorHandler(error);
         });
     },
 };

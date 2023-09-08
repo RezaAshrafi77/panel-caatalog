@@ -1,10 +1,9 @@
 import proxy from "~/redux/proxy";
 import { toast } from "react-toastify";
-
-const status = proxy.status();
+import { checkUserStatus } from "../../middleware";
 
 const initialState = {
-  status,
+  status : checkUserStatus(),
   loading: false,
   error: null,
 };
@@ -12,15 +11,15 @@ const initialState = {
 export default function auth(state = initialState, action) {
   let { type, data } = action;
   switch (type) {
-    case "user/login":
+    case "auth/login":
       return {
         ...state,
         loading: false,
         status: data,
       };
-    case "user/loading":
+    case "auth/loading":
       return { ...state, loading: true };
-    case "user/error":
+    case "auth/error":
       toast.error(data.message);
       return { ...state, loading: false, error: data.message };
     default:

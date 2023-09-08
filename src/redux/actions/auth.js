@@ -10,7 +10,8 @@ const auth = {
       await axios
         .post(baseUrl + "/" + "auth/login", data)
         .then((res) => {
-          setTokens(res?.data);
+          dispatch({ type: "auth/login", data: res?.data?.data });
+          setTokens(res?.data?.data);
         })
         .catch((err) => dispatch({ type: "auth/error", data: err?.message }));
     },
