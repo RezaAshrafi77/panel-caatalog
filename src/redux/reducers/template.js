@@ -4,6 +4,7 @@ const initialState = {
   loading: false,
   error: null,
   template: null,
+  templates: [],
 };
 
 export default function template(state = initialState, action) {
@@ -11,6 +12,8 @@ export default function template(state = initialState, action) {
   switch (type) {
     case "template/getTemplate":
       return { ...state, template: data, loading: false, error: null };
+    case "template/admin/list":
+      return { ...state, templates: data, loading: false, error: null };
     case "template/loading":
       return { ...state, loading: true };
     case "template/error":

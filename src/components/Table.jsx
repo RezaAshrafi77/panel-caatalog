@@ -2,42 +2,20 @@ import React from "react";
 
 export default function Table({ data, classNames, events, ...props }) {
   return (
-    <div className={`${classNames} bg-transparent`}>
-      <div className="grid grid-cols-5">
+    <div
+      className={`${classNames} bg-transparent w-full`}
+    >
+      <div className={`${"grid-cols-" + props?.cols} grid`}>
         {data?.theads?.map((value, index) => (
           <div
-            className={`ct-${
-              index === 0 ? null : index
-            } transition text-backgroundText text-center py-4 bg-transparent font-bold lg:text-sm xl:text-base`}
-            onMouseOver={() =>
-              index > 0 ? hoverOnColumn("ct-" + index, "over") : {}
-            }
-            onMouseLeave={() =>
-              index > 0 ? hoverOnColumn("ct-" + index, "leave") : {}
-            }
+            className={`text-backgroundText text-center py-4 font-medium md:text-base border-b border-solid border-b-gray-600`}
             key={index}
           >
             {value}
           </div>
         ))}
       </div>
+      {props?.renderBody}
     </div>
   );
 }
-
-const hoverOnColumn = (className, type) => {
-  if (type === "over") {
-    let list;
-    list = document.getElementsByClassName(className);
-    for (var i = 0; i < list.length; ++i) {
-      list[i].classList.add("primary-color");
-    }
-  }
-  if (type === "leave") {
-    let list;
-    list = document.getElementsByClassName(className);
-    for (var i = 0; i < list.length; ++i) {
-      list[i].classList.remove("primary-color");
-    }
-  }
-};

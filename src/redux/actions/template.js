@@ -28,7 +28,10 @@ const template = {
       await axios
         .get(`${baseUrl}/templates/admin/list`, { headers: getHeaders() })
         .then((res) => {
-          console.log(res?.data);
+          dispatch({
+            type: "template/admin/list",
+            data: res?.data?.data,
+          });
         })
         .catch((error) => {
           apiErrorHandler(error);

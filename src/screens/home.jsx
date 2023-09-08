@@ -21,7 +21,7 @@ export const Home = ({ template, ...props }) => {
     console.log(activeRoute);
   }, [activeRoute]);
   return (
-    <div className="flex flex-1 flex-col md:flex-row max-w-full max-h-full h-full overflow-hidden">
+    <div className="flex flex-1 flex-col md:flex-row max-w-full max-h-full h-full overflow-hidden bg-gray-800 text-background">
       <Navbar
         classNames="md:hidden !fixed !pt-8 !text-white backdrop-blur-sm"
         logo={<Image src="/icons/logo.svg" classNames="w-10 rounded-md" />}

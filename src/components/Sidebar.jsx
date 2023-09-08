@@ -5,7 +5,7 @@ import { Image } from "../components";
 export default function Sidebar({ classNames, data, events, ...props }) {
   return (
     <div
-      className={`hidden shadow-product h-full w-1/4 max-w-[280px] bg-gray-900 text-gray-300 divide-y divide-gray-600 md:flex flex-col ${classNames}`}
+      className={`hidden shadow-product h-full w-1/4 max-w-[280px] bg-gray-900 text-gray-300 divide-y divide-gray-600 md:flex flex-col ${classNames} border-l border-l-gray-600`}
     >
       {props?.userStatus ? (
         <div
@@ -25,7 +25,7 @@ export default function Sidebar({ classNames, data, events, ...props }) {
             onClick={() => events["onChangeRoute"](route?.name)}
             className={`transition-all cursor-pointer flex justify-between px-4 text-sm font-medium ${
               props?.activeRoute === route?.name
-                ? "text-green-400 !text-base py-6"
+                ? "text-primary !text-base py-6"
                 : "py-5 hover:text-gray-400"
             }`}
             key={`sidebar-routes-${index}`}

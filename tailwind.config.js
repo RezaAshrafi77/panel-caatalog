@@ -13,7 +13,7 @@ export default {
       colors: {
         transparent: "transparent",
         background: "#fff",
-        primary: "#452e6f",
+        primary: "rgb(239, 68, 68)",
         textColor: "#121212",
         surface: "#e1e1e1",
       },
