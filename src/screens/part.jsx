@@ -17,10 +17,6 @@ export const Part = ({
   templateLoading,
   partLoading,
 }) => {
-  const [formValues, setFormValues] = useState({
-    title: part?.title,
-    text: part?.text,
-  });
   const [formLoading, setFormLoading] = useState(false);
   const submitForm = () => {
     updatePart({
@@ -98,7 +94,7 @@ export const Part = ({
         >
           <Input
             type="text"
-            name="نام محصول"
+            name="title"
             value={part?.title}
             events={{
               onChange: (name, value) =>

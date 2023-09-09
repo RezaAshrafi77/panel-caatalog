@@ -2,18 +2,24 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { Report, Templates, CreateTemplate, EditUI, Part } from "./index";
+import {
+  Report,
+  Templates,
+  CreateTemplate,
+  CreateUser,
+  Part,
+  Users,
+} from "./index";
 import { Image, Navbar, Sidebar } from "~/components";
-import { baseUrl } from "../config";
 
 export const Home = ({ template, ...props }) => {
-  const navigation = useNavigate();
-  const [activeRoute, setActiveRoute] = useState("report");
+  const [activeRoute, setActiveRoute] = useState("editUser");
   const [activePart, setActivePart] = useState(null);
   const [templateID, setTemplateID] = useState(null);
 
   const content = {
     report: <Report />,
+    users: <Users />,
     templates: (
       <Templates
         events={{
@@ -34,6 +40,7 @@ export const Home = ({ template, ...props }) => {
         }}
       />
     ),
+    createTemplate: <CreateTemplate />,
     editPart: (
       <Part
         part={activePart}
@@ -44,8 +51,15 @@ export const Home = ({ template, ...props }) => {
         }}
       />
     ),
-    createTemplate: <CreateTemplate />,
-    editUI: <EditUI />,
+    createUser: <CreateUser />,
+    editUser: (
+      <CreateUser
+        type="edit"
+        events={{
+          changeRoute: (route) => setActiveRoute(route),
+        }}
+      />
+    ),
   };
 
   return (
@@ -56,9 +70,6 @@ export const Home = ({ template, ...props }) => {
       />
       <Sidebar
         activeRoute={activeRoute}
-        data={{
-          categories: template,
-        }}
         events={{
           onChangeRoute: (val) => setActiveRoute(val),
         }}

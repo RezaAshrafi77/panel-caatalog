@@ -48,16 +48,12 @@ Sidebar.defaultProps = {
       name: "report",
     },
     {
-      title: "مشتریان",
+      title: "لیست کاربران",
+      name: "users",
+    },
+    {
+      title: "فروشگاه‌ها",
       name: "templates",
-    },
-    {
-      title: "ایجاد مشتری",
-      name: "createTemplate",
-    },
-    {
-      title: "ویرایش ظاهر",
-      name: "editUI",
     },
   ],
 };

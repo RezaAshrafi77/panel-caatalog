@@ -8,7 +8,7 @@ export default function Button({ events, data, classNames, ...props }) {
       ? {}
       : { border: "", color: "", backgroundColor: "" };
   let className =
-    "rounded-md cursor-pointer max-h-[54px] h-[7vh]  w-full transition-all text-base font-medium gap-[3vw] flex items-center justify-center";
+    "rounded-md cursor-pointer hover:opacity-80 max-h-[54px] h-[7vh]  w-full transition-all text-base font-medium gap-[3vw] flex items-center justify-center";
   className = props?.icon ? "flex justify-center items-center" : className;
   if (props?.type === "outlined") {
     buttonStyle = {

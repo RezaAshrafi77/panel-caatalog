@@ -38,7 +38,7 @@ const template = {
           apiErrorHandler(error);
         });
     },
-  getAdminTemplate:
+  getAdminTemplates:
     (data = {}) =>
     async (dispatch) => {
       dispatch({ type: "template/loading" });
@@ -49,6 +49,24 @@ const template = {
         .then((res) => {
           dispatch({
             type: "template/admin/{id}",
+            data: res?.data?.data,
+          });
+        })
+        .catch((error) => {
+          apiErrorHandler(error);
+        });
+    },
+  createTemplate:
+    (data = {}) =>
+    async (dispatch) => {
+      dispatch({ type: "template/loading" });
+      await axios
+        .patch(`${baseUrl}/templates/admin/create`, data, {
+          headers: getHeaders(),
+        })
+        .then((res) => {
+          dispatch({
+            type: "template/admin/create",
             data: res?.data?.data,
           });
         })

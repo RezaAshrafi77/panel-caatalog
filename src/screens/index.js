@@ -10,4 +10,6 @@ export { default as EditUI } from "./editUI";
 export { default as Parts } from "./parts";
 export { default as Information } from "./information";
 export { default as Part } from "./part";
+export { default as Users } from "./users";
+export { default as CreateUser } from "./createUser";
 export { default as NotFound } from "./404";

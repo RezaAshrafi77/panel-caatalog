@@ -6,6 +6,7 @@ export { default as auth } from "./auth.js";
 export { default as category } from "./category.js";
 export { default as part } from "./part.js";
 export { default as dialog } from "./dialog.js";
+export { default as users } from "./users.js";
 // export { default as book } from "./book.js";
 // export { default as catalog } from "./catalog.js";
 // export { default as comment } from "./comment.js";

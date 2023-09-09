@@ -1,18 +1,28 @@
 import { useState, useEffect } from "react";
-import { MdZoomIn } from "react-icons/md";
+import { MdAddBusiness, MdZoomIn } from "react-icons/md";
 
 import { connect } from "react-redux";
 import { template } from "../redux/actions";
 import { Table, Button } from "../components";
 import { adminsTemplatesTheads } from "../shared/data";
 
-export const Templates = ({ getAdminsTemplates, templates, events }) => {
+export const Templates = ({ user, getAdminsTemplates, templates, events }) => {
   useEffect(() => {
     getAdminsTemplates();
   }, []);
+  const isAdmin = user?.roles?.find((item) => item === "ADMIN");
 
   return (
-    <div className="flex flex-1 flex-col md:flex-row max-w-full max-h-full h-full overflow-hidden px-4">
+    <div className="flex flex-1 flex-col max-w-full max-h-full h-full overflow-hidden px-4 py-6">
+      {isAdmin ? (
+        <Button
+          icon={<MdAddBusiness color="white" size="1.5rem" />}
+          classNames="bg-green-600 gap-2 !font-medium rounded-md py-2 cursor-pointer text-white !w-fit px-3 text-sm"
+          events={{
+            onSubmit: () => events["changeRoute"]("createTemplate"),
+          }}
+        />
+      ) : null}
       <Table
         cols={5}
         classNames="my-5"
@@ -57,6 +67,7 @@ export const Templates = ({ getAdminsTemplates, templates, events }) => {
 
 const mapStateToProps = (state) => ({
   templates: state.template.templates,
+  user: state.auth.status,
 });
 
 const mapDispatchToProps = {
