@@ -19,7 +19,10 @@ export const Parts = ({
     <div className="flex flex-1 flex-col">
       <ul className="flex flex-col">
         {categories?.map((category, index) => (
-          <li className="flex flex-col w-full my-4">
+          <li
+            className="flex flex-col w-full my-4"
+            key={"parts-categories-" + index}
+          >
             <div className="flex items-center gap-4 w-full">
               <strong
                 className="text-base font-medium text-gray-300"
@@ -36,7 +39,7 @@ export const Parts = ({
                 )
                 .map((part, index) => (
                   <Product
-                    classNames={`lg:max-h-[12vw] lg:min-h-[12vw] 2xl:max-h-[14vw] 2xl:min-h-[14vw]`}
+                    classNames={`lg:max-h-[12vw] lg:min-h-[12vw] 2xl:max-h-[14vw] 2xl:min-h-[14vw] cursor-pointer`}
                     data={part}
                     key={"vitrin-items-" + index}
                     style={"square"}

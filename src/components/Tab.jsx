@@ -8,7 +8,7 @@ export default function Tab({ data, events, classNames }) {
         <Button
           title={tab}
           key={"edit-tab-" + index}
-          classNames={`text-sm ${
+          classNames={`text-sm rounded-none ${
             data?.activeTab === index ? "bg-gray-800" : ""
           } w-full`}
           events={{

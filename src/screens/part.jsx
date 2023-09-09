@@ -2,16 +2,40 @@ import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import { Navbar, Button, Loading, Tab, Image, Input } from "../components";
-import { MdChevronLeft } from "react-icons/md";
-import { template } from "../redux/actions";
+import { MdAdd, MdChevronLeft, MdPlusOne } from "react-icons/md";
+import { dialog, part, template } from "../redux/actions";
 import { baseUrl } from "../config";
+import { TbTrash } from "react-icons/tb";
 
-export const Part = ({ template, part, type, loading, events }) => {
+export const Part = ({
+  template,
+  part,
+  updatePart,
+  setDialog,
+  type,
+  events,
+  templateLoading,
+  partLoading,
+}) => {
   const [formValues, setFormValues] = useState({
     title: part?.title,
     text: part?.text,
   });
   const [formLoading, setFormLoading] = useState(false);
+  const submitForm = () => {
+    updatePart({
+      templateId: template?._id,
+      partId: part?._id,
+      title: part?.title,
+      text: part["text"],
+      fileIds: part?.fileIds?.map((file) => file?._id),
+      categoryIds: part?.categoryIds?.map((cat) => cat?._id),
+      position: part?.position,
+      ord: part?.ord,
+      pid: part?.pid,
+      link: part?.link,
+    });
+  };
 
   return (
     <div className="flex flex-col flex-1 max-w-full max-h-full h-full overflow-y-scroll ">
@@ -32,15 +56,40 @@ export const Part = ({ template, part, type, loading, events }) => {
             {"عکس‌های انتخاب شده"}
           </strong>
           <span className="flex-1 h-0.5 bg-gray-700"></span>
+          <Button
+            icon={<MdAdd size={"2rem"} />}
+            classNames="!text-green-400 cursor-pointer"
+          />
         </div>
         <ul className="flex gap-4 overflow-y-scroll mt-6">
           {part?.fileIds?.map((file, index) => (
-            <Image
-              key={"product-images-" + index}
-              src={baseUrl + "/files/" + file?._id}
-              classNames="object-contained md:min-w-[16vw] no-scrollbar md:h-[12vw] bg-black rounded-md"
-              events={{ onClick: () => {} }}
-            />
+            <div className="relative group" key={"files-" + index}>
+              <Image
+                key={"product-images-" + index}
+                src={baseUrl + "/files/" + file?._id}
+                classNames="object-contained md:min-w-[16vw] md:h-[12vw] md:!max-h-[200px] bg-black rounded-md"
+                events={{ onClick: () => {} }}
+              />
+              <Button
+                icon={<TbTrash size={"1.5rem"} />}
+                events={{
+                  onSubmit: () =>
+                    setDialog({
+                      title: "عکس حذف شود؟",
+                      confirmTitle: "بله",
+                      cancelTitle: "فعلا نه",
+                      confirm: () =>
+                        events["changeActivePart"]({
+                          ...part,
+                          fileIds: part?.fileIds?.filter(
+                            (filee) => filee?._id !== file?._id
+                          ),
+                        }),
+                    }),
+                }}
+                className="transition-all rounded-md absolute left-3 bottom-3 bg-red-700 bg-opacity-80 backdrop-filter backdrop-blur-md text-white cursor-pointer group-hover:opacity-100 opacity-0 p-1"
+              />
+            </div>
           ))}
         </ul>
         <form
@@ -50,10 +99,10 @@ export const Part = ({ template, part, type, loading, events }) => {
           <Input
             type="text"
             name="نام محصول"
-            value={formValues?.title}
+            value={part?.title}
             events={{
               onChange: (name, value) =>
-                setFormValues({ ...formValues, title: value }),
+                events["changeActivePart"]({ ...part, ["title"]: value }),
             }}
             classNames="text-white !w-full !bg-transparent !px-4 !text-sm placeholder:text-sm placeholder:text-gray-400"
             placeholder="dfd"
@@ -64,10 +113,10 @@ export const Part = ({ template, part, type, loading, events }) => {
           <Input
             type="text"
             name="text"
-            value={formValues?.text}
+            value={part?.text}
             events={{
               onChange: (name, value) =>
-                setFormValues({ ...formValues, text: value }),
+                events["changeActivePart"]({ ...part, ["text"]: value }),
             }}
             classNames="text-white !w-full !bg-transparent !px-4 !text-sm placeholder:text-sm placeholder:text-gray-400"
             placeholder="متن مورد نظر را بنویسید ..."
@@ -79,11 +128,12 @@ export const Part = ({ template, part, type, loading, events }) => {
             classNames="!w-1/2 mt-4 text-white !bg-primary !rounded-full md:!max-h-[45px] text-sm"
             type="contained"
             primary="primary"
-            loading={loading || formLoading}
+            loading={templateLoading || formLoading || partLoading}
             title="ارسال"
             events={{
               onSubmit: (e) => {
                 setFormLoading(true);
+                submitForm();
                 setTimeout(() => {
                   setFormLoading(false);
                 }, 1500);
@@ -98,9 +148,13 @@ export const Part = ({ template, part, type, loading, events }) => {
 
 const mapStateToProps = (state) => ({
   template: state.template.template,
-  loading: state.template.loading,
+  templateLoading: state.template.loading,
+  partLoading: state.part.loading,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  updatePart: part.update,
+  setDialog: dialog.set,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Part);

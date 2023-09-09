@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 //components
 import { Home, Vitrin, Splash, About, NotFound, Login } from "./screens";
 import { checkDevice } from "./utils/funcs";
+import { Dialog } from "./components";
 // import { MenuFullLayer } from "~/components";
 
 let splashInterval;
@@ -49,6 +50,7 @@ export const Router = ({ admin }) => {
         className={`flex flex-col h-full w-full rtl overflow-x-hidden bg-background text-textColor lg:py-0`}
       >
         {/* {menuFullLayer ? <MenuFullLayer /> : null} */}
+        <Dialog />
         <BrowserRouter>
           <Routes>
             <Route

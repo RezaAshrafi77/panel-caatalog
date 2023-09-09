@@ -40,6 +40,7 @@ export const Home = ({ template, ...props }) => {
         type="edit"
         events={{
           changeRoute: (route) => setActiveRoute(route),
+          changeActivePart: (part) => setActivePart(part),
         }}
       />
     ),

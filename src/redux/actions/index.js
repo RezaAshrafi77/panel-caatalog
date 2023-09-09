@@ -6,6 +6,8 @@ export { default as files } from "./files.js";
 export { default as user } from "./user.js";
 export { default as auth } from "./auth.js";
 export { default as category } from "./category.js";
+export { default as part } from "./part.js";
+export { default as dialog } from "./dialog.js";
 // export { default as comment } from "./comment.js";
 // export { default as config } from "./config.js";
 // export { default as faq } from "./faq.js";
