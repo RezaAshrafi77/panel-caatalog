@@ -12,16 +12,48 @@ import {
 } from "./index";
 import { Image, Navbar, Sidebar } from "~/components";
 
-export const Home = ({ template, ...props }) => {
-  const [activeRoute, setActiveRoute] = useState("editUser");
+export const Home = ({ admin, template, ...props }) => {
+  const [activeRoute, setActiveRoute] = useState("report");
   const [activePart, setActivePart] = useState(null);
   const [templateID, setTemplateID] = useState(null);
+  const [activeUser, setActiveUser] = useState(null);
+
+  const isSuperAdmin = admin?.roles?.find((item) => item === "ADMIN");
+
+  const sidebarRoutes = [
+    {
+      title: "گزارشات",
+      name: "report",
+    },
+    isSuperAdmin
+      ? {
+          title: "لیست مشتریان",
+          name: "users",
+        }
+      : null,
+    !isSuperAdmin
+      ? {
+          title: "فروشگاه‌ها",
+          name: "templates",
+        }
+      : null,
+  ];
 
   const content = {
     report: <Report />,
-    users: <Users />,
+    users: (
+      <Users
+        events={{
+          changeRoute: (route, ID) => {
+            setActiveUser(ID);
+            setActiveRoute(route);
+          },
+        }}
+      />
+    ),
     templates: (
       <Templates
+        userId={activeUser}
         events={{
           changeRoute: (route, ID) => {
             setTemplateID(ID);
@@ -73,6 +105,10 @@ export const Home = ({ template, ...props }) => {
         events={{
           onChangeRoute: (val) => setActiveRoute(val),
         }}
+        data={{
+          admin,
+        }}
+        routes={sidebarRoutes}
       />
       {content[activeRoute]}
     </div>
@@ -81,6 +117,7 @@ export const Home = ({ template, ...props }) => {
 
 const mapStateToProps = (state) => ({
   template: state.template.template,
+  admin: state.auth.status,
 });
 
 const mapDispatchToProps = {};

@@ -1,7 +1,6 @@
 // @create-index
 
 export { default as template } from "./template.js";
-export { default as user } from "./user.js";
 export { default as auth } from "./auth.js";
 export { default as category } from "./category.js";
 export { default as part } from "./part.js";

@@ -7,13 +7,13 @@ export default function Sidebar({ classNames, data, events, ...props }) {
     <div
       className={`hidden shadow-product h-full w-1/4 max-w-[280px] bg-gray-900 text-gray-300 divide-y divide-gray-600 md:flex flex-col ${classNames} border-l border-l-gray-600`}
     >
-      {props?.userStatus ? (
+      {data?.admin ? (
         <div
           className={`flex flex-col px-4 py-6 ${props?.userStatusClassNames}`}
         >
           <div className="flex gap-4 items-center">
             <Image classNames="w-16 h-16 rounded-full bg-gray-700" />
-            <span className="font-medium">{"نام ادمین"}</span>
+            <span className="font-medium">{data?.admin?.username}</span>
           </div>
         </div>
       ) : null}

@@ -70,7 +70,7 @@ export const CreateUser = ({ createUser, loading, type, events }) => {
           classNames="!w-1/2 mt-4 text-white !bg-primary !rounded-full md:!max-h-[45px] text-sm"
           type="contained"
           primary="primary"
-          loading={formLoading}
+          loading={formLoading || loading}
           title="ایجاد کاربر"
           events={{
             onSubmit: (e) => {

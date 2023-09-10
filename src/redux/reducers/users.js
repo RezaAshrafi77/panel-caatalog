@@ -4,6 +4,7 @@ const initialState = {
   loading: false,
   error: null,
   users: [],
+  userInfo: null,
 };
 
 export default function users(state = initialState, action) {
@@ -11,7 +12,9 @@ export default function users(state = initialState, action) {
   switch (type) {
     case "users/admin/create":
       return { ...state, loading: false, error: false };
-    case "users/admin/list":
+    case "users/admin/info":
+      return { ...state, userInfo: data, loading: false, error: false };
+    case "users/admin/list" || "users/admin/update" || "users/admin/remove":
       return { ...state, users: data, loading: false, error: false };
     case "users/loading":
       return { ...state, loading: true };

@@ -57,7 +57,7 @@ export const Part = ({
             classNames="!text-green-400 cursor-pointer"
           />
         </div>
-        <ul className="flex gap-4 overflow-y-scroll mt-6">
+        <ul className="flex gap-4 overflow-y-scroll mt-6 pb-4">
           {part?.fileIds?.map((file, index) => (
             <div className="relative group" key={"files-" + index}>
               <Image
@@ -74,13 +74,19 @@ export const Part = ({
                       title: "عکس حذف شود؟",
                       confirmTitle: "بله",
                       cancelTitle: "فعلا نه",
-                      confirm: () =>
+                      confirm: () => {
                         events["changeActivePart"]({
                           ...part,
                           fileIds: part?.fileIds?.filter(
                             (filee) => filee?._id !== file?._id
                           ),
-                        }),
+                        });
+                        setFormLoading(true);
+                        submitForm();
+                        setTimeout(() => {
+                          setFormLoading(false);
+                        }, 1000);
+                      },
                     }),
                 }}
                 className="transition-all rounded-md absolute left-3 bottom-3 bg-red-700 bg-opacity-80 backdrop-filter backdrop-blur-md text-white cursor-pointer group-hover:opacity-100 opacity-0 p-1"

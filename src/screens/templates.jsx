@@ -2,19 +2,31 @@ import { useState, useEffect } from "react";
 import { MdAddBusiness, MdZoomIn } from "react-icons/md";
 
 import { connect } from "react-redux";
-import { template } from "../redux/actions";
+import { template, users } from "../redux/actions";
 import { Table, Button } from "../components";
 import { adminsTemplatesTheads } from "../shared/data";
 
-export const Templates = ({ user, getAdminsTemplates, templates, events }) => {
+export const Templates = ({
+  admin,
+  userId,
+  userInfo,
+  getUserInfo,
+  getAdminsTemplates,
+  templates,
+  events,
+}) => {
+  const isSuperAdmin = admin?.roles?.find((item) => item === "ADMIN");
+
   useEffect(() => {
     getAdminsTemplates();
+    if (isSuperAdmin) {
+      getUserInfo({ id: userId });
+    }
   }, []);
-  const isAdmin = user?.roles?.find((item) => item === "ADMIN");
 
   return (
     <div className="flex flex-1 flex-col max-w-full max-h-full h-full overflow-hidden px-4 py-6">
-      {isAdmin ? (
+      {isSuperAdmin ? (
         <Button
           icon={<MdAddBusiness color="white" size="1.5rem" />}
           classNames="bg-green-600 gap-2 !font-medium rounded-md py-2 cursor-pointer text-white !w-fit px-3 text-sm"
@@ -67,11 +79,13 @@ export const Templates = ({ user, getAdminsTemplates, templates, events }) => {
 
 const mapStateToProps = (state) => ({
   templates: state.template.templates,
-  user: state.auth.status,
+  admin: state.auth.status,
+  userInfo: state.users.userInfo
 });
 
 const mapDispatchToProps = {
   getAdminsTemplates: template.getAdminsTemplates,
+  getUserInfo: users.adminInfo,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Templates);
