@@ -27,10 +27,31 @@ const template = {
     async (dispatch) => {
       dispatch({ type: "template/loading" });
       await axios
-        .get(`${baseUrl}/templates/admin/list`, { headers: getHeaders() })
+        .get(`${baseUrl}/templates/admin/list`, {
+          params: data,
+          headers: getHeaders(),
+        })
         .then((res) => {
           dispatch({
             type: "template/admin/list",
+            data: res?.data?.data,
+          });
+        })
+        .catch((error) => {
+          apiErrorHandler(error);
+        });
+    },
+  getCustomersTemplates:
+    (data = {}) =>
+    async (dispatch) => {
+      dispatch({ type: "template/loading" });
+      await axios
+        .get(`${baseUrl}/templates/customer/list`, {
+          headers: getHeaders(),
+        })
+        .then((res) => {
+          dispatch({
+            type: "template/customer/list",
             data: res?.data?.data,
           });
         })

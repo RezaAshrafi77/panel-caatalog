@@ -10,7 +10,10 @@ const initialState = {
 export default function template(state = initialState, action) {
   let { type, data } = action;
   switch (type) {
-    case "template/admin/list" || "template/admin/create":
+    case "template/admin/list" ||
+      "template/admin/create" ||
+      "template/admin/list" ||
+      "template/customer/list":
       return { ...state, templates: data, loading: false, error: null };
     case "template/getTemplate":
       return { ...state, template: data, loading: false, error: null };
