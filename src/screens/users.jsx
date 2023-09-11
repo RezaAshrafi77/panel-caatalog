@@ -13,15 +13,19 @@ export const Users = ({ events, data }) => {
       <Navbar
         classNames="text-white min-h-[54px] !bg-gray-900"
         leading={
-          <Button
-            icon={<MdPersonAdd color="white" size="1.5rem" />}
-            classNames="bg-green-600 gap-2 !font-medium rounded-md py-2 cursor-pointer text-white !w-fit px-3 text-sm"
-            events={{
-              onSubmit: () => changeRoute("createUser"),
-            }}
-          />
+          loading ? (
+            <Loading />
+          ) : (
+            <Button
+              icon={<MdPersonAdd color="white" size="1.5rem" />}
+              classNames="bg-green-600 gap-2 !font-medium rounded-md py-2 cursor-pointer text-white !w-fit px-3 text-sm"
+              events={{
+                onSubmit: () => changeRoute("createUser"),
+              }}
+            />
+          )
         }
-        actions={[loading && <Loading />]}
+        actions={[]}
       />
 
       <Table

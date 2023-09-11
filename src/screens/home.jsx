@@ -63,12 +63,12 @@ export const Home = ({
         },
       ];
 
-  useEffect(() => {
-    setGlobalLoading(true);
-    setTimeout(() => {
-      setGlobalLoading(false);
-    }, 1500);
-  }, [route]);
+  // useEffect(() => {
+  //   setGlobalLoading(true);
+  //   setTimeout(() => {
+  //     setGlobalLoading(false);
+  //   }, 1500);
+  // }, [route]);
   useEffect(() => {
     if (route === "users") {
       if (isSuperAdmin) {
@@ -77,16 +77,14 @@ export const Home = ({
         }
       }
     } else if (route === "templates") {
-      if (!templates?.length) {
-        if (isSuperAdmin) {
-          if (activeUserID) {
-            getAdminsTemplates({ ownerId: activeUserID });
-          } else {
-            getAdminsTemplates();
-          }
+      if (isSuperAdmin) {
+        if (activeUserID) {
+          getAdminsTemplates({ ownerId: activeUserID });
         } else {
-          getCustomersTemplates();
+          getAdminsTemplates();
         }
+      } else {
+        getCustomersTemplates();
       }
     } else if (route === "editUser") {
       if (activeUserID !== userInfo?._id) {
@@ -97,15 +95,7 @@ export const Home = ({
         getAdminTemplates({ id: activeTemplateID });
       }
     }
-  }, [
-    route,
-    users,
-    userInfo,
-    activeUserID,
-    templates,
-    template,
-    activeTemplateID,
-  ]);
+  }, [route, users, userInfo, activeUserID, template, activeTemplateID]);
 
   // Pages
   const content = {
@@ -131,6 +121,7 @@ export const Home = ({
         data={{
           isSuperAdmin,
           templates,
+          loading: templateLoading,
         }}
         events={{
           changeRoute: (route, ID) => {
@@ -159,7 +150,7 @@ export const Home = ({
     ),
     createTemplate: isSuperAdmin ? (
       <CreateTemplate
-        data={{ templateLoading }}
+        data={{ templateLoading, activeUserID }}
         events={{
           createTemplate,
           setDialog,

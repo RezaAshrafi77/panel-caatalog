@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button, Input } from "../components";
 
 export const Information = ({ data, events }) => {
-  const { templateLoading, template, isEditPage } = data;
+  const { templateLoading, template, isEditPage, activeUserID } = data;
   const { setDialog, updateTemplate, createTemplate } = events;
 
   const [formLoading, setFormLoading] = useState(false);
@@ -116,7 +116,7 @@ export const Information = ({ data, events }) => {
             if (isEditPage) {
               updateTemplate(formValues);
             } else {
-              createTemplate(formValues);
+              createTemplate({ ...formValues, ["ownerId"]: activeUserID });
             }
             setTimeout(() => {
               setFormLoading(false);

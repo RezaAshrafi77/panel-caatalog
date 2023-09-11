@@ -7,7 +7,7 @@ import { Parts, Information } from "./index";
 
 export const CreateTemplate = ({ data, events }) => {
   const [activeTab, setActiveTab] = useState(0);
-  const { isEditPage, template, templateLoading } = data;
+  const { isEditPage, template, templateLoading, activeUserID } = data;
   const {
     createTemplate,
     updateTemplate,
@@ -76,7 +76,7 @@ export const CreateTemplate = ({ data, events }) => {
             ]}
           />
           <Information
-            data={{ template, templateLoading }}
+            data={{ template, templateLoading, activeUserID }}
             events={{
               createTemplate,
             }}

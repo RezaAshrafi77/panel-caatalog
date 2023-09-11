@@ -1,12 +1,11 @@
 import { MdAddBusiness, MdChevronLeft, MdZoomIn } from "react-icons/md";
 
 import { connect } from "react-redux";
-import { template, users } from "../redux/actions";
-import { Table, Button, Navbar } from "../components";
+import { Table, Button, Navbar, Loading } from "../components";
 import { adminsTemplatesTheads } from "../shared/data";
 
 export const Templates = ({ data, events }) => {
-  const { isSuperAdmin, templates } = data;
+  const { isSuperAdmin, templates, loading, activeUserID } = data;
   const { changeRoute } = events;
 
   return (
@@ -15,13 +14,17 @@ export const Templates = ({ data, events }) => {
         <Navbar
           classNames="text-white min-h-[54px] !bg-gray-900"
           leading={
-            <Button
-              icon={<MdAddBusiness color="white" size="1.5rem" />}
-              classNames="bg-green-600 gap-2 !font-medium rounded-md py-2 cursor-pointer text-white !w-fit px-3 text-sm"
-              events={{
-                onSubmit: () => changeRoute("createTemplate"),
-              }}
-            />
+            loading ? (
+              <Loading />
+            ) : (
+              <Button
+                icon={<MdAddBusiness color="white" size="1.5rem" />}
+                classNames="bg-green-600 gap-2 !font-medium rounded-md py-2 cursor-pointer text-white !w-fit px-3 text-sm"
+                events={{
+                  onSubmit: () => changeRoute("createTemplate"),
+                }}
+              />
+            )
           }
           actions={[
             <Button
@@ -76,13 +79,4 @@ export const Templates = ({ data, events }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  userInfo: state.users.userInfo,
-});
-
-const mapDispatchToProps = {
-  getAdminsTemplates: template.getAdminsTemplates,
-  getCustomersTemplates: template.getCustomersTemplates,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Templates);
+export default Templates;
