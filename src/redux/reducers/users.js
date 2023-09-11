@@ -12,9 +12,12 @@ export default function users(state = initialState, action) {
   switch (type) {
     case "users/admin/create":
       return { ...state, loading: false, error: false };
-    case "users/admin/info":
+    case "users/admin/info" || "users/admin/update":
       return { ...state, userInfo: data, loading: false, error: false };
-    case "users/admin/list" || "users/admin/update" || "users/admin/remove":
+    case "users/admin/list":
+      return { ...state, users: data, loading: false, error: false };
+    case "users/admin/remove":
+      toast.success("با موفقیت ثبت شد.");
       return { ...state, users: data, loading: false, error: false };
     case "users/loading":
       return { ...state, loading: true };

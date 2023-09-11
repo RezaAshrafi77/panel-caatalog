@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react";
-import { connect } from "react-redux";
+import { useState } from "react";
 
-import { Navbar, Button, Loading, Tab, Input } from "../components";
+import { Navbar, Button, Input } from "../components";
 import { MdChevronLeft } from "react-icons/md";
-import { users } from "../redux/actions";
 import { toast } from "react-toastify";
 
 export const CreateUser = ({ data, events }) => {
@@ -104,7 +102,7 @@ export const CreateUser = ({ data, events }) => {
           loading={formLoading || loading}
           title={isEditPage ? "ویرایش کاربر" : "ایجاد کاربر"}
           events={{
-            onSubmit: (e) =>  {
+            onSubmit: (e) => {
               setFormLoading(true);
               formHandler();
               setTimeout(() => {
@@ -118,12 +116,4 @@ export const CreateUser = ({ data, events }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  loading: state.users.loading,
-});
-
-const mapDispatchToProps = {
-  createUser: users.create,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateUser);
+export default CreateUser;

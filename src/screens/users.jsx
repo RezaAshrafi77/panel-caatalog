@@ -1,8 +1,5 @@
-import { useState, useEffect } from "react";
 import { MdEdit, MdPersonAdd, MdZoomIn } from "react-icons/md";
 
-import { connect } from "react-redux";
-import { dialog, users } from "../redux/actions";
 import { Table, Button, Loading, Navbar } from "../components";
 import { adminsUsersTheads } from "../shared/data";
 import { TbTrash } from "react-icons/tb";
@@ -11,7 +8,7 @@ export const Users = ({ events, data }) => {
   const { users, loading } = data;
   const { deleteUser, setDialog, changeRoute } = events;
 
-  return !loading ? (
+  return (
     <div className="flex flex-1 flex-col max-w-full max-h-full h-full overflow-hidden">
       <Navbar
         classNames="text-white min-h-[54px] !bg-gray-900"
@@ -24,7 +21,7 @@ export const Users = ({ events, data }) => {
             }}
           />
         }
-        actions={[,]}
+        actions={[loading && <Loading />]}
       />
 
       <Table
@@ -85,18 +82,7 @@ export const Users = ({ events, data }) => {
         ))}
       />
     </div>
-  ) : (
-    <div className="flex-center-center flex-1">
-      <Loading />
-    </div>
   );
 };
 
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = {
-  setDialog: dialog.set,
-  deleteUser: users.del,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Users);
+export default Users;

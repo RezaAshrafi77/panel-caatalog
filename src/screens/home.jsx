@@ -9,7 +9,7 @@ import {
   Part,
   Users,
 } from "./index";
-import { Image, Navbar, Sidebar } from "~/components";
+import { Image, Navbar, Sidebar, Loading } from "~/components";
 import { dialog, template, users } from "../redux/actions";
 
 export const Home = ({
@@ -28,7 +28,7 @@ export const Home = ({
   createTemplate,
   updateTemplate,
   getAdminTemplates,
-  updateUser,
+  updateUserAdmin,
   createUser,
   // loading
   usersLoading,
@@ -38,6 +38,7 @@ export const Home = ({
   const [activePart, setActivePart] = useState(null);
   const [activeTemplateID, setActiveTemplateID] = useState(null);
   const [activeUserID, setActiveUserID] = useState(null);
+  const [globalLoading, setGlobalLoading] = useState(false);
   const isSuperAdmin = admin?.roles?.find((item) => item === "ADMIN");
 
   const sidebarRoutes = isSuperAdmin
@@ -62,6 +63,12 @@ export const Home = ({
         },
       ];
 
+  useEffect(() => {
+    setGlobalLoading(true);
+    setTimeout(() => {
+      setGlobalLoading(false);
+    }, 1500);
+  }, [route]);
   useEffect(() => {
     if (route === "users") {
       if (isSuperAdmin) {
@@ -173,27 +180,29 @@ export const Home = ({
     ),
     createUser: isSuperAdmin ? (
       <CreateUser
+        key={"create-user" + usersLoading}
         data={{
           loading: usersLoading,
         }}
         events={{
           changeRoute: (route) => setRoute(route),
           createUser,
-          updateUser,
         }}
       />
     ) : null,
     editUser: isSuperAdmin ? (
       <CreateUser
+        key={"edit-user" + usersLoading}
         data={{
           isEditPage: true,
           userInfo,
           loading: usersLoading,
         }}
+        userInfo={userInfo}
         events={{
           changeRoute: (route) => setRoute(route),
           createUser,
-          updateUser,
+          updateUser: updateUserAdmin,
         }}
       />
     ) : null,
@@ -215,7 +224,13 @@ export const Home = ({
         }}
         routes={sidebarRoutes}
       />
-      {content[route]}
+      {globalLoading ? (
+        <div className="flex-1 flex-center-center">
+          <Loading />
+        </div>
+      ) : (
+        content[route]
+      )}
     </div>
   );
 };
@@ -236,7 +251,7 @@ const mapDispatchToProps = {
   getUserInfo: users.adminInfo,
   deleteUser: users.del,
   createUser: users.create,
-  updateUser: users.update,
+  updateUserAdmin: users.adminUpdate,
   setDialog: dialog.set,
   getAdminsTemplates: template.getAdminsTemplates,
   getCustomersTemplates: template.getCustomersTemplates,

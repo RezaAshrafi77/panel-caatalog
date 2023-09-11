@@ -7,9 +7,14 @@ export default function Button({ events, data, classNames, ...props }) {
     props?.icon && !props?.title
       ? {}
       : { border: "", color: "", backgroundColor: "" };
-  let className =
-    `rounded-md ${props?.loading ? "cursor-wait" : "cursor-pointer"} hover:opacity-80 max-h-[54px] h-[7vh]  w-full transition-all text-base font-medium gap-[3vw] flex items-center justify-center`;
-  className = props?.icon ? "flex justify-center items-center cursor-pointer" : className;
+  let className = `rounded-md ${
+    props?.loading ? "cursor-wait" : "cursor-pointer"
+  } hover:opacity-80 max-h-[54px] h-[7vh]  w-full transition-all text-base font-medium gap-[3vw] flex items-center justify-center`;
+  className = props?.icon
+    ? `flex justify-center items-center ${
+        props?.loading ? "cursor-wait" : "cursor-pointer"
+      }`
+    : className;
   if (props?.type === "outlined") {
     buttonStyle = {
       border: `2px solid var(--${props?.color})`,
