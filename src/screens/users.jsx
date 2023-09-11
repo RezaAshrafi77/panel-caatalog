@@ -3,28 +3,33 @@ import { MdEdit, MdPersonAdd, MdZoomIn } from "react-icons/md";
 
 import { connect } from "react-redux";
 import { dialog, users } from "../redux/actions";
-import { Table, Button, Loading } from "../components";
+import { Table, Button, Loading, Navbar } from "../components";
 import { adminsUsersTheads } from "../shared/data";
 import { TbTrash } from "react-icons/tb";
 
 export const Users = ({ events, data }) => {
-  const { users, isSuperAdmin, loading } = data;
+  const { users, loading } = data;
   const { deleteUser, setDialog, changeRoute } = events;
 
   return !loading ? (
-    <div className="flex flex-1 flex-col max-w-full max-h-full h-full overflow-hidden px-4 py-6">
-      {isSuperAdmin ? (
-        <Button
-          icon={<MdPersonAdd color="white" size="1.5rem" />}
-          classNames="bg-green-600 gap-2 !font-medium rounded-md py-2 cursor-pointer text-white !w-fit px-3 text-sm"
-          events={{
-            onSubmit: () => changeRoute("createUser"),
-          }}
-        />
-      ) : null}
+    <div className="flex flex-1 flex-col max-w-full max-h-full h-full overflow-hidden">
+      <Navbar
+        classNames="text-white min-h-[54px] !bg-gray-900"
+        leading={
+          <Button
+            icon={<MdPersonAdd color="white" size="1.5rem" />}
+            classNames="bg-green-600 gap-2 !font-medium rounded-md py-2 cursor-pointer text-white !w-fit px-3 text-sm"
+            events={{
+              onSubmit: () => changeRoute("createUser"),
+            }}
+          />
+        }
+        actions={[,]}
+      />
+
       <Table
         cols={3}
-        classNames="my-5"
+        classNames="my-5 px-4"
         data={{
           theads: adminsUsersTheads,
         }}
@@ -33,7 +38,7 @@ export const Users = ({ events, data }) => {
             className={`grid-cols-3 grid text-white`}
             key={"table-row-" + index}
           >
-            <div className="text-center my-1 py-4 md:text-sm" key={"user-" + 1}>
+            <div className="text-center my-1 py-2 md:text-sm" key={"user-" + 1}>
               <div className="flex items-center justify-around gap-6">
                 <Button
                   className="cursor-pointer "
@@ -66,14 +71,14 @@ export const Users = ({ events, data }) => {
                 />
               </div>
             </div>
-            <div className="text-center my-1 py-4 md:text-sm" key={"user-" + 2}>
+            <div className="text-center my-1 py-2 md:text-sm" key={"user-" + 2}>
               {row["username"]}
             </div>
-            <div className="text-center my-1 py-4 md:text-sm" key={"user-" + 3}>
+            <div className="text-center my-1 py-2 md:text-sm" key={"user-" + 3}>
               {row["_id"]}
             </div>
             <div
-              className="text-center my-1 py-4 md:text-sm"
+              className="text-center my-1 py-2 md:text-sm"
               key={"user-" + 4}
             ></div>
           </div>

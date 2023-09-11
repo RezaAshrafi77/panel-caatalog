@@ -12,6 +12,7 @@ export default function template(state = initialState, action) {
   switch (type) {
     case "template/admin/list" ||
       "template/admin/create" ||
+      "template/admin/update" ||
       "template/admin/list" ||
       "template/customer/list":
       return { ...state, templates: data, loading: false, error: null };

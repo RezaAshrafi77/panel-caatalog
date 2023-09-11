@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import ApiConfig from "~/config";
-import { apiErrorHandler, getHeaders } from "../../middleware";
+import { getHeaders } from "../../middleware";
 
 const { baseUrl } = ApiConfig;
 
@@ -21,7 +21,7 @@ const users = {
           });
         })
         .catch((error) => {
-          apiErrorHandler(error);
+          dispatch({ type: "users/error", data: error });
         });
     },
   adminUpdate:
@@ -39,7 +39,7 @@ const users = {
           });
         })
         .catch((error) => {
-          apiErrorHandler(error);
+          dispatch({ type: "users/error", data: error });
         });
     },
   update:
@@ -57,7 +57,7 @@ const users = {
           });
         })
         .catch((error) => {
-          apiErrorHandler(error);
+          dispatch({ type: "users/error", data: error });
         });
     },
   list:
@@ -75,7 +75,7 @@ const users = {
           });
         })
         .catch((error) => {
-          apiErrorHandler(error);
+          dispatch({ type: "users/error", data: error });
         });
     },
 
@@ -94,7 +94,7 @@ const users = {
           });
         })
         .catch((error) => {
-          apiErrorHandler(error);
+          dispatch({ type: "users/error", data: error });
         });
     },
   adminInfo:
@@ -112,7 +112,7 @@ const users = {
           });
         })
         .catch((error) => {
-          apiErrorHandler(error);
+          dispatch({ type: "users/error", data: error });
         });
     },
 };

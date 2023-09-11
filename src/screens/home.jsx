@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
 import {
   Report,
   Templates,
   CreateTemplate,
-  //actions
   CreateUser,
   Part,
   Users,
@@ -17,10 +15,12 @@ import { dialog, template, users } from "../redux/actions";
 export const Home = ({
   admin,
   template,
+  userInfo,
   users,
   templates,
   // actions
   getUsers,
+  getUserInfo,
   deleteUser,
   setDialog,
   getAdminsTemplates,
@@ -28,6 +28,8 @@ export const Home = ({
   createTemplate,
   updateTemplate,
   getAdminTemplates,
+  updateUser,
+  createUser,
   // loading
   usersLoading,
   templateLoading,
@@ -38,62 +40,73 @@ export const Home = ({
   const [activeUserID, setActiveUserID] = useState(null);
   const isSuperAdmin = admin?.roles?.find((item) => item === "ADMIN");
 
-  const sidebarRoutes = [
-    {
-      title: "گزارشات",
-      name: "report",
-    },
-    isSuperAdmin
-      ? {
+  const sidebarRoutes = isSuperAdmin
+    ? [
+        {
+          title: "گزارشات",
+          name: "report",
+        },
+        {
           title: "لیست مشتریان",
           name: "users",
-        }
-      : null,
-    !isSuperAdmin
-      ? {
+        },
+      ]
+    : [
+        {
+          title: "گزارشات",
+          name: "report",
+        },
+        {
           title: "فروشگاه‌ها",
           name: "templates",
+        },
+      ];
+
+  useEffect(() => {
+    if (route === "users") {
+      if (isSuperAdmin) {
+        if (!users?.length) {
+          getUsers();
         }
-      : null,
-  ];
-
-  useEffect(() => {
-    // Call admin APIs
-    if (isSuperAdmin) {
-      getUsers();
-    }
-    // cll customer APIs
-    else {
-      getCustomersTemplates();
-    }
-  }, []);
-
-  useEffect(() => {
-    switch (route) {
-      case "users":
-        if (activeUserID) {
-          getAdminsTemplates({ ownerId: userId });
-        }else{
-          getAdminsTemplates();
+      }
+    } else if (route === "templates") {
+      if (!templates?.length) {
+        if (isSuperAdmin) {
+          if (activeUserID) {
+            getAdminsTemplates({ ownerId: activeUserID });
+          } else {
+            getAdminsTemplates();
+          }
+        } else {
+          getCustomersTemplates();
         }
-      case "editUser":
+      }
+    } else if (route === "editUser") {
+      if (activeUserID !== userInfo?._id) {
+        getUserInfo({ id: activeUserID });
+      }
+    } else if (route === "editTemplate") {
+      if (template?._id !== activeTemplateID) {
+        getAdminTemplates({ id: activeTemplateID });
+      }
     }
-  }, [route, activeUserID]);
-
-  useEffect(() => {
-    if (route === "editTemplate" && template?._id !== activeTemplateID) {
-      getAdminTemplates({ id: activeTemplateID });
-    }
-  }, [activeTemplateID, route, template]);
+  }, [
+    route,
+    users,
+    userInfo,
+    activeUserID,
+    templates,
+    template,
+    activeTemplateID,
+  ]);
 
   // Pages
   const content = {
     report: <Report />,
-    users: (
+    users: isSuperAdmin ? (
       <Users
         data={{
           users,
-          isSuperAdmin,
           loading: usersLoading,
         }}
         events={{
@@ -105,7 +118,7 @@ export const Home = ({
           setDialog,
         }}
       />
-    ),
+    ) : null,
     templates: (
       <Templates
         data={{
@@ -128,7 +141,6 @@ export const Home = ({
           isEditPage: true,
           template,
           templateLoading,
-          isSuperAdmin,
         }}
         events={{
           changeRoute: (route) => setRoute(route),
@@ -138,9 +150,9 @@ export const Home = ({
         }}
       />
     ),
-    createTemplate: (
+    createTemplate: isSuperAdmin ? (
       <CreateTemplate
-        data={{ isSuperAdmin, templateLoading }}
+        data={{ templateLoading }}
         events={{
           createTemplate,
           setDialog,
@@ -148,7 +160,7 @@ export const Home = ({
           changeRoute: (route) => setRoute(route),
         }}
       />
-    ),
+    ) : null,
     editPart: (
       <Part
         part={activePart}
@@ -159,21 +171,32 @@ export const Home = ({
         }}
       />
     ),
-    createUser: (
+    createUser: isSuperAdmin ? (
       <CreateUser
         data={{
           loading: usersLoading,
         }}
-      />
-    ),
-    editUser: (
-      <CreateUser
-        type="edit"
         events={{
           changeRoute: (route) => setRoute(route),
+          createUser,
+          updateUser,
         }}
       />
-    ),
+    ) : null,
+    editUser: isSuperAdmin ? (
+      <CreateUser
+        data={{
+          isEditPage: true,
+          userInfo,
+          loading: usersLoading,
+        }}
+        events={{
+          changeRoute: (route) => setRoute(route),
+          createUser,
+          updateUser,
+        }}
+      />
+    ) : null,
   };
 
   return (
@@ -210,12 +233,16 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   getUsers: users.list,
+  getUserInfo: users.adminInfo,
   deleteUser: users.del,
+  createUser: users.create,
+  updateUser: users.update,
   setDialog: dialog.set,
   getAdminsTemplates: template.getAdminsTemplates,
   getCustomersTemplates: template.getCustomersTemplates,
   updateTemplate: template.updateTemplate,
   getAdminTemplates: template.getAdminTemplates,
+  createTemplate: template.create,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

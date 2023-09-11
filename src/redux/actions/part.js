@@ -24,7 +24,7 @@ const part = {
         })
         .catch((error) => {
           dispatch({ type: "part/loading" });
-          apiErrorHandler(error);
+          toast.error(error?.message);
         });
     },
 };

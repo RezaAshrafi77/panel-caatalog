@@ -38,7 +38,7 @@ const template = {
           });
         })
         .catch((error) => {
-          apiErrorHandler(error);
+          dispatch({ type: "template/error", data: error });
         });
     },
   getCustomersTemplates:
@@ -56,7 +56,7 @@ const template = {
           });
         })
         .catch((error) => {
-          apiErrorHandler(error);
+          dispatch({ type: "template/error", data: error });
         });
     },
   getAdminTemplates:
@@ -74,7 +74,7 @@ const template = {
           });
         })
         .catch((error) => {
-          apiErrorHandler(error);
+          dispatch({ type: "template/error", data: error });
         });
     },
   updateTemplate:
@@ -82,7 +82,7 @@ const template = {
     async (dispatch) => {
       dispatch({ type: "template/loading" });
       await axios
-        .patch(`${baseUrl}/templates/admin/create`, data, {
+        .patch(`${baseUrl}/templates/admin/update`, data, {
           headers: getHeaders(),
         })
         .then((res) => {
@@ -92,7 +92,25 @@ const template = {
           });
         })
         .catch((error) => {
-          apiErrorHandler(error);
+          dispatch({ type: "template/error", data: error });
+        });
+    },
+  create:
+    (data = {}) =>
+    async (dispatch) => {
+      dispatch({ type: "template/loading" });
+      await axios
+        .post(`${baseUrl}/templates/admin/create`, data, {
+          headers: getHeaders(),
+        })
+        .then((res) => {
+          dispatch({
+            type: "template/admin/create",
+            data: res?.data?.data,
+          });
+        })
+        .catch((error) => {
+          dispatch({ type: "template/error", data: error });
         });
     },
 };

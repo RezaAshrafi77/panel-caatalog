@@ -7,7 +7,7 @@ import { Parts, Information } from "./index";
 
 export const CreateTemplate = ({ data, events }) => {
   const [activeTab, setActiveTab] = useState(0);
-  const { isEditPage, template, templateLoading, isSuperAdmin } = data;
+  const { isEditPage, template, templateLoading } = data;
   const {
     createTemplate,
     updateTemplate,
@@ -57,12 +57,12 @@ export const CreateTemplate = ({ data, events }) => {
               data={{
                 template,
                 templateLoading,
-                isEditPage
+                isEditPage,
               }}
             />
           )}
         </div>
-      ) : isSuperAdmin ? (
+      ) : (
         <div className="flex flex-col flex-1">
           <Navbar
             classNames="text-white min-h-[54px] !bg-gray-900"
@@ -82,7 +82,7 @@ export const CreateTemplate = ({ data, events }) => {
             }}
           />
         </div>
-      ) : null}
+      )}
     </div>
   );
 };

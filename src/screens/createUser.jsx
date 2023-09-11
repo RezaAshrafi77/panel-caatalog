@@ -4,36 +4,54 @@ import { connect } from "react-redux";
 import { Navbar, Button, Loading, Tab, Input } from "../components";
 import { MdChevronLeft } from "react-icons/md";
 import { users } from "../redux/actions";
+import { toast } from "react-toastify";
 
-export const CreateUser = ({ createUser, loading, type, events }) => {
+export const CreateUser = ({ data, events }) => {
+  const { isEditPage, userInfo, loading } = data;
+  const { updateUser, createUser, changeRoute } = events;
   const [formLoading, setFormLoading] = useState(false);
-  const [formValues, setFormValues] = useState({
-    username: "",
-    password: "",
-  });
 
-  useEffect(() => {
-    // if (type === "edit" && template?._id !== templateID) {
-    //   getAdminTemplates({ id: templateID });
-    // }
-  }, []);
-  const isEditPage = type === "edit";
+  const [formValues, setFormValues] = useState(userInfo);
+  const [pass2, setPass2] = useState("");
+
+  const formHandler = () => {
+    if (!formValues?.username) {
+      toast.error("نام کاربری مورد نظر خود را وارد کنید.");
+      return;
+    }
+    if (formValues?.username?.length < 6) {
+      toast.error("نام کاربری میبایست دارای حداقل 6 کاراکتر باشد.");
+      return;
+    }
+    if (formValues?.password?.length < 8) {
+      toast.error("رمز عبور میبایست دارای حداقل ۸ کاراکتر باشد.");
+      return;
+    }
+    if (formValues?.password !== formValues?.pass2) {
+      if (isEditPage) {
+        updateUser(formValues);
+      } else {
+        createUser(formValues);
+      }
+    } else {
+      toast.error("تکرار رمز عبور صحیح نیست.");
+      return;
+    }
+  };
 
   return (
     <div className="flex-col flex-center-center flex-1 max-w-full max-h-full h-full overflow-y-scroll ">
-      {isEditPage ? (
-        <Navbar
-          classNames="text-white min-h-[54px] !bg-gray-900"
-          leading={<span></span>}
-          actions={[
-            <Button
-              icon={<MdChevronLeft size={"2.5rem"} />}
-              events={{ onSubmit: () => events["changeRoute"]("users") }}
-              className="text-white cursor-pointer"
-            />,
-          ]}
-        />
-      ) : null}
+      <Navbar
+        classNames="text-white min-h-[54px] !bg-gray-900"
+        leading={<span></span>}
+        actions={[
+          <Button
+            icon={<MdChevronLeft size={"2.5rem"} />}
+            events={{ onSubmit: () => changeRoute("users") }}
+            className="text-white cursor-pointer"
+          />,
+        ]}
+      />
       <form
         className="flex-1  flex-center-center flex-col my-10 gap-8 max-w-[500px] w-full px-6"
         onSubmit={(e) => e.preventDefault()}
@@ -41,7 +59,7 @@ export const CreateUser = ({ createUser, loading, type, events }) => {
         <Input
           type="text"
           name="username"
-          value={formValues?.name}
+          value={formValues?.username}
           events={{
             onChange: (name, value) =>
               setFormValues({ ...formValues, ["username"]: value }),
@@ -50,10 +68,10 @@ export const CreateUser = ({ createUser, loading, type, events }) => {
           placeholder="@username"
           label="نام کاربری"
           containerClassNames="ltr !bg-transparent !w-full md:my-0 border-b border-solid border-gray-500 overflow-hidden rounded-none pb-3 md:pb-1"
-          labelClassNames="text-gray-200 mb-1 text-sm"
+          labelClassNames="text-gray-200 mt-1 text-sm"
         />
         <Input
-          type="text"
+          type="password"
           name="password"
           value={formValues?.password}
           events={{
@@ -61,21 +79,34 @@ export const CreateUser = ({ createUser, loading, type, events }) => {
               setFormValues({ ...formValues, ["password"]: value }),
           }}
           classNames="text-white !w-full !bg-transparent !px-4 !text-sm placeholder:text-sm placeholder:text-gray-400"
-          placeholder="!@fdf#dfdf"
+          placeholder="Type user password ..."
           label="رمز عبور"
           containerClassNames="ltr !bg-transparent !w-full md:my-0 border-b border-solid border-gray-500 overflow-hidden rounded-none pb-3 md:pb-1"
-          labelClassNames="text-gray-200 mb-1 text-sm"
+          labelClassNames="text-gray-200 mt-1 text-sm"
+        />
+        <Input
+          type="password"
+          name="pass2"
+          value={pass2}
+          events={{
+            onChange: (name, value) => setPass2(value),
+          }}
+          classNames="text-white !w-full !bg-transparent !px-4 !text-sm placeholder:text-sm placeholder:text-gray-400"
+          placeholder="Repeat password ..."
+          label="تکرار رمز عبور"
+          containerClassNames="ltr !bg-transparent !w-full md:my-0 border-b border-solid border-gray-500 overflow-hidden rounded-none pb-3 md:pb-1"
+          labelClassNames="text-gray-200 mt-1 text-sm"
         />
         <Button
           classNames="!w-1/2 mt-4 text-white !bg-primary !rounded-full md:!max-h-[45px] text-sm"
           type="contained"
           primary="primary"
           loading={formLoading || loading}
-          title="ایجاد کاربر"
+          title={isEditPage ? "ویرایش کاربر" : "ایجاد کاربر"}
           events={{
-            onSubmit: (e) => {
+            onSubmit: (e) =>  {
               setFormLoading(true);
-              createUser(formValues);
+              formHandler();
               setTimeout(() => {
                 setFormLoading(false);
               }, 1500);
