@@ -77,7 +77,7 @@ const template = {
           apiErrorHandler(error);
         });
     },
-  createTemplate:
+  updateTemplate:
     (data = {}) =>
     async (dispatch) => {
       dispatch({ type: "template/loading" });

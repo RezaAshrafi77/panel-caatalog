@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MdPersonAdd, MdZoomIn } from "react-icons/md";
+import { MdEdit, MdPersonAdd, MdZoomIn } from "react-icons/md";
 
 import { connect } from "react-redux";
 import { dialog, users } from "../redux/actions";
@@ -7,20 +7,9 @@ import { Table, Button, Loading } from "../components";
 import { adminsUsersTheads } from "../shared/data";
 import { TbTrash } from "react-icons/tb";
 
-export const Users = ({
-  admin,
-  setDialog,
-  getUsers,
-  resetDialog,
-  deleteUser,
-  users,
-  events,
-  loading,
-}) => {
-  useEffect(() => {
-    getUsers();
-  }, []);
-  const isSuperAdmin = admin?.roles?.find((item) => item === "ADMIN");
+export const Users = ({ events, data }) => {
+  const { users, isSuperAdmin, loading } = data;
+  const { deleteUser, setDialog, changeRoute } = events;
 
   return !loading ? (
     <div className="flex flex-1 flex-col max-w-full max-h-full h-full overflow-hidden px-4 py-6">
@@ -29,7 +18,7 @@ export const Users = ({
           icon={<MdPersonAdd color="white" size="1.5rem" />}
           classNames="bg-green-600 gap-2 !font-medium rounded-md py-2 cursor-pointer text-white !w-fit px-3 text-sm"
           events={{
-            onSubmit: () => events["changeRoute"]("createUser"),
+            onSubmit: () => changeRoute("createUser"),
           }}
         />
       ) : null}
@@ -50,7 +39,14 @@ export const Users = ({
                   className="cursor-pointer "
                   icon={<MdZoomIn className="text-green-500" size="1.5rem" />}
                   events={{
-                    onSubmit: () => events["changeRoute"]("templates", row["_id"]),
+                    onSubmit: () => changeRoute("templates", row["_id"]),
+                  }}
+                />
+                <Button
+                  className="cursor-pointer "
+                  icon={<MdEdit className="text-orange-400" size="1.5rem" />}
+                  events={{
+                    onSubmit: () => changeRoute("editUser", row["_id"]),
                   }}
                 />
                 <Button
@@ -91,16 +87,10 @@ export const Users = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  users: state.users.users,
-  loading: state.users.loading,
-  admin: state.auth.status,
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {
-  getUsers: users.list,
   setDialog: dialog.set,
-  resetDialog: dialog.reset,
   deleteUser: users.del,
 };
 

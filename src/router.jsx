@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 // import { setMode } from "~/states/slices/Device";
 
 //components
-import { Home, Vitrin, Splash, About, NotFound, Login } from "./screens";
+import { Home, Vitrin, Splash, NotFound, Login } from "./screens";
 import { checkDevice } from "./utils/funcs";
 import { Dialog } from "./components";
 // import { MenuFullLayer } from "~/components";

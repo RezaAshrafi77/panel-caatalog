@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { MdAddBusiness, MdChevronLeft, MdZoomIn } from "react-icons/md";
 
 import { connect } from "react-redux";
@@ -7,26 +6,11 @@ import { Table, Button, Navbar } from "../components";
 import { adminsTemplatesTheads } from "../shared/data";
 
 export const Templates = ({
-  admin,
-  userId,
-  getAdminsTemplates,
-  getCustomersTemplates,
-  templates,
+  data,
   events,
 }) => {
-  const isSuperAdmin = admin?.roles?.find((item) => item === "ADMIN");
-
-  useEffect(() => {
-    if (isSuperAdmin) {
-      if (userId) {
-        getAdminsTemplates({ ownerId: userId });
-      } else {
-        getAdminsTemplates();
-      }
-    } else {
-      getCustomersTemplates();
-    }
-  }, []);
+  const {isSuperAdmin, templates} = data;
+  const { changeRoute } = events;
 
   return (
     <div className="flex flex-1 flex-col max-w-full max-h-full h-full overflow-hidden">
@@ -37,7 +21,7 @@ export const Templates = ({
           actions={[
             <Button
               icon={<MdChevronLeft size={"2.5rem"} />}
-              events={{ onSubmit: () => events["changeRoute"]("users") }}
+              events={{ onSubmit: () => changeRoute("users") }}
               className="text-white cursor-pointer"
             />,
           ]}
@@ -49,7 +33,7 @@ export const Templates = ({
             icon={<MdAddBusiness color="white" size="1.5rem" />}
             classNames="bg-green-600 gap-2 !font-medium rounded-md py-2 cursor-pointer text-white !w-fit px-3 text-sm"
             events={{
-              onSubmit: () => events["changeRoute"]("createTemplate"),
+              onSubmit: () => changeRoute("createTemplate"),
             }}
           />
         ) : null}
@@ -79,7 +63,7 @@ export const Templates = ({
                         }
                         events={{
                           onSubmit: () =>
-                            events["changeRoute"]("editTemplate", row["_id"]),
+                            changeRoute("editTemplate", row["_id"]),
                         }}
                       />
                     </div>
@@ -97,8 +81,6 @@ export const Templates = ({
 };
 
 const mapStateToProps = (state) => ({
-  templates: state.template.templates,
-  admin: state.auth.status,
   userInfo: state.users.userInfo,
 });
 
