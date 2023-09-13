@@ -1,4 +1,6 @@
 import React from "react";
+import { MdCameraAlt } from "react-icons/md";
+import { baseUrl } from "../config";
 
 function Input({ classNames, events, data, ...props }) {
   const inputs = {
@@ -112,6 +114,25 @@ function Input({ classNames, events, data, ...props }) {
           events ? events["onClick"](e.target.name, e.target.value) : {}
         }
       />
+    ),
+    uploadImage: (
+      <div
+        className={`${classNames} flex-center-center bg-gray-300 rounded-full overflow-hidden w-16 h-16 relative`}
+      >
+        <input
+          type="file"
+          className="w-full h-full opacity-0 absolute left-0 top-0 cursor-pointer"
+        />
+        {props?.fileId ? (
+          <Image
+            src={baseUrl + `/file/${props?.fileId}`}
+            classNames="w-full h-full"
+            
+          />
+        ) : (
+          props?.icon || <MdCameraAlt size="30%" color="white" />
+        )}
+      </div>
     ),
   };
   const textarea = props?.type === "textarea";

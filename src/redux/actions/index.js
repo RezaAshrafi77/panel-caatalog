@@ -9,6 +9,7 @@ export { default as category } from "./category.js";
 export { default as part } from "./part.js";
 export { default as dialog } from "./dialog.js";
 export { default as users } from "./users.js";
+export { default as file } from "./file.js";
 // export { default as comment } from "./comment.js";
 // export { default as config } from "./config.js";
 // export { default as faq } from "./faq.js";

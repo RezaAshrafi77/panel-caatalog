@@ -10,7 +10,7 @@ import {
   Users,
 } from "./index";
 import { Image, Navbar, Sidebar, Loading } from "~/components";
-import { dialog, template, users } from "../redux/actions";
+import { category, dialog, file, template, users } from "../redux/actions";
 
 export const Home = ({
   admin,
@@ -18,6 +18,7 @@ export const Home = ({
   userInfo,
   users,
   templates,
+  categories,
   // actions
   getUsers,
   getUserInfo,
@@ -27,9 +28,12 @@ export const Home = ({
   getCustomersTemplates,
   createTemplate,
   updateTemplate,
+  adminUpdateTemplate,
   getAdminTemplates,
   updateUserAdmin,
   createUser,
+  uploadFile,
+  getAdminCategories,
   // loading
   usersLoading,
   templateLoading,
@@ -93,7 +97,10 @@ export const Home = ({
     } else if (route === "editTemplate") {
       if (template?._id !== activeTemplateID) {
         getAdminTemplates({ id: activeTemplateID });
+        getAdminCategories();
+
       }
+    } else if (route === "editPart") {
     }
   }, [route, users, userInfo, activeUserID, template, activeTemplateID]);
 
@@ -135,16 +142,20 @@ export const Home = ({
     ),
     editTemplate: (
       <CreateTemplate
+        key={"edit-template-" + (template ? template["name"] : "template-name")}
         data={{
           isEditPage: true,
           template,
           templateLoading,
+          isSuperAdmin,
+          activeUserID,
+          categories,
         }}
         events={{
           changeRoute: (route) => setRoute(route),
           changeActivePart: (part) => setActivePart(part),
           setDialog,
-          updateTemplate,
+          updateTemplate: isSuperAdmin ? adminUpdateTemplate : updateTemplate,
         }}
       />
     ),
@@ -154,6 +165,7 @@ export const Home = ({
         events={{
           createTemplate,
           setDialog,
+          uploadFile,
           setActiveTemplateID,
           changeRoute: (route) => setRoute(route),
         }}
@@ -232,6 +244,7 @@ const mapStateToProps = (state) => ({
   template: state.template.template,
   templates: state.template.templates,
   users: state.users.users,
+  categories: state.category.categories,
   // loadings
   usersLoading: state.users.loading,
   templateLoading: state.template.loading,
@@ -246,9 +259,12 @@ const mapDispatchToProps = {
   setDialog: dialog.set,
   getAdminsTemplates: template.getAdminsTemplates,
   getCustomersTemplates: template.getCustomersTemplates,
-  updateTemplate: template.updateTemplate,
   getAdminTemplates: template.getAdminTemplates,
   createTemplate: template.create,
+  adminUpdateTemplate: template.adminUpdateTemplate,
+  updateTemplate: template.updateTemplate,
+  uploadFile: file.upload,
+  getAdminCategories: category.getAdminCategories,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

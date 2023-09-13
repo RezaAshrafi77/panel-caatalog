@@ -82,12 +82,30 @@ const template = {
     async (dispatch) => {
       dispatch({ type: "template/loading" });
       await axios
+        .patch(`${baseUrl}/templates/customer/update`, data, {
+          headers: getHeaders(),
+        })
+        .then((res) => {
+          dispatch({
+            type: "template/customer/update",
+            data: res?.data?.data,
+          });
+        })
+        .catch((error) => {
+          dispatch({ type: "template/error", data: error });
+        });
+    },
+  adminUpdateTemplate:
+    (data = {}) =>
+    async (dispatch) => {
+      dispatch({ type: "template/loading" });
+      await axios
         .patch(`${baseUrl}/templates/admin/update`, data, {
           headers: getHeaders(),
         })
         .then((res) => {
           dispatch({
-            type: "template/admin/create",
+            type: "template/admin/update",
             data: res?.data?.data,
           });
         })

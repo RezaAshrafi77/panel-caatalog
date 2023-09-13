@@ -4,20 +4,38 @@ import { Navbar, Button, Loading, Tab, Input } from "../components";
 import { MdChevronLeft } from "react-icons/md";
 
 import { Parts, Information } from "./index";
+import { templateFormDataBuilder } from "../shared/data";
 
 export const CreateTemplate = ({ data, events }) => {
   const [activeTab, setActiveTab] = useState(0);
-  const { isEditPage, template, templateLoading, activeUserID } = data;
+  const {
+    isEditPage,
+    template,
+    templateLoading,
+    activeUserID,
+    isSuperAdmin,
+    categories,
+  } = data;
   const {
     createTemplate,
     updateTemplate,
     changeRoute,
     changeActivePart,
     setDialog,
+    uploadFile,
   } = events;
 
+  const [templateFormData, setTemplateFormData] = useState(
+    templateFormDataBuilder(
+      isSuperAdmin
+        ? { ...template, ["ownerId"]: activeUserID }
+        : { ...template },
+      isEditPage ? "update" : "create"
+    )
+  );
+
   return (
-    <div className="flex flex-col flex-1 max-w-full max-h-full h-full overflow-y-scroll ">
+    <div className="flex flex-col flex-1 max-w-full max-h-full h-full overflow-y-scroll select-none">
       {isEditPage ? (
         <Navbar
           classNames="text-white min-h-[54px] !bg-gray-900"
@@ -35,7 +53,7 @@ export const CreateTemplate = ({ data, events }) => {
         <Tab
           events={{ changeTab: (index) => setActiveTab(index) }}
           data={{ activeTab, tabs: ["لیست محصولات", "ویرایش مشخصات"] }}
-          classNames="sticky top-[54px] z-10"
+          classNames="sticky top-[70px] z-10"
         />
       ) : null}
       {isEditPage ? (
@@ -47,15 +65,21 @@ export const CreateTemplate = ({ data, events }) => {
                 changeActivePart,
                 updateTemplate,
               }}
+              data={{
+                template,
+                categories,
+                loading: templateLoading,
+              }}
             />
           ) : (
             <Information
               events={{
                 updateTemplate,
                 setDialog,
+                updateFormData: (obj) => setTemplateFormData(obj),
               }}
               data={{
-                template,
+                formData: templateFormData,
                 templateLoading,
                 isEditPage,
               }}
@@ -76,9 +100,11 @@ export const CreateTemplate = ({ data, events }) => {
             ]}
           />
           <Information
-            data={{ template, templateLoading, activeUserID }}
+            data={{ formData: templateFormData, templateLoading, activeUserID }}
             events={{
               createTemplate,
+              updateFormData: (obj) => setTemplateFormData(obj),
+              uploadFile,
             }}
           />
         </div>

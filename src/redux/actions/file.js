@@ -1,31 +1,26 @@
-import proxy from "~/redux/proxy";
+import axios from "axios";
+import { baseUrl } from "../../config";
+import { getHeaders } from "../../middleware";
 const file = {
-  setSignature:
-    (data = {}) =>
-    async (dispatch) =>
-      await dispatch({ type: "file/setSignature", data }),
   upload:
     (data = {}) =>
     async (dispatch) => {
       var formData = new FormData();
       for (let key in data) formData.append(key, data[key]);
-      return await proxy.post(
-        "file/upload",
-        formData,
-        {
-          dispatch,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        },
-        data
-      );
+      return await axios
+        .post(`${baseUrl}/files/upload`, formData, {
+          headers: getHeaders,
+        })
+        .then((res) => {
+          dispatch({
+            type: "file/upload",
+            data: res?.data?.data,
+          });
+        })
+        .catch((error) => {
+          dispatch({ type: "file/error", data: error });
+        });
     },
-  loading: (data) => (dispatch) => dispatch({ type: "file/loading", data }),
-  groupList:
-    (data = {}) =>
-    async (dispatch) =>
-      await proxy.get("file/group/list", data, { dispatch }),
 };
 
 export default file;

@@ -14,9 +14,11 @@ export default function template(state = initialState, action) {
       "template/admin/list" ||
       "template/customer/list":
       return { ...state, templates: data, loading: false, error: null };
-    case "template/admin/create" || "template/admin/update":
+    case "template/admin/create" ||
+      "template/admin/update" ||
+      "template/customer/update":
       toast.success("عملیات با موفقیت انجام شد.");
-      return { ...state, templates: data, loading: false, error: null };
+      return { ...state, template: data, loading: false, error: null };
     case "template/getTemplate":
       return { ...state, template: data, loading: false, error: null };
     case "template/admin/{id}":

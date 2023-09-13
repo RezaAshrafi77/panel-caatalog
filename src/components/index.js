@@ -17,6 +17,7 @@ export { default as Carousel } from "./Carousel";
 export { default as Sidebar } from "./Sidebar";
 export { default as Table } from "./Table";
 export { default as Tab } from "./Tab";
+export { default as ImgFileInput } from "./ImgFileInput";
 
 // List
 export { default as ListView } from "./ListView";
