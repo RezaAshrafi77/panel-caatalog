@@ -8,6 +8,7 @@ export const Information = ({ data, events }) => {
   const [formLoading, setFormLoading] = useState(false);
   const [formValues, setFormValues] = useState(template);
 
+  
   return (
     <form
       className={`flex flex-col gap-8 lg:max-w-[500px] py-7 ${

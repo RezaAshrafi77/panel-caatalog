@@ -82,6 +82,7 @@ const users = {
   del:
     (data = {}) =>
     async (dispatch) => {
+      console.log(data);
       dispatch({ type: "users/loading" });
       await axios
         .delete(`${baseUrl}/users/admin/remove`, data, {
