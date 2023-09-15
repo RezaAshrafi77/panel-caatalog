@@ -17,7 +17,7 @@ const part = {
         .then((res) => {
           dispatch({ type: "part/loading" });
           dispatch({
-            type: "template/admin/part/{id}",
+            type: "template/admin/{id}",
             data: res?.data?.data,
           });
           dispatch({

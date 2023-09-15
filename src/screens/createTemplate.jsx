@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { Navbar, Button, Loading, Tab, Input } from "../components";
-import { MdChevronLeft } from "react-icons/md";
+import { MdAdd, MdChevronLeft } from "react-icons/md";
 
 import { Parts, Information } from "./index";
 import { templateFormDataBuilder } from "../shared/data";
@@ -43,6 +43,14 @@ export const CreateTemplate = ({ data, events }) => {
           classNames="text-white min-h-[54px] !bg-gray-900"
           leading={<strong>{template?.name}</strong>}
           actions={[
+            activeTab === 0 ? (
+              <Button
+                icon={<MdAdd size="2.5rem" className="text-green-600" />}
+                events={{
+                  onSubmit: () => changeRoute("createPart"),
+                }}
+              />
+            ) : null,
             <Button
               icon={<MdChevronLeft size={"2.5rem"} />}
               events={{ onSubmit: () => changeRoute("templates") }}

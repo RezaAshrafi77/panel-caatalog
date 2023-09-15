@@ -27,7 +27,7 @@ export default function template(state = initialState, action) {
       return { ...state, template: data, loading: false, error: null };
     case "template/getTemplate":
       return { ...state, template: data, loading: false, error: null };
-    case "template/admin/part/{id}":
+    case "template/admin/{id}":
       return { ...state, template: data, loading: false, error: null };
     case "template/loading":
       return { ...state, loading: true };

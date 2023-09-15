@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Image } from "../components";
+import { MdPerson } from "react-icons/md";
 
 export default function Sidebar({ classNames, data, events, ...props }) {
   return (
@@ -12,7 +13,10 @@ export default function Sidebar({ classNames, data, events, ...props }) {
           className={`flex flex-col px-4 py-6 ${props?.userStatusClassNames}`}
         >
           <div className="flex gap-4 items-center">
-            <Image classNames="w-16 h-16 rounded-full bg-gray-700" />
+            <Image
+              icon={<MdPerson size="2rem" color="white" />}
+              classNames="w-16 h-16 rounded-full bg-gray-700"
+            />
             <span className="font-medium">{data?.admin?.username}</span>
           </div>
         </div>

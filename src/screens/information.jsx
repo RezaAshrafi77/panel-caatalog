@@ -45,6 +45,8 @@ export const Information = ({ data, events }) => {
     }
   }, [uploadFileID, formData]);
 
+  console.log(formData);
+
   return (
     <form
       className={`flex flex-col gap-8 lg:max-w-[500px] lg:min-w-[500px] lg:mx-auto py-7 ${

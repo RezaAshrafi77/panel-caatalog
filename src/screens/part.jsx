@@ -41,6 +41,21 @@ export const Part = ({
         leading={part ? <strong>{part?.title}</strong> : null}
         actions={[
           <Button
+            icon={<TbTrash size={"1.75rem"} />}
+            events={{
+              onSubmit: () =>
+                setDialog({
+                  title: "محصول حذف شود؟",
+                  confirmTitle: "بله",
+                  cancelTitle: "فعلا نه",
+                  confirm: () => {
+                    submitForm();
+                  },
+                }),
+            }}
+            className="text-primary cursor-pointer"
+          />,
+          <Button
             icon={<MdChevronLeft size={"2.5rem"} />}
             events={{ onSubmit: () => events["changeRoute"]("editTemplate") }}
             className="text-white cursor-pointer"
@@ -53,12 +68,14 @@ export const Part = ({
             {"عکس‌های انتخاب شده"}
           </strong>
           <span className="flex-1 h-0.5 bg-gray-700"></span>
-          <Button
-            icon={<MdAdd size={"2rem"} />}
-            classNames="!text-green-400 cursor-pointer"
-          />
         </div>
-        <ul className="flex gap-4 overflow-y-scroll mt-6 pb-4">
+        <ul className="flex gap-4 overflow-y-scroll mt-6 pb-4 pl-4 no-scrollbar">
+          <Input
+            key={'upload-file'}
+            type="uploadFile"
+            name="fileId"
+            classNames="bg-opacity-20 md:min-w-[16vw] md:h-[12vw] md:!max-h-[200px] rounded-md"
+          />
           {part?.fileIds?.map((file, index) => (
             <div className="relative group" key={"files-" + index}>
               <Image

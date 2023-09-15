@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import { Product } from "../components";
-import { MdArrowDropDown } from "react-icons/md";
+import { Button, Product } from "../components";
+import { MdAdd, MdArrowDropDown } from "react-icons/md";
 
 export const Parts = ({ events, data }) => {
   const { template, loading, categories } = data;
@@ -10,7 +10,6 @@ export const Parts = ({ events, data }) => {
       index: false;
     }),
   });
-
 
   return (
     <div className="flex flex-1 flex-col">
