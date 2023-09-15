@@ -76,6 +76,7 @@ export const CreateTemplate = ({ data, events }) => {
               events={{
                 updateTemplate,
                 setDialog,
+                uploadFile,
                 updateFormData: (obj) => setTemplateFormData(obj),
               }}
               data={{

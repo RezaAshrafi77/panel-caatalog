@@ -89,7 +89,6 @@ export const Home = ({
       }
     } else if (route === "templates") {
       if (isSuperAdmin) {
-        console.log('super');
         if (activeUserID) {
           getAdminsTemplates({ ownerId: activeUserID });
         } else {
@@ -162,6 +161,7 @@ export const Home = ({
           changeRoute: (route) => setRoute(route),
           changeActivePart: (part) => setActivePart(part),
           setDialog,
+          uploadFile,
           updateTemplate: isSuperAdmin ? adminUpdateTemplate : updateTemplate,
         }}
       />

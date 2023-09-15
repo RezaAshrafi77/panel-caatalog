@@ -1,8 +1,11 @@
-import React from "react";
-import { MdCameraAlt } from "react-icons/md";
-import { baseUrl } from "../config";
+import { useState } from "react";
+import { MdArrowDropDown, MdDelete } from "react-icons/md";
+import Button from "./Button";
 
 function Input({ classNames, events, data, ...props }) {
+  const [dropdownFlag, setDropwdownFlag] = useState(false);
+  const [multiSelectInputValue, setMultiSelectInputValue] = useState("");
+
   const inputs = {
     checkbox: <input type="checkbox" name={props?.name} value={props?.value} />, // label
     radio: <input type="radio" name={props?.name} value={props?.value} />, // label
@@ -115,23 +118,70 @@ function Input({ classNames, events, data, ...props }) {
         }
       />
     ),
-    uploadImage: (
-      <div
-        className={`${classNames} flex-center-center bg-gray-300 rounded-full overflow-hidden w-16 h-16 relative`}
-      >
-        <input
-          type="file"
-          className="w-full h-full opacity-0 absolute left-0 top-0 cursor-pointer"
-        />
-        {props?.fileId ? (
-          <Image
-            src={baseUrl + `/file/${props?.fileId}`}
-            classNames="w-full h-full"
-            
-          />
-        ) : (
-          props?.icon || <MdCameraAlt size="30%" color="white" />
-        )}
+    multiSelect: (
+      <div className="w-full px-4">
+        <div className="flex flex-col items-center relative">
+          <div className="w-full  svelte-1l8159u">
+            <div className="my-2 p-1 flex border border-gray-200 bg-white rounded svelte-1l8159u">
+              <div className="flex flex-auto flex-wrap">
+                <div className="flex gap-2">
+                  {props?.selectedList?.map((tag, index) => (
+                    <Button
+                      key={"selected-cat-" + index}
+                      title={tag?.name}
+                      classNames="!w-fit rounded-full"
+                      icon={<MdDelete size="0.5rem" color="black" />}
+                    />
+                  ))}
+                </div>
+                <div className="flex-1">
+                  <Input
+                    type="text"
+                    name={props?.name}
+                    value={props?.inputText}
+                    placeholder={props?.placeholder}
+                    onChange={(e) => setMultiSelectInputValue(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200 svelte-1l8159u">
+                <Button
+                  icon={
+                    <MdArrowDropDown
+                      size="0.5rem"
+                      color="black"
+                      className={`${dropdownFlag} ? "rotate-180" : ""`}
+                    />
+                  }
+                  events={{ onSubmit: () => setDropwdownFlag(!dropdownFlag) }}
+                />
+              </div>
+            </div>
+          </div>
+          {dropdownFlag ? (
+            <div
+              className={`${props?.optionContainerClassNames} absolute shadow top-100 bg-gray-900 z-40 w-full lef-0 rounded max-h-select overflow-y-auto svelte-5uyqqj`}
+            >
+              <div className="flex flex-col w-full">
+                {props?.options
+                  ?.filter((option) =>
+                    option?.name?.includes(multiSelectInputValue)
+                  )
+                  ?.map((option, index) => (
+                    <div
+                      key={"option-" + index}
+                      className={`${props?.option?.classNames} cursor-pointer w-full border-gray-600 border-b`}
+                      onClick={() => events["onSelect"](option)}
+                    >
+                      <div className="w-full items-center flex">
+                        <div className="mx-2 leading-6 ">{option?.name}</div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          ) : null}
+        </div>
       </div>
     ),
   };

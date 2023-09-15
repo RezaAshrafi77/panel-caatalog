@@ -20,6 +20,7 @@ export default function file(state = initialState, action) {
     case "file/loading":
       return { ...state, loading: true, progress: 0 };
     case "file/error":
+      toast.error(data?.message);
       return { ...state, loading: false, error: data.message };
     default:
       return state;

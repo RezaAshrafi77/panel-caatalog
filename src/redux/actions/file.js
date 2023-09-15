@@ -9,7 +9,7 @@ const file = {
       for (let key in data) formData.append(key, data[key]);
       return await axios
         .post(`${baseUrl}/files/upload`, formData, {
-          headers: getHeaders,
+          headers: getHeaders(),
         })
         .then((res) => {
           dispatch({

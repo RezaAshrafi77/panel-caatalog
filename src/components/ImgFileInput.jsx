@@ -52,7 +52,7 @@ const ImgFileInput = ({ setFile, classNames, ...props }) => {
       />
       {props?.fileId ? (
         <Image
-          src={baseUrl + `/file/${props?.fileId}`}
+          src={baseUrl + `/files/${props?.fileId}`}
           classNames="w-full h-full"
         />
       ) : (

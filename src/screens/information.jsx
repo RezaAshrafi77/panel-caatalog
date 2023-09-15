@@ -50,16 +50,23 @@ export const Information = ({ data, events }) => {
         </strong>
         <span className="flex-1 h-0.5 bg-gray-700"></span>
       </div>
+      <p
+        className={`text-sm font-medium ${
+          formData?.backgroundFileId ? "text-blue-400" : "text-gray-300"
+        }  mb-[-8px]`}
+      >
+        {formData?.backgroundFileId
+          ? "برای تغییر عکس ضربه بزنید."
+          : "لطفا یک عکس را برای ویترین فروشگاه انتخاب کنید."}
+      </p>
       {formSections?.backgroundImage ? (
         <ImgFileInput
+          fileId={formData?.backgroundFileId}
           setFile={setFile}
           name="backgroundImage"
-          classNames="w-24 h-32 rounded-md bg-gray-400"
+          classNames="w-[180px] h-[320px] rounded-md bg-gray-400 cursor-pointer"
         />
       ) : null}
-      <p className="text-sm text-gray-300 mb-[-8px]">
-        {!file ? "لطفا یک عکس را برای ویترین فروشگاه انتخاب کنید." : file?.name}
-      </p>
       <div
         className="flex items-center gap-4 w-full cursor-pointer"
         onClick={() =>
