@@ -6,7 +6,7 @@ import { adminsTemplatesTheads } from "../shared/data";
 
 export const Templates = ({ data, events }) => {
   const { isSuperAdmin, templates, loading, activeUserID } = data;
-  const { changeRoute, setDialog, deleteTemplate } = events;
+  const { changeRoute, setDialog, deleteTemplate, getAdminTemplates } = events;
 
   return (
     <div className="flex flex-1 flex-col max-w-full max-h-full h-full overflow-hidden">
@@ -87,7 +87,9 @@ export const Templates = ({ data, events }) => {
                                 confirmTitle: "بله",
                                 cancelTitle: "فعلا نه",
                                 confirm: () => {
-                                  deleteTemplate({ id: row["_id"] });
+                                  deleteTemplate({ id: row["_id"] }, () =>
+                                    getAdminTemplates()
+                                  );
                                 },
                               }),
                           }}

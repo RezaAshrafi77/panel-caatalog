@@ -126,14 +126,16 @@ const template = {
         });
     },
   del:
-    (data = {}) =>
+    (data = {}, callback = () => {}) =>
     async (dispatch) => {
       dispatch({ type: "template/loading" });
       await axios
-        .delete(`${baseUrl}/templates/admin/remove`, data, {
+        .delete(`${baseUrl}/templates/admin/remove`, {
+          data,
           headers: getHeaders(),
         })
         .then((res) => {
+          callback();
           dispatch({
             type: "template/admin/remove",
             data: res?.data?.data,

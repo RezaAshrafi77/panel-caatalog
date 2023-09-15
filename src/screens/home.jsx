@@ -164,6 +164,7 @@ export const Home = ({
             setActiveTemplateID(ID);
             setRoute(route);
           },
+          getAdminTemplates: () => getAdminsTemplates({ ownerId: activeUserID }),
           deleteTemplate,
           setDialog,
         }}

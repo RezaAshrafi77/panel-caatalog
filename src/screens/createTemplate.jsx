@@ -122,6 +122,7 @@ export const CreateTemplate = ({ data, events }) => {
             }}
             events={{
               createTemplate,
+              changeRoute,
               updateFormData: (obj) => setTemplateFormData(obj),
               uploadFile,
             }}

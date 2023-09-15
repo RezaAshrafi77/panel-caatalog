@@ -17,6 +17,7 @@ export const Information = ({ data, events }) => {
     createTemplate,
     updateFormData,
     uploadFile,
+    changeRoute,
   } = events;
   const [formSections, setFormSections] = useState({
     backgroundImage: true,
@@ -231,7 +232,7 @@ export const Information = ({ data, events }) => {
               ? "برای تغییر عکس ضربه بزنید."
               : "لطفا یک عکس را برای ویترین فروشگاه انتخاب کنید."}
           </p>
-          {console.log(formData) }
+          {console.log(formData)}
           <Input
             type="uploadFile"
             data={{
@@ -241,7 +242,7 @@ export const Information = ({ data, events }) => {
               onChange: (file) => setFile(file),
             }}
             name="backgroundImage"
-            classNames="!w-[180px] !h-[320px] rounded-md bg-gray-400 cursor-pointer"
+            classNames="bg-opacity-20 !w-[180px] !h-[320px] rounded-md bg-gray-400 cursor-pointer"
           />
         </div>
       ) : null}
@@ -316,7 +317,9 @@ export const Information = ({ data, events }) => {
             if (isEditPage) {
               updateTemplate({ ...formData });
             } else {
-              createTemplate({ ...formData, ["ownerId"]: activeUserID });
+              createTemplate({ ...formData, ["ownerId"]: activeUserID }, () =>
+                changeRoute("templates")
+              );
             }
           },
         }}
