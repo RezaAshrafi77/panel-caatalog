@@ -7,10 +7,12 @@ import {
   CreateTemplate,
   CreateUser,
   Part,
+  Login,
   Users,
 } from "./index";
 import { Image, Navbar, Sidebar, Loading } from "~/components";
 import { category, dialog, file, template, users } from "../redux/actions";
+import { Button } from "../components";
 
 export const Home = ({
   admin,
@@ -42,7 +44,6 @@ export const Home = ({
   const [activePart, setActivePart] = useState(null);
   const [activeTemplateID, setActiveTemplateID] = useState(null);
   const [activeUserID, setActiveUserID] = useState(null);
-  const [globalLoading, setGlobalLoading] = useState(false);
   const isSuperAdmin = admin?.roles?.find((item) => item === "ADMIN");
 
   const sidebarRoutes = isSuperAdmin
@@ -66,13 +67,19 @@ export const Home = ({
           name: "templates",
         },
       ];
+  const sidebarCallToActions = [
+    <Button
+      title="خروج"
+      classNames="text-red-600 !w-fit px-4"
+      events={{
+        onSubmit: () => {
+          localStorage.clear();
+          location.reload();
+        },
+      }}
+    />,
+  ];
 
-  // useEffect(() => {
-  //   setGlobalLoading(true);
-  //   setTimeout(() => {
-  //     setGlobalLoading(false);
-  //   }, 1500);
-  // }, [route]);
   useEffect(() => {
     if (route === "users") {
       if (isSuperAdmin) {
@@ -82,10 +89,11 @@ export const Home = ({
       }
     } else if (route === "templates") {
       if (isSuperAdmin) {
+        console.log('super');
         if (activeUserID) {
           getAdminsTemplates({ ownerId: activeUserID });
         } else {
-          getAdminsTemplates();
+          getAdminsTemplates({ownerId: admin?._id});
         }
       } else {
         getCustomersTemplates();
@@ -98,11 +106,10 @@ export const Home = ({
       if (template?._id !== activeTemplateID) {
         getAdminTemplates({ id: activeTemplateID });
         getAdminCategories();
-
       }
     } else if (route === "editPart") {
     }
-  }, [route, users, userInfo, activeUserID, template, activeTemplateID]);
+  }, [route, users, admin, userInfo, activeUserID, template, activeTemplateID]);
 
   // Pages
   const content = {
@@ -226,14 +233,9 @@ export const Home = ({
           admin,
         }}
         routes={sidebarRoutes}
+        callToActions={sidebarCallToActions}
       />
-      {globalLoading ? (
-        <div className="flex-1 flex-center-center">
-          <Loading />
-        </div>
-      ) : (
-        content[route]
-      )}
+      {content[route]}
     </div>
   );
 };

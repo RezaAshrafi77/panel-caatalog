@@ -34,6 +34,15 @@ export default function Sidebar({ classNames, data, events, ...props }) {
           </li>
         ))}
       </ul>
+      <ul
+        className={`flex flex-col divide-y mt-auto divide-gray-600 ${props?.actionsClassNames}`}
+      >
+        {props?.callToActions?.map((button, index) => (
+          <React.Fragment key={"call-to-actions-" + index}>
+            {button}
+          </React.Fragment>
+        ))}
+      </ul>
     </div>
   );
 }

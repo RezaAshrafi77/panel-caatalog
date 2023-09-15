@@ -6,22 +6,6 @@ import { apiErrorHandler, getHeaders } from "../../middleware";
 const { baseUrl } = ApiConfig;
 
 const template = {
-  getTemplate:
-    (data = {}) =>
-    async (dispatch) => {
-      dispatch({ type: "template/loading" });
-      await axios
-        .get(`${baseUrl}/${data?.id}`)
-        .then((res) => {
-          switch (res?.status) {
-            case 200:
-              dispatch({ type: "template/getTemplate", data: res.data.data });
-          }
-        })
-        .catch((error) => {
-          dispatch({ type: "template/error", data: error });
-        });
-    },
   getAdminsTemplates:
     (data = {}) =>
     async (dispatch) => {
@@ -48,6 +32,7 @@ const template = {
       await axios
         .get(`${baseUrl}/templates/customer/list`, {
           headers: getHeaders(),
+          params: data
         })
         .then((res) => {
           dispatch({

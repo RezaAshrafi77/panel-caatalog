@@ -13,6 +13,7 @@ export const CreateUser = ({ data, events }) => {
   const [pass2, setPass2] = useState("");
 
   const formHandler = () => {
+    console.log(formValues);
     if (!formValues?.username) {
       toast.error("نام کاربری مورد نظر خود را وارد کنید.");
       return;

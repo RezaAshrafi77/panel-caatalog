@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { checkUserStatus } from "../../middleware";
 
 const initialState = {
-  status : checkUserStatus(),
+  status: checkUserStatus(),
   loading: false,
   error: null,
 };
@@ -12,6 +12,7 @@ export default function auth(state = initialState, action) {
   let { type, data } = action;
   switch (type) {
     case "auth/login":
+      toast.success("به پنل مدیریتی خوش آمدید");
       return {
         ...state,
         loading: false,

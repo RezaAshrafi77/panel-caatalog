@@ -12,7 +12,6 @@ export const Login = ({ admin, signup, login, loading, ...props }) => {
     username: "",
     password: "",
   });
-  const [isSignUpPage, setIsSignUpPage] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
   return (
     <div className="flex-center-center flex-1 max-w-full max-h-full h-full overflow-hidden relative">
@@ -30,11 +29,9 @@ export const Login = ({ admin, signup, login, loading, ...props }) => {
         src={loginBG}
         classNames="fixed w-full h-full left-0 top-0 object-cover"
       />
-      <div className="flex flex-col justify-between md:justify-evenly lg:justify-between items-center px-[8vw] md:px-6 md:py-12 md:max-w-[50vh] bg-white w-full h-full md:max-h-[85vh] z-10 md:rounded-xl md:shadow-xl overflow-y-scroll md:overflow-hidden">
+      <div className="flex flex-col justify-between md:justify-evenly text-black lg:justify-between items-center px-[8vw] md:px-6 md:py-12 md:max-w-[50vh] bg-white w-full h-full md:max-h-[85vh] z-10 md:rounded-xl md:shadow-xl overflow-y-scroll md:overflow-hidden">
         <div className="w-full flex flex-col items-center gap-[10vh] md:gap-10">
-          <strong className="font-bold text-3xl md:mb-10">
-            {isSignUpPage ? "Sign up" : "Login"}
-          </strong>
+          <strong className="font-bold text-3xl md:mb-10">{"Login"}</strong>
           <form
             className="w-full flex flex-col md:max-w-[90%] gap-[4vh] md:gap-[4vh]"
             onSubmit={(e) => e.preventDefault()}
@@ -74,7 +71,7 @@ export const Login = ({ admin, signup, login, loading, ...props }) => {
               type="contained"
               primary="primary"
               loading={loading || formLoading}
-              title={isSignUpPage ? "SIGNUP" : "LOGIN"}
+              title={"LOGIN"}
               events={{
                 onSubmit: (e) => {
                   setFormLoading(true);
