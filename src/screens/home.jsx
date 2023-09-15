@@ -21,6 +21,7 @@ export const Home = ({
   users,
   templates,
   categories,
+  uploadFileID,
   // actions
   getUsers,
   getUserInfo,
@@ -92,7 +93,7 @@ export const Home = ({
         if (activeUserID) {
           getAdminsTemplates({ ownerId: activeUserID });
         } else {
-          getAdminsTemplates({ownerId: admin?._id});
+          getAdminsTemplates({ ownerId: admin?._id });
         }
       } else {
         getCustomersTemplates();
@@ -156,6 +157,7 @@ export const Home = ({
           isSuperAdmin,
           activeUserID,
           categories,
+          uploadFileID,
         }}
         events={{
           changeRoute: (route) => setRoute(route),
@@ -173,6 +175,7 @@ export const Home = ({
           createTemplate,
           setDialog,
           uploadFile,
+          uploadFileID,
           setActiveTemplateID,
           changeRoute: (route) => setRoute(route),
         }}
@@ -182,6 +185,9 @@ export const Home = ({
       <Part
         part={activePart}
         type="edit"
+        data={{
+          uploadFileID,
+        }}
         events={{
           changeRoute: (route) => setRoute(route),
           changeActivePart: (part) => setActivePart(part),
@@ -247,6 +253,7 @@ const mapStateToProps = (state) => ({
   templates: state.template.templates,
   users: state.users.users,
   categories: state.category.categories,
+  uploadFileID: state.file.id,
   // loadings
   usersLoading: state.users.loading,
   templateLoading: state.template.loading,

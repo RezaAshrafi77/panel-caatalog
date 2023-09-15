@@ -131,6 +131,9 @@ function Input({ classNames, events, data, ...props }) {
                       title={tag?.name}
                       classNames="!w-fit rounded-full"
                       icon={<MdDelete size="0.5rem" color="black" />}
+                      events={{
+                        onSubmit: () => events["pop"](tag),
+                      }}
                     />
                   ))}
                 </div>

@@ -18,6 +18,7 @@ export const Part = ({
   partLoading,
 }) => {
   const [formLoading, setFormLoading] = useState(false);
+  const [selectedCats, setSelectedCats] = useState([]);
   const submitForm = () => {
     updatePart({
       templateId: template?._id,
@@ -125,6 +126,18 @@ export const Part = ({
             label="توضیحات"
             containerClassNames="!bg-transparent !w-full md:my-0 border-b border-solid border-gray-500 overflow-hidden rounded-none pb-3 md:pb-1"
             labelClassNames="text-gray-200 mb-1 text-xs"
+          />
+          <Input
+            type="multiSelect"
+            name="categories"
+            selectedList={selectedCats}
+            events={{
+              pop: (obj) =>
+                setSelectedCats(
+                  selectedCats?.filter((cat) => cat?.name !== obj?.name)
+                ),
+              push: (obj) => setSelectedCats([...selectedCats, obj]),
+            }}
           />
           <Button
             classNames="!w-1/2 mt-4 text-white !bg-primary !rounded-full md:!max-h-[45px] text-sm"

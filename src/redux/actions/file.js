@@ -6,7 +6,7 @@ const file = {
     (data = {}) =>
     async (dispatch) => {
       var formData = new FormData();
-      for (let key in data) formData.append(key, data[key]);
+      formData.append("file", data);
       return await axios
         .post(`${baseUrl}/files/upload`, formData, {
           headers: getHeaders(),
