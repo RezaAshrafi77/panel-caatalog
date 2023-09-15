@@ -7,11 +7,17 @@ import {
   CreateTemplate,
   CreateUser,
   Part,
-  Login,
   Users,
 } from "./index";
 import { Image, Navbar, Sidebar, Loading } from "~/components";
-import { category, dialog, file, template, users } from "../redux/actions";
+import {
+  category,
+  dialog,
+  file,
+  template,
+  users,
+  part,
+} from "../redux/actions";
 import { Button } from "../components";
 
 export const Home = ({
@@ -37,6 +43,11 @@ export const Home = ({
   createUser,
   uploadFile,
   getAdminCategories,
+  adminPartUpdate,
+  customerPartUpdate,
+  adminPartCreate,
+  customerPartCreate,
+  deleteTemplate,
   // loading
   usersLoading,
   templateLoading,
@@ -128,6 +139,7 @@ export const Home = ({
       <Users
         data={{
           users,
+          superAdminID: admin?._id,
           loading: usersLoading,
         }}
         events={{
@@ -152,8 +164,8 @@ export const Home = ({
             setActiveTemplateID(ID);
             setRoute(route);
           },
-          getAdminsTemplates,
-          getCustomersTemplates,
+          deleteTemplate,
+          setDialog,
         }}
       />
     ),
@@ -181,13 +193,20 @@ export const Home = ({
     ),
     createTemplate: isSuperAdmin ? (
       <CreateTemplate
-        data={{ templateLoading, activeUserID }}
+        data={{
+          templateLoading,
+          activeUserID,
+          uploadFileID,
+          template,
+          templateLoading,
+          uploadLoading,
+          activeUserID,
+        }}
         events={{
           createTemplate,
           uploadLoading,
           setDialog,
           uploadFile,
-          uploadFileID,
           setActiveTemplateID,
           changeRoute: (route) => setRoute(route),
         }}
@@ -195,29 +214,45 @@ export const Home = ({
     ) : null,
     editPart: (
       <Part
-        part={activePart}
-        type="edit"
         data={{
+          isSuperAdmin,
           uploadFileID,
           uploadLoading,
+          templateLoading,
+          categories,
+          part: activePart,
+          isEditPage: true,
         }}
         events={{
           changeRoute: (route) => setRoute(route),
           changeActivePart: (part) => setActivePart(part),
+          setDialog,
+          adminPartUpdate,
+          customerPartUpdate,
+          adminPartCreate,
+          customerPartCreate,
         }}
       />
     ),
     createPart: (
       <Part
-        part={activePart}
-        type="edit"
         data={{
+          isSuperAdmin,
           uploadFileID,
           uploadLoading,
+          templateLoading,
+          categories,
+          part: activePart,
+          isEditPage: true,
         }}
         events={{
           changeRoute: (route) => setRoute(route),
           changeActivePart: (part) => setActivePart(part),
+          setDialog,
+          adminPartUpdate,
+          customerPartUpdate,
+          adminPartCreate,
+          customerPartCreate,
         }}
       />
     ),
@@ -226,10 +261,12 @@ export const Home = ({
         key={"create-user" + usersLoading}
         data={{
           loading: usersLoading,
+          uploadFileID,
         }}
         events={{
           changeRoute: (route) => setRoute(route),
           createUser,
+          uploadFile,
         }}
       />
     ) : null,
@@ -239,13 +276,15 @@ export const Home = ({
         data={{
           isEditPage: true,
           userInfo,
+          uploadFileID,
           loading: usersLoading,
+          userInfo,
         }}
-        userInfo={userInfo}
         events={{
           changeRoute: (route) => setRoute(route),
           createUser,
           updateUser: updateUserAdmin,
+          uploadFileID,
         }}
       />
     ) : null,
@@ -302,6 +341,11 @@ const mapDispatchToProps = {
   updateTemplate: template.updateTemplate,
   uploadFile: file.upload,
   getAdminCategories: category.getAdminCategories,
+  adminPartUpdate: part.adminPartUpdate,
+  customerPartUpdate: part.customerPartUpdate,
+  adminPartCreate: part.adminPartCreate,
+  customerPartCreate: part.customerPartCreate,
+  deleteTemplate: template.del
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

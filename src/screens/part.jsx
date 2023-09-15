@@ -7,32 +7,98 @@ import { dialog, part, template } from "../redux/actions";
 import { baseUrl } from "../config";
 import { TbTrash } from "react-icons/tb";
 
-export const Part = ({
-  template,
-  part,
-  updatePart,
-  setDialog,
-  type,
-  events,
-  templateLoading,
-  partLoading,
-}) => {
-  const [formLoading, setFormLoading] = useState(false);
+export const Part = ({ template, events, data }) => {
+  const {
+    isSuperAdmin,
+    uploadFileID,
+    uploadLoading,
+    categories,
+    part,
+    isEditPage,
+    templateLoading,
+  } = data;
+  const {
+    changeRoute,
+    changeActivePart,
+    adminPartCreate,
+    customerPartCreate,
+    adminPartUpdate,
+    customerPartUpdate,
+    setDialog,
+  } = events;
   const [selectedCats, setSelectedCats] = useState([]);
+
   const submitForm = () => {
-    updatePart({
-      templateId: template?._id,
-      partId: part?._id,
-      title: part?.title,
-      text: part["text"],
-      fileIds: part?.fileIds?.map((file) => file?._id),
-      categoryIds: part?.categoryIds?.map((cat) => cat?._id),
-      position: part?.position,
-      ord: part?.ord,
-      pid: part?.pid,
-      link: part?.link,
-    });
+    if (isSuperAdmin) {
+      if (isEditPage) {
+        adminPartUpdate({
+          templateId: template?._id,
+          partId: part?._id,
+          title: part?.title,
+          text: part["text"],
+          fileIds: uploadFileID
+            ? [...part?.fileIds?.map((file) => file?._id), uploadFileID]
+            : part?.fileIds?.map((file) => file?._id),
+          categoryIds: part?.categoryIds?.map((cat) => cat?._id),
+          position: part?.position,
+          ord: part?.ord,
+          pid: part?.pid,
+          link: part?.link,
+        });
+      } else {
+        adminPartCreate({
+          templateId: template?._id,
+          partId: part?._id,
+          title: part?.title,
+          text: part?.text,
+          fileIds: uploadFileID
+            ? [...part?.fileIds?.map((file) => file?._id), uploadFileID]
+            : part?.fileIds?.map((file) => file?._id),
+          categoryIds: part?.categoryIds?.map((cat) => cat?._id),
+          position: part?.position,
+          ord: part?.ord,
+          pid: part?.pid,
+          link: part?.link,
+        });
+      }
+    } else {
+      if (isEditPage) {
+        customerPartUpdate({
+          templateId: template?._id,
+          partId: part?._id,
+          title: part?.title,
+          text: part["text"],
+          fileIds: uploadFileID
+            ? [...part?.fileIds?.map((file) => file?._id), uploadFileID]
+            : part?.fileIds?.map((file) => file?._id),
+          categoryIds: part?.categoryIds?.map((cat) => cat?._id),
+          position: part?.position,
+          ord: part?.ord,
+          pid: part?.pid,
+          link: part?.link,
+        });
+      } else {
+        customerPartCreate({
+          templateId: template?._id,
+          partId: part?._id,
+          title: part?.title,
+          text: part["text"],
+          fileIds: part?.fileIds?.map((file) => file?._id),
+          categoryIds: part?.categoryIds?.map((cat) => cat?._id),
+          position: part?.position,
+          ord: part?.ord,
+          pid: part?.pid,
+          link: part?.link,
+        });
+      }
+    }
   };
+
+  useEffect(() => {
+    if (uploadFileID) {
+      submitForm();
+    }
+  }, [uploadFileID, part]);
 
   return (
     <div className="flex flex-col flex-1 max-w-full max-h-full h-full overflow-y-scroll ">
@@ -57,7 +123,7 @@ export const Part = ({
           />,
           <Button
             icon={<MdChevronLeft size={"2.5rem"} />}
-            events={{ onSubmit: () => events["changeRoute"]("editTemplate") }}
+            events={{ onSubmit: () => changeRoute("editTemplate") }}
             className="text-white cursor-pointer"
           />,
         ]}
@@ -71,7 +137,7 @@ export const Part = ({
         </div>
         <ul className="flex gap-4 overflow-y-scroll mt-6 pb-4 pl-4 no-scrollbar">
           <Input
-            key={'upload-file'}
+            key={"upload-file"}
             type="uploadFile"
             name="fileId"
             classNames="bg-opacity-20 md:min-w-[16vw] md:h-[12vw] md:!max-h-[200px] rounded-md"
@@ -93,17 +159,13 @@ export const Part = ({
                       confirmTitle: "بله",
                       cancelTitle: "فعلا نه",
                       confirm: () => {
-                        events["changeActivePart"]({
+                        changeActivePart({
                           ...part,
                           fileIds: part?.fileIds?.filter(
                             (filee) => filee?._id !== file?._id
                           ),
                         });
-                        setFormLoading(true);
                         submitForm();
-                        setTimeout(() => {
-                          setFormLoading(false);
-                        }, 1000);
                       },
                     }),
                 }}
@@ -122,7 +184,7 @@ export const Part = ({
             value={part?.title}
             events={{
               onChange: (name, value) =>
-                events["changeActivePart"]({ ...part, ["title"]: value }),
+                changeActivePart({ ...part, ["title"]: value }),
             }}
             classNames="text-white !w-full !bg-transparent !px-4 !text-sm placeholder:text-sm placeholder:text-gray-400"
             placeholder="dfd"
@@ -136,7 +198,7 @@ export const Part = ({
             value={part?.text}
             events={{
               onChange: (name, value) =>
-                events["changeActivePart"]({ ...part, ["text"]: value }),
+                changeActivePart({ ...part, ["text"]: value }),
             }}
             classNames="text-white !w-full !bg-transparent !px-4 !text-sm placeholder:text-sm placeholder:text-gray-400"
             placeholder="متن مورد نظر را بنویسید ..."
@@ -147,6 +209,7 @@ export const Part = ({
           <Input
             type="multiSelect"
             name="categories"
+            options={categories}
             selectedList={selectedCats}
             events={{
               pop: (obj) =>
@@ -160,15 +223,11 @@ export const Part = ({
             classNames="!w-1/2 mt-4 text-white !bg-primary !rounded-full md:!max-h-[45px] text-sm"
             type="contained"
             primary="primary"
-            loading={templateLoading || formLoading || partLoading}
+            loading={templateLoading}
             title="ارسال"
             events={{
               onSubmit: (e) => {
-                setFormLoading(true);
                 submitForm();
-                setTimeout(() => {
-                  setFormLoading(false);
-                }, 1500);
               },
             }}
           />

@@ -1,16 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Navbar, Button, Input } from "../components";
 import { MdChevronLeft } from "react-icons/md";
 import { toast } from "react-toastify";
 
 export const CreateUser = ({ data, events }) => {
-  const { isEditPage, userInfo, loading } = data;
-  const { updateUser, createUser, changeRoute } = events;
+  const { isEditPage, userInfo, loading, uploadFileID } = data;
+  const { updateUser, createUser, changeRoute, uploadFile } = events;
   const [formLoading, setFormLoading] = useState(false);
 
   const [formValues, setFormValues] = useState(userInfo);
   const [pass2, setPass2] = useState("");
+  const [file, setFile] = useState(null);
+
+  useEffect(() => {
+    if (file) {
+      uploadFile(file);
+    }
+  }, [file]);
+
+  useEffect(() => {
+    if (uploadFileID) {
+      if (isEditPage) {
+        updateUser({ ...formValues, backgroundFileId: uploadFileID });
+      } else {
+        createUser({
+          ...formValues,
+        });
+      }
+    }
+  }, [uploadFileID, formValues]);
 
   const formHandler = () => {
     console.log(formValues);
@@ -28,15 +47,17 @@ export const CreateUser = ({ data, events }) => {
     }
     if (formValues?.password !== formValues?.pass2) {
       if (isEditPage) {
-        updateUser(formValues);
+        updateUser(formValues, () => changeRoute("users"));
       } else {
-        createUser(formValues);
+        createUser(formValues, () => changeRoute("users"));
       }
     } else {
       toast.error("تکرار رمز عبور صحیح نیست.");
       return;
     }
   };
+
+  console.log(formValues);
 
   return (
     <div className="flex-col flex-center-center flex-1 max-w-full max-h-full h-full overflow-y-scroll ">
@@ -55,6 +76,16 @@ export const CreateUser = ({ data, events }) => {
         className="flex-1  flex-center-center flex-col my-10 gap-8 max-w-[500px] w-full px-6"
         onSubmit={(e) => e.preventDefault()}
       >
+        {/* <Input
+          type="uploadFile"
+          classNames="w-28 h-28 rounded-full mb-6 bg-opacity-20"
+          data={{
+            fileId: uploadFileID || formValues?.picFileId,
+          }}
+          events={{
+            onChange: (file) => setFile(file),
+          }}
+        /> */}
         <Input
           type="text"
           name="username"

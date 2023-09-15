@@ -21,8 +21,8 @@ export const Information = ({ data, events }) => {
   const [formSections, setFormSections] = useState({
     backgroundImage: true,
     information: true,
+    ui: true,
   });
-  const [formLoading, setFormLoading] = useState(false);
   const [file, setFile] = useState(null);
 
   useEffect(() => {
@@ -45,8 +45,6 @@ export const Information = ({ data, events }) => {
     }
   }, [uploadFileID, formData]);
 
-  console.log(formData);
-
   return (
     <form
       className={`flex flex-col gap-8 lg:max-w-[500px] lg:min-w-[500px] lg:mx-auto py-7 ${
@@ -54,47 +52,6 @@ export const Information = ({ data, events }) => {
       }`}
       onSubmit={(e) => e.preventDefault()}
     >
-      <div
-        className="flex items-center gap-4 w-full cursor-pointer"
-        onClick={() =>
-          setFormSections({
-            ...formSections,
-            ["backgroundImage"]: !formSections?.backgroundImage,
-          })
-        }
-      >
-        <MdArrowDropDown
-          size="2rem"
-          color="rgb(250, 204, 21)"
-          className={`${formSections?.backgroundImage ? "rotate-180" : ""}`}
-        />
-        <strong className="text-base font-medium text-yellow-400">
-          {"عکس فروشگاه"}
-        </strong>
-        <span className="flex-1 h-0.5 bg-gray-700"></span>
-      </div>
-      <p
-        className={`text-sm font-medium ${
-          formData?.backgroundFileId ? "text-blue-400" : "text-gray-300"
-        }  mb-[-8px]`}
-      >
-        {formData?.backgroundFileId
-          ? "برای تغییر عکس ضربه بزنید."
-          : "لطفا یک عکس را برای ویترین فروشگاه انتخاب کنید."}
-      </p>
-      {formSections?.backgroundImage ? (
-        <Input
-          type="uploadFile"
-          data={{
-            fileId: uploadFileID || formData?.backgroundFileId,
-          }}
-          events={{
-            onChange: (file) => setFile(file),
-          }}
-          name="backgroundImage"
-          classNames="!w-[180px] !h-[320px] rounded-md bg-gray-400 cursor-pointer"
-        />
-      ) : null}
       <div
         className="flex items-center gap-4 w-full cursor-pointer"
         onClick={() =>
@@ -135,7 +92,7 @@ export const Information = ({ data, events }) => {
             labelClassNames="text-gray-200 mb-1 text-sm"
           />
           <Input
-            type="text"
+            type="textarea"
             name="description"
             value={formData?.about?.description}
             events={{
@@ -145,11 +102,12 @@ export const Information = ({ data, events }) => {
                   ["about"]: { ...formData?.about, [name]: value },
                 }),
             }}
-            classNames="text-white !w-full !bg-transparent !px-4 !text-sm placeholder:text-sm placeholder:text-gray-400"
+            rows={5}
+            classNames="py-5 border-b border-solid border-gray-500 text-white !w-full !bg-transparent !px-3 !text-sm placeholder:text-sm placeholder:text-gray-400"
             placeholder={"یک توضیح مختصر راجع به فروشگاه ..."}
             label="توضیحات فروشگاه"
-            containerClassNames="!bg-transparent !w-full md:my-0 border-b border-solid border-gray-500 overflow-hidden rounded-none pb-3 md:pb-1"
-            labelClassNames="text-gray-200 mb-1 text-sm"
+            containerClassNames="!bg-transparent !w-full md:my-0 overflow-hidden rounded-none"
+            labelClassNames="text-gray-200 text-sm"
           />
           <Input
             type="text"
@@ -188,6 +146,24 @@ export const Information = ({ data, events }) => {
             labelClassNames="text-gray-200 mb-1 text-sm"
           />
           <Input
+            type="textarea"
+            name="address"
+            value={formData?.about?.address}
+            events={{
+              onChange: (name, value) =>
+                updateFormData({
+                  ...formData,
+                  ["about"]: { ...formData?.about, [name]: value },
+                }),
+            }}
+            rows={4}
+            classNames="py-5 border-b border-solid border-gray-500 text-white !w-full !bg-transparent !px-3 !text-sm placeholder:text-sm placeholder:text-gray-400"
+            placeholder={"آدرس محل کسب و کار خود را وارد کنید ..."}
+            label="آدرس محل کسب و کار"
+            containerClassNames="!bg-transparent !w-full md:my-0 overflow-hidden rounded-none"
+            labelClassNames="text-gray-200 text-sm"
+          />
+          <Input
             type="text"
             name="instagram"
             value={formData?.about?.instagram}
@@ -202,6 +178,127 @@ export const Information = ({ data, events }) => {
             classNames="text-white !w-full !bg-transparent !px-4 !text-sm placeholder:text-sm placeholder:text-gray-400"
             placeholder={"آیدی اینستاگرام خود را وارد کنید ..."}
             label="آیدی اینستاگرام"
+            containerClassNames="!bg-transparent !w-full md:my-0 border-b border-solid border-gray-500 overflow-hidden rounded-none pb-3 md:pb-1"
+            labelClassNames="text-gray-200 mb-1 text-sm"
+          />
+          <Input
+            type="text"
+            name="telegram"
+            value={formData?.about?.telegram}
+            events={{
+              onChange: (name, value) =>
+                updateFormData({
+                  ...formData,
+                  ["about"]: { ...formData?.about, [name]: value },
+                }),
+            }}
+            inputMode="numeric"
+            classNames="text-white !w-full !bg-transparent !px-4 !text-sm placeholder:text-sm placeholder:text-gray-400"
+            placeholder={"آیدی تلگرام خود را وارد کنید ..."}
+            label="آیدی تلگرام"
+            containerClassNames="!bg-transparent !w-full md:my-0 border-b border-solid border-gray-500 overflow-hidden rounded-none pb-3 md:pb-1"
+            labelClassNames="text-gray-200 mb-1 text-sm"
+          />
+        </>
+      ) : null}
+      <div
+        className="flex items-center gap-4 w-full cursor-pointer"
+        onClick={() =>
+          setFormSections({
+            ...formSections,
+            ["backgroundImage"]: !formSections?.backgroundImage,
+          })
+        }
+      >
+        <MdArrowDropDown
+          size="2rem"
+          color="rgb(250, 204, 21)"
+          className={`${formSections?.backgroundImage ? "rotate-180" : ""}`}
+        />
+        <strong className="text-base font-medium text-yellow-400">
+          {"عکس فروشگاه"}
+        </strong>
+        <span className="flex-1 h-0.5 bg-gray-700"></span>
+      </div>
+      {formSections?.backgroundImage ? (
+        <div className="flex flex-col gap-5">
+          <p
+            className={`text-sm font-medium ${
+              formData?.backgroundFileId ? "text-blue-400" : "text-gray-300"
+            } `}
+          >
+            {formData?.backgroundFileId
+              ? "برای تغییر عکس ضربه بزنید."
+              : "لطفا یک عکس را برای ویترین فروشگاه انتخاب کنید."}
+          </p>
+          {console.log(formData) }
+          <Input
+            type="uploadFile"
+            data={{
+              fileId: uploadFileID || formData?.backgroundFileId,
+            }}
+            events={{
+              onChange: (file) => setFile(file),
+            }}
+            name="backgroundImage"
+            classNames="!w-[180px] !h-[320px] rounded-md bg-gray-400 cursor-pointer"
+          />
+        </div>
+      ) : null}
+      <div
+        className="flex items-center gap-4 w-full cursor-pointer"
+        onClick={() =>
+          setFormSections({
+            ...formSections,
+            ["ui"]: !formSections?.ui,
+          })
+        }
+      >
+        <MdArrowDropDown
+          size="2rem"
+          color="rgb(250, 204, 21)"
+          className={`${formSections?.ui ? "rotate-180" : ""}`}
+        />
+        <strong className="text-base font-medium text-yellow-400">
+          {"ویرایش اطلاعات ظاهری برنامه"}
+        </strong>
+        <span className="flex-1 h-0.5 bg-gray-700"></span>
+      </div>
+      {formSections?.ui ? (
+        <>
+          <Input
+            type="text"
+            name="buttonOfVitrine"
+            value={formData?.ui?.buttonOfVitrine}
+            events={{
+              onChange: (name, value) =>
+                updateFormData({
+                  ...formData,
+                  ["ui"]: { ...formData?.ui, [name]: value },
+                }),
+            }}
+            inputMode="text"
+            classNames="text-white !w-full !bg-transparent !px-4 !text-sm placeholder:text-sm placeholder:text-gray-400"
+            placeholder={"کلمه یا متن خود را وارد کنید ..."}
+            label="دکمه ویترین"
+            containerClassNames="!bg-transparent !w-full md:my-0 border-b border-solid border-gray-500 overflow-hidden rounded-none pb-3 md:pb-1"
+            labelClassNames="text-gray-200 mb-1 text-sm"
+          />
+          <Input
+            type="text"
+            name="buttonOfAbout"
+            value={formData?.ui?.buttonOfAbout}
+            events={{
+              onChange: (name, value) =>
+                updateFormData({
+                  ...formData,
+                  ["ui"]: { ...formData?.ui, [name]: value },
+                }),
+            }}
+            inputMode="text"
+            classNames="text-white !w-full !bg-transparent !px-4 !text-sm placeholder:text-sm placeholder:text-gray-400"
+            placeholder={"کلمه یا متن خود را وارد کنید ..."}
+            label="دکمه درباره ما"
             containerClassNames="!bg-transparent !w-full md:my-0 border-b border-solid border-gray-500 overflow-hidden rounded-none pb-3 md:pb-1"
             labelClassNames="text-gray-200 mb-1 text-sm"
           />

@@ -5,11 +5,11 @@ import { adminsUsersTheads } from "../shared/data";
 import { TbTrash } from "react-icons/tb";
 
 export const Users = ({ events, data }) => {
-  const { users, loading } = data;
+  const { users, loading, superAdminID } = data;
   const { deleteUser, setDialog, changeRoute } = events;
 
   return (
-    <div className="flex flex-1 flex-col max-w-full max-h-full h-full overflow-hidden">
+    <div className="flex flex-1 border-green-600 flex-col max-w-full max-h-full h-full overflow-hidden">
       <Navbar
         classNames="text-white min-h-[54px] !bg-gray-900"
         leading={
@@ -17,8 +17,9 @@ export const Users = ({ events, data }) => {
             <Loading />
           ) : (
             <Button
-              icon={<MdPersonAdd color="white" size="1.5rem" />}
-              classNames="bg-green-600 gap-2 !font-medium rounded-md py-2 cursor-pointer text-white !w-fit px-3 text-sm"
+              icon={<MdPersonAdd color="rgb(22, 163, 74)" size="1.65rem" />}
+              title="افزودن کاربر"
+              classNames="!text-green-600 flex-row-reverse !gap-2 border border-solid border-green-600 gap-2 !font-medium rounded-md py-0 max-h-[38px] cursor-pointer text-white !w-fit px-3 text-sm"
               events={{
                 onSubmit: () => changeRoute("createUser"),
               }}

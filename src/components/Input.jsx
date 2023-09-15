@@ -151,10 +151,10 @@ function Input({ classNames, events, data, ...props }) {
       </div>
     ),
     multiSelect: (
-      <div className="w-full px-4">
+      <div className="w-full">
         <div className="flex flex-col items-center relative">
           <div className="w-full  svelte-1l8159u">
-            <div className="my-2 p-1 flex border border-gray-200 bg-white rounded svelte-1l8159u">
+            <div className="flex border rounded svelte-1l8159u">
               <div className="flex flex-auto flex-wrap">
                 <div className="flex gap-2">
                   {props?.selectedList?.map((tag, index) => (
@@ -171,26 +171,30 @@ function Input({ classNames, events, data, ...props }) {
                 </div>
                 <div className="flex-1">
                   <Input
+                    classNames="px-4 !my-0"
+                    containerClassNames="!p-0 !my-0 bg-transparent"
                     type="text"
                     name={props?.name}
-                    value={props?.inputText}
+                    value={multiSelectInputValue}
                     placeholder={props?.placeholder}
-                    onChange={(e) => setMultiSelectInputValue(e.target.value)}
+                    events={{
+                      onChange: (name, value) =>
+                        setMultiSelectInputValue(value),
+                    }}
                   />
                 </div>
               </div>
-              <div className="text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200 svelte-1l8159u">
-                <Button
-                  icon={
-                    <MdArrowDropDown
-                      size="0.5rem"
-                      color="black"
-                      className={`${dropdownFlag} ? "rotate-180" : ""`}
-                    />
-                  }
-                  events={{ onSubmit: () => setDropwdownFlag(!dropdownFlag) }}
-                />
-              </div>
+              <Button
+                icon={
+                  <MdArrowDropDown
+                    size="2rem"
+                    color="white"
+                    className={`${dropdownFlag} ? "rotate-180" : ""`}
+                  />
+                }
+                classNames="!border-r border-white border-solid"
+                events={{ onSubmit: () => setDropwdownFlag(!dropdownFlag) }}
+              />
             </div>
           </div>
           {dropdownFlag ? (

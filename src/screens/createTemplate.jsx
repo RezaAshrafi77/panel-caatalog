@@ -118,6 +118,7 @@ export const CreateTemplate = ({ data, events }) => {
               templateLoading,
               activeUserID,
               uploadLoading,
+              uploadFileID,
             }}
             events={{
               createTemplate,

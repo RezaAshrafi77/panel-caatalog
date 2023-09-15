@@ -7,7 +7,7 @@ const { baseUrl } = ApiConfig;
 
 const users = {
   create:
-    (data = {}) =>
+    (data = {}, calllback = () => {}) =>
     async (dispatch) => {
       dispatch({ type: "users/loading" });
       await axios
@@ -19,13 +19,14 @@ const users = {
             type: "users/admin/create",
             data: res?.data?.data,
           });
+          calllback()
         })
         .catch((error) => {
           dispatch({ type: "users/error", data: error });
         });
     },
   adminUpdate:
-    (data = {}) =>
+    (data = {}, callback = () => {}) =>
     async (dispatch) => {
       dispatch({ type: "users/loading" });
       await axios
@@ -37,24 +38,7 @@ const users = {
             type: "users/admin/update",
             data: res?.data?.data,
           });
-        })
-        .catch((error) => {
-          dispatch({ type: "users/error", data: error });
-        });
-    },
-  update:
-    (data = {}) =>
-    async (dispatch) => {
-      dispatch({ type: "users/loading" });
-      await axios
-        .patch(`${baseUrl}/users/update`, data, {
-          headers: getHeaders(),
-        })
-        .then((res) => {
-          dispatch({
-            type: "auth/login",
-            data: res?.data?.data,
-          });
+          callback();
         })
         .catch((error) => {
           dispatch({ type: "users/error", data: error });

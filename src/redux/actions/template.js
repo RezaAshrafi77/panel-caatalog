@@ -125,6 +125,27 @@ const template = {
           dispatch({ type: "template/error", data: error });
         });
     },
+  del:
+    (data = {}) =>
+    async (dispatch) => {
+      dispatch({ type: "template/loading" });
+      await axios
+        .delete(`${baseUrl}/templates/admin/remove`, data, {
+          headers: getHeaders(),
+        })
+        .then((res) => {
+          dispatch({
+            type: "template/admin/remove",
+            data: res?.data?.data,
+          });
+          dispatch({
+            type: "file/reset",
+          });
+        })
+        .catch((error) => {
+          dispatch({ type: "template/error", data: error });
+        });
+    },
 };
 
 export default template;
