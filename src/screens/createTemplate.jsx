@@ -15,6 +15,8 @@ export const CreateTemplate = ({ data, events }) => {
     activeUserID,
     isSuperAdmin,
     categories,
+    uploadFileID,
+    uploadLoading,
   } = data;
   const {
     createTemplate,
@@ -80,8 +82,10 @@ export const CreateTemplate = ({ data, events }) => {
                 updateFormData: (obj) => setTemplateFormData(obj),
               }}
               data={{
+                uploadFileID,
                 formData: templateFormData,
                 templateLoading,
+                uploadLoading,
                 isEditPage,
               }}
             />
@@ -101,7 +105,12 @@ export const CreateTemplate = ({ data, events }) => {
             ]}
           />
           <Information
-            data={{ formData: templateFormData, templateLoading, activeUserID }}
+            data={{
+              formData: templateFormData,
+              templateLoading,
+              activeUserID,
+              uploadLoading,
+            }}
             events={{
               createTemplate,
               updateFormData: (obj) => setTemplateFormData(obj),

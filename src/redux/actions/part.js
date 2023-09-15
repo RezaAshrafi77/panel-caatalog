@@ -16,9 +16,12 @@ const part = {
         })
         .then((res) => {
           dispatch({ type: "part/loading" });
-          toast.success("با موفقیت ویرایش شد.");
           dispatch({
-            type: "template/admin/{id}",
+            type: "template/admin/part/{id}",
+            data: res?.data?.data,
+          });
+          dispatch({
+            type: "file/reset",
             data: res?.data?.data,
           });
         })

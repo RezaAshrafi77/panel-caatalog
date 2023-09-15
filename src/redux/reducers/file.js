@@ -17,6 +17,8 @@ export default function file(state = initialState, action) {
         error: null,
         id: data?._id,
       };
+    case "file/reset":
+      return { ...state, id: null };
     case "file/loading":
       return { ...state, loading: true, progress: 0 };
     case "file/error":

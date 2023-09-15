@@ -24,8 +24,8 @@ export const templateFormDataBuilder = (template, type) => {
         twitter: template?.about?.twitter || "",
       },
       ui: {
-        buttonOfVitrine: template?.ui?.buttonOfVitrine || "",
-        buttonOfAbout: template?.ui?.buttonOfAbout || "",
+        buttonOfVitrine: template?.ui?.buttonOfVitrine || "ویترین",
+        buttonOfAbout: template?.ui?.buttonOfAbout || "درباره ما",
         textOfPartDesc: template?.ui?.textOfPartDesc || "",
       },
     };
@@ -49,8 +49,8 @@ export const templateFormDataBuilder = (template, type) => {
         twitter: template?.about?.twitter || "",
       },
       ui: {
-        buttonOfVitrine: template?.ui?.buttonOfVitrine || "",
-        buttonOfAbout: template?.ui?.buttonOfAbout || "",
+        buttonOfVitrine: template?.ui?.buttonOfVitrine || "ویترین",
+        buttonOfAbout: template?.ui?.buttonOfAbout || "درباره ما",
         textOfPartDesc: template?.ui?.textOfPartDesc || "",
       },
       ownerId: template?.ownerId || "",

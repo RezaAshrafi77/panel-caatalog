@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { MdArrowDropDown, MdDelete } from "react-icons/md";
-import Button from "./Button";
+import { MdArrowDropDown, MdCameraAlt, MdDelete } from "react-icons/md";
+import { Button, Image } from "./index";
+import { toast } from "react-toastify";
+import { baseUrl } from "../config";
 
 function Input({ classNames, events, data, ...props }) {
   const [dropdownFlag, setDropwdownFlag] = useState(false);
@@ -117,6 +119,36 @@ function Input({ classNames, events, data, ...props }) {
           events ? events["onClick"](e.target.name, e.target.value) : {}
         }
       />
+    ),
+    uploadFile: (
+      <div
+        className={`${classNames} flex-center-center bg-gray-300 rounded-full overflow-hidden w-16 h-16 relative`}
+      >
+        <input
+          type="file"
+          className="w-full h-full opacity-0 absolute left-0 top-0 cursor-pointer"
+          name={props?.name}
+          onChange={(e) => {
+            let file = e.target.files[0];
+            let validExtensions = props?.validFileTypes?.length
+              ? props?.validFileTypes
+              : ["image/jpeg", "image/jpg", "image/png"];
+            if (validExtensions.includes(file?.type)) {
+              events["onChange"](file);
+            } else {
+              toast.error("فرمت فایل انتخابی قابل پذیرش نیست.");
+            }
+          }}
+        />
+        {data?.fileId ? (
+          <Image
+            src={baseUrl + `/files/${data?.fileId}`}
+            classNames="w-full h-full"
+          />
+        ) : (
+          props?.icon || <MdCameraAlt size="30%" color="white" />
+        )}
+      </div>
     ),
     multiSelect: (
       <div className="w-full px-4">

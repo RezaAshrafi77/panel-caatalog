@@ -32,7 +32,7 @@ const template = {
       await axios
         .get(`${baseUrl}/templates/customer/list`, {
           headers: getHeaders(),
-          params: data
+          params: data,
         })
         .then((res) => {
           dispatch({
@@ -75,6 +75,9 @@ const template = {
             type: "template/customer/update",
             data: res?.data?.data,
           });
+          dispatch({
+            type: "file/reset",
+          });
         })
         .catch((error) => {
           dispatch({ type: "template/error", data: error });
@@ -93,6 +96,9 @@ const template = {
             type: "template/admin/update",
             data: res?.data?.data,
           });
+          dispatch({
+            type: "file/reset",
+          });
         })
         .catch((error) => {
           dispatch({ type: "template/error", data: error });
@@ -110,6 +116,9 @@ const template = {
           dispatch({
             type: "template/admin/create",
             data: res?.data?.data,
+          });
+          dispatch({
+            type: "file/reset",
           });
         })
         .catch((error) => {

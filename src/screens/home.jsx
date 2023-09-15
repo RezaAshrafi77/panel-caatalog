@@ -40,6 +40,7 @@ export const Home = ({
   // loading
   usersLoading,
   templateLoading,
+  uploadLoading,
 }) => {
   const [route, setRoute] = useState("report");
   const [activePart, setActivePart] = useState(null);
@@ -109,7 +110,16 @@ export const Home = ({
       }
     } else if (route === "editPart") {
     }
-  }, [route, users, admin, userInfo, activeUserID, template, activeTemplateID]);
+  }, [
+    route,
+    users,
+    uploadFileID,
+    admin,
+    userInfo,
+    activeUserID,
+    template,
+    activeTemplateID,
+  ]);
 
   // Pages
   const content = {
@@ -154,6 +164,7 @@ export const Home = ({
           isEditPage: true,
           template,
           templateLoading,
+          uploadLoading,
           isSuperAdmin,
           activeUserID,
           categories,
@@ -173,6 +184,7 @@ export const Home = ({
         data={{ templateLoading, activeUserID }}
         events={{
           createTemplate,
+          uploadLoading,
           setDialog,
           uploadFile,
           uploadFileID,
@@ -187,6 +199,21 @@ export const Home = ({
         type="edit"
         data={{
           uploadFileID,
+          uploadLoading,
+        }}
+        events={{
+          changeRoute: (route) => setRoute(route),
+          changeActivePart: (part) => setActivePart(part),
+        }}
+      />
+    ),
+    createPart: (
+      <Part
+        part={activePart}
+        type="edit"
+        data={{
+          uploadFileID,
+          uploadLoading,
         }}
         events={{
           changeRoute: (route) => setRoute(route),
@@ -257,6 +284,7 @@ const mapStateToProps = (state) => ({
   // loadings
   usersLoading: state.users.loading,
   templateLoading: state.template.loading,
+  uploadLoading: state.file.loading,
 });
 
 const mapDispatchToProps = {

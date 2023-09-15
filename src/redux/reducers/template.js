@@ -10,18 +10,24 @@ const initialState = {
 export default function template(state = initialState, action) {
   let { type, data } = action;
   switch (type) {
-    case "template/admin/list" ||
-      "template/admin/list" ||
-      "template/customer/list":
+    case "template/admin/list":
       return { ...state, templates: data, loading: false, error: null };
-    case "template/admin/create" ||
-      "template/admin/update" ||
-      "template/customer/update":
+    case "template/admin/list":
+      return { ...state, templates: data, loading: false, error: null };
+    case "template/customer/list":
+      return { ...state, templates: data, loading: false, error: null };
+    case "template/admin/create":
+      toast.success("عملیات با موفقیت انجام شد.");
+      return { ...state, template: data, loading: false, error: null };
+    case "template/admin/update":
+      toast.success("عملیات با موفقیت انجام شد.");
+      return { ...state, template: data, loading: false, error: null };
+    case "template/customer/update":
       toast.success("عملیات با موفقیت انجام شد.");
       return { ...state, template: data, loading: false, error: null };
     case "template/getTemplate":
       return { ...state, template: data, loading: false, error: null };
-    case "template/admin/{id}":
+    case "template/admin/part/{id}":
       return { ...state, template: data, loading: false, error: null };
     case "template/loading":
       return { ...state, loading: true };

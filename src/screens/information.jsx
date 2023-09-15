@@ -1,9 +1,16 @@
 import { useState, useEffect } from "react";
-import { Button, ImgFileInput, Input } from "../components";
+import { Button, Input } from "../components";
 import { MdArrowDropDown } from "react-icons/md";
 
 export const Information = ({ data, events }) => {
-  const { templateLoading, formData, isEditPage, activeUserID } = data;
+  const {
+    templateLoading,
+    uploadLoading,
+    formData,
+    isEditPage,
+    activeUserID,
+    uploadFileID,
+  } = data;
   const {
     setDialog,
     updateTemplate,
@@ -23,6 +30,20 @@ export const Information = ({ data, events }) => {
       uploadFile(file);
     }
   }, [file]);
+
+  useEffect(() => {
+    if (uploadFileID) {
+      if (isEditPage) {
+        updateTemplate({ ...formData, backgroundFileId: uploadFileID });
+      } else {
+        createTemplate({
+          ...formData,
+          ["ownerId"]: activeUserID,
+          backgroundFileId: uploadFileID,
+        });
+      }
+    }
+  }, [uploadFileID, formData]);
 
   return (
     <form
@@ -60,11 +81,16 @@ export const Information = ({ data, events }) => {
           : "لطفا یک عکس را برای ویترین فروشگاه انتخاب کنید."}
       </p>
       {formSections?.backgroundImage ? (
-        <ImgFileInput
-          fileId={formData?.backgroundFileId}
-          setFile={setFile}
+        <Input
+          type="uploadFile"
+          data={{
+            fileId: uploadFileID || formData?.backgroundFileId,
+          }}
+          events={{
+            onChange: (file) => setFile(file),
+          }}
           name="backgroundImage"
-          classNames="w-[180px] h-[320px] rounded-md bg-gray-400 cursor-pointer"
+          classNames="!w-[180px] !h-[320px] rounded-md bg-gray-400 cursor-pointer"
         />
       ) : null}
       <div
@@ -184,19 +210,15 @@ export const Information = ({ data, events }) => {
         classNames="!w-1/2 mt-4 text-white !bg-primary !rounded-full md:!max-h-[45px] text-sm"
         type="contained"
         primary="primary"
-        loading={templateLoading || formLoading}
+        loading={templateLoading || uploadLoading}
         title={isEditPage ? "اعمال مشخصات" : "ایجاد فروشگاه"}
         events={{
           onSubmit: (e) => {
-            setFormLoading(true);
             if (isEditPage) {
-              updateTemplate(formData);
+              updateTemplate({ ...formData });
             } else {
               createTemplate({ ...formData, ["ownerId"]: activeUserID });
             }
-            setTimeout(() => {
-              setFormLoading(false);
-            }, 1500);
           },
         }}
       />
