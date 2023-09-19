@@ -19,7 +19,7 @@ export const Users = ({ events, data }) => {
             <Button
               icon={<MdPersonAdd color="rgb(22, 163, 74)" size="1.65rem" />}
               title="افزودن کاربر"
-              classNames="!text-green-600 flex-row-reverse !gap-2 border border-solid border-green-600 gap-2 !font-medium rounded-md py-0 max-h-[38px] cursor-pointer text-white !w-fit px-3 text-sm"
+              classNames="!text-green-600 flex-row-reverse !gap-2 border border-solid border-green-600 gap-2 !font-medium rounded-md py-0 !max-h-[38px] cursor-pointer text-white !w-fit px-3 text-sm"
               events={{
                 onSubmit: () => changeRoute("createUser"),
               }}

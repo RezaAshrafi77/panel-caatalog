@@ -145,8 +145,13 @@ function Input({ classNames, events, data, ...props }) {
             src={baseUrl + `/files/${data?.fileId}`}
             classNames="w-full h-full"
           />
+        ) : props?.src ? (
+          <Image
+            src={URL.createObjectURL(props?.src)}
+            classNames="w-full h-full"
+          />
         ) : (
-          props?.icon || <MdCameraAlt size="30%" color="white" />
+          <MdCameraAlt size="30%" color="white" />
         )}
       </div>
     ),

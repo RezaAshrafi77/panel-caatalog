@@ -63,7 +63,7 @@ const template = {
         });
     },
   updateTemplate:
-    (data = {}) =>
+    (data = {}, callback) =>
     async (dispatch) => {
       dispatch({ type: "template/loading" });
       await axios
@@ -78,13 +78,14 @@ const template = {
           dispatch({
             type: "file/reset",
           });
+          callback();
         })
         .catch((error) => {
           dispatch({ type: "template/error", data: error });
         });
     },
   adminUpdateTemplate:
-    (data = {}) =>
+    (data = {}, callback) =>
     async (dispatch) => {
       dispatch({ type: "template/loading" });
       await axios
@@ -99,15 +100,15 @@ const template = {
           dispatch({
             type: "file/reset",
           });
+          callback();
         })
         .catch((error) => {
           dispatch({ type: "template/error", data: error });
         });
     },
   create:
-    (data = {}) =>
+    (data = {}, callback) =>
     async (dispatch) => {
-      dispatch({ type: "template/loading" });
       await axios
         .post(`${baseUrl}/templates/admin/create`, data, {
           headers: getHeaders(),
@@ -120,6 +121,7 @@ const template = {
           dispatch({
             type: "file/reset",
           });
+          callback();
         })
         .catch((error) => {
           dispatch({ type: "template/error", data: error });

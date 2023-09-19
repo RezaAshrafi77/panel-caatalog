@@ -31,21 +31,6 @@ export const Information = ({ data, events }) => {
       uploadFile(file);
     }
   }, [file]);
-
-  useEffect(() => {
-    if (uploadFileID) {
-      if (isEditPage) {
-        updateTemplate({ ...formData, backgroundFileId: uploadFileID });
-      } else {
-        createTemplate({
-          ...formData,
-          ["ownerId"]: activeUserID,
-          backgroundFileId: uploadFileID,
-        });
-      }
-    }
-  }, [uploadFileID, formData]);
-
   return (
     <form
       className={`flex flex-col gap-8 lg:max-w-[500px] lg:min-w-[500px] lg:mx-auto py-7 ${
@@ -232,12 +217,10 @@ export const Information = ({ data, events }) => {
               ? "برای تغییر عکس ضربه بزنید."
               : "لطفا یک عکس را برای ویترین فروشگاه انتخاب کنید."}
           </p>
-          {console.log(formData)}
           <Input
             type="uploadFile"
-            data={{
-              fileId: uploadFileID || formData?.backgroundFileId,
-            }}
+            fileId={uploadFileID || formData?.backgroundFileId}
+            src={file}
             events={{
               onChange: (file) => setFile(file),
             }}
@@ -317,8 +300,13 @@ export const Information = ({ data, events }) => {
             if (isEditPage) {
               updateTemplate({ ...formData });
             } else {
-              createTemplate({ ...formData, ["ownerId"]: activeUserID }, () =>
-                changeRoute("templates")
+              createTemplate(
+                {
+                  ...formData,
+                  ["ownerId"]: activeUserID,
+                  ["backgroundFileId"]: uploadFileID,
+                },
+                () => changeRoute("templates")
               );
             }
           },

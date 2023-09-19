@@ -10,7 +10,6 @@ export default function file(state = initialState, action) {
   let { type, data } = action;
   switch (type) {
     case "file/upload":
-      toast.success("فایل آیدی دریافت شد.");
       return {
         ...state,
         loading: false,
