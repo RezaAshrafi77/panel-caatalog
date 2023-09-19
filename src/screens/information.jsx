@@ -298,7 +298,14 @@ export const Information = ({ data, events }) => {
         events={{
           onSubmit: (e) => {
             if (isEditPage) {
-              updateTemplate({ ...formData });
+              updateTemplate(
+                {
+                  ...formData,
+                  ["backgroundFileId"]:
+                    uploadFileID || formData?.backgroundFileId,
+                },
+                () => changeRoute("templates")
+              );
             } else {
               createTemplate(
                 {
