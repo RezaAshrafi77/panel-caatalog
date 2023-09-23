@@ -13,7 +13,7 @@ export const Parts = ({ events, data }) => {
 
   return (
     <div className="flex flex-1 flex-col">
-      <ul className="flex flex-col pt-6">
+      <ul className="flex flex-col md:pt-6">
         {categories?.map((category, index) => (
           <li
             className="flex flex-col w-full mt-6 mb-2"

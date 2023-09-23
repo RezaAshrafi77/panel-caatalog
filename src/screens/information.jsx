@@ -38,6 +38,7 @@ export const Information = ({ data, events }) => {
       }`}
       onSubmit={(e) => e.preventDefault()}
     >
+      
       <div
         className="flex items-center gap-4 w-full cursor-pointer"
         onClick={() =>

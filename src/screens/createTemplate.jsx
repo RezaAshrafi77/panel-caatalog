@@ -40,7 +40,7 @@ export const CreateTemplate = ({ data, events }) => {
     <div className="flex flex-col flex-1 max-w-full max-h-full h-full overflow-y-scroll select-none">
       {isEditPage ? (
         <Navbar
-          classNames="text-white min-h-[54px] !bg-gray-900"
+          classNames="text-white !min-h-[70px] !bg-gray-900"
           leading={<strong>{template?.name}</strong>}
           actions={[
             activeTab === 0 ? (
