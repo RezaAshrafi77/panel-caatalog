@@ -36,6 +36,7 @@ export const Templates = ({ data, events }) => {
             className="text-white cursor-pointer"
           />,
         ]}
+        
       />
       {templates?.length === 0 && !loading ? (
         <div className="flex-center-center flex-1 text-yellow-400">
