@@ -7,7 +7,7 @@ const { baseUrl } = ApiConfig;
 
 const part = {
   adminPartUpdate:
-    (data = {}) =>
+    (data = {}, callback = () => {}) =>
     async (dispatch) => {
       dispatch({ type: "part/loading" });
       await axios
@@ -23,6 +23,7 @@ const part = {
             type: "file/reset",
             data: res?.data?.data,
           });
+          callback();
         })
         .catch((error) => {
           dispatch({ type: "part/loading" });
@@ -30,7 +31,7 @@ const part = {
         });
     },
   customerPartUpdate:
-    (data = {}) =>
+    (data = {}, callback = () => {}) =>
     async (dispatch) => {
       dispatch({ type: "part/loading" });
       await axios
@@ -46,6 +47,7 @@ const part = {
             type: "file/reset",
             data: res?.data?.data,
           });
+          callback();
         })
         .catch((error) => {
           dispatch({ type: "part/loading" });
@@ -53,7 +55,7 @@ const part = {
         });
     },
   adminPartCreate:
-    (data = {}) =>
+    (data = {}, callback = () => {}) =>
     async (dispatch) => {
       dispatch({ type: "part/loading" });
       await axios
@@ -69,6 +71,7 @@ const part = {
             type: "file/reset",
             data: res?.data?.data,
           });
+          callback();
         })
         .catch((error) => {
           dispatch({ type: "part/loading" });
@@ -76,7 +79,7 @@ const part = {
         });
     },
   customerPartCreate:
-    (data = {}) =>
+    (data = {}, callback = () => {}) =>
     async (dispatch) => {
       dispatch({ type: "part/loading" });
       await axios
@@ -92,6 +95,7 @@ const part = {
             type: "file/reset",
             data: res?.data?.data,
           });
+          callback();
         })
         .catch((error) => {
           dispatch({ type: "part/loading" });

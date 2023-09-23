@@ -30,7 +30,7 @@ export const Login = ({ admin, signup, login, loading, ...props }) => {
         classNames="fixed w-full h-full left-0 top-0 object-cover"
       />
       <div className="flex flex-col justify-between md:justify-evenly text-black lg:justify-between items-center px-[8vw] md:px-6 md:py-12 md:max-w-[50vh] bg-white w-full h-full md:max-h-[85vh] z-10 md:rounded-xl md:shadow-xl overflow-y-scroll md:overflow-hidden">
-        <div className="w-full flex flex-col items-center gap-[10vh] md:gap-10">
+        <div className="w-full flex flex-col my-auto items-center gap-[10vh] md:gap-10">
           <strong className="font-bold text-3xl md:mb-10">{"Login"}</strong>
           <form
             className="w-full flex flex-col md:max-w-[90%] gap-[4vh] md:gap-[4vh]"
@@ -44,7 +44,7 @@ export const Login = ({ admin, signup, login, loading, ...props }) => {
                 onChange: (name, value) =>
                   setFormValues({ ...formValues, username: value }),
               }}
-              classNames="!w-full ltr !px-4 !text-sm placeholder:text-sm placeholder:text-opacity-50"
+              classNames="!w-full ltr !px-4 !text-sm placeholder:text-sm placeholder:text-opacity-50 placeholder:text-black"
               placeholder="Type your username"
               label="Username"
               containerClassNames="!w-full md:my-0 border-b border-solid border-gray-400 overflow-hidden rounded-none pb-3 md:pb-1"
@@ -67,7 +67,7 @@ export const Login = ({ admin, signup, login, loading, ...props }) => {
               labelClassNames="ltr text-gray-500 text-sm"
             />
             <Button
-              classNames="w-full mt-4 text-white bg-gradient-to-l from-[#DD36E8] to-[#71D5D9] !rounded-full md:!max-h-[45px] text-sm"
+              classNames="w-full mt-4 text-white !bg-primary !rounded-full md:!max-h-[45px] text-sm"
               type="contained"
               primary="primary"
               loading={loading || formLoading}

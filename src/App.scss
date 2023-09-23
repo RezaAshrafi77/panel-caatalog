@@ -24,9 +24,14 @@ body,
 #root {
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
+  background-color: rgb(31, 41, 55);
 }
 
-p,h1,strong,span,label{
+p,
+h1,
+strong,
+span,
+label {
   user-select: none;
 }
 

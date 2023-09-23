@@ -57,8 +57,6 @@ export const CreateUser = ({ data, events }) => {
     }
   };
 
-  console.log(formValues);
-
   return (
     <div className="flex-col flex-center-center flex-1 max-w-full max-h-full h-full overflow-y-scroll ">
       <Navbar

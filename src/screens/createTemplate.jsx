@@ -45,14 +45,16 @@ export const CreateTemplate = ({ data, events }) => {
           actions={[
             activeTab === 0 ? (
               <Button
-                icon={<MdAdd size="2.5rem" className="text-green-600" />}
+                icon={<MdAdd size="1.75rem" className="text-green-600" />}
                 events={{
                   onSubmit: () => changeRoute("createPart"),
                 }}
+                title="افزودن محصول"
+                classNames="!text-green-600 flex-row-reverse !gap-2 border border-solid border-green-600 gap-2 !font-medium rounded-md py-0 !max-h-[35px] cursor-pointer text-white !w-fit px-3 text-sm"
               />
             ) : null,
             <Button
-              icon={<MdChevronLeft size={"2.5rem"} />}
+              icon={<MdChevronLeft size={"2.75rem"} />}
               events={{ onSubmit: () => changeRoute("templates") }}
               className="text-white cursor-pointer"
             />,

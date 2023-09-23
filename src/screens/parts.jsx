@@ -42,7 +42,7 @@ export const Parts = ({ events, data }) => {
               <span className="flex-1 h-[1px] bg-gray-700"></span>
             </div>
             {catsDropdowns[index] ? (
-              <div className="grid md:grid-cols-6 lg:grid-cols-6 md:gap-6 l2xl:grid-cols-7 pb-0 pt-6">
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-6 lg:grid-cols-6 md:gap-6 l2xl:grid-cols-7 pb-0 pt-6">
                 {template?.parts
                   ?.filter((part) =>
                     part?.categoryIds?.find(
@@ -51,7 +51,7 @@ export const Parts = ({ events, data }) => {
                   )
                   .map((part, index) => (
                     <Product
-                      classNames={`lg:max-h-[12vw] lg:min-h-[12vw] 2xl:max-h-[14vw] 2xl:min-h-[14vw] cursor-pointer`}
+                      classNames={`max-h-[30vw] min-h-[30vw] lg:max-h-[12vw] lg:min-h-[12vw] 2xl:max-h-[14vw] 2xl:min-h-[14vw] cursor-pointer`}
                       data={part}
                       key={"vitrin-items-" + index}
                       style={"square"}

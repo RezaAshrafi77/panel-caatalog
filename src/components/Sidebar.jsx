@@ -6,7 +6,7 @@ import { MdPerson } from "react-icons/md";
 export default function Sidebar({ classNames, data, events, ...props }) {
   return (
     <div
-      className={`hidden shadow-product h-full w-1/4 max-w-[280px] bg-gray-900 text-gray-300 divide-y divide-gray-600 md:flex flex-col ${classNames} border-l border-l-gray-600`}
+      className={`hidden md:flex flex-col shadow-product h-full w-1/4 max-w-[280px] bg-gray-900 text-gray-300 divide-y divide-gray-600 ${classNames} border-l border-l-gray-600`}
     >
       {data?.admin ? (
         <div

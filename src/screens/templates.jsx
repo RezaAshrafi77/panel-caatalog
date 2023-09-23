@@ -41,10 +41,10 @@ export const Templates = ({ data, events }) => {
           <span>هیچ کسب و کاری یافت نشد.</span>
         </div>
       ) : (
-        <div className="flex flex-col flex-1 px-4 py-6">
+        <div className="flex flex-col flex-1 px-4 py-6 overflow-x-scroll md:overflow-hidden">
           <Table
             cols={5}
-            classNames="my-5"
+            classNames="my-5 w-[900px] md:w-full"
             data={{
               theads: adminsTemplatesTheads,
             }}
@@ -53,54 +53,59 @@ export const Templates = ({ data, events }) => {
                 className={`grid-cols-5 grid text-white`}
                 key={"table-row-" + index}
               >
-                {["watch", ...Object?.keys(row)]?.map((key, index) => (
-                  <div
-                    className={`text-center my-1 py-4 md:text-sm`}
-                    key={index}
-                  >
-                    {key === "createdAt" || key === "expiredAt"
-                      ? row[key]?.split("T")[0]
-                      : row[key]}
-                    {key === "watch" ? (
-                      <div className="flex items-center justify-around text- gap-1">
-                        <Button
-                          className="cursor-pointer"
-                          icon={
-                            <MdZoomIn
-                              className="text-green-500"
-                              size="1.5rem"
-                            />
-                          }
-                          events={{
-                            onSubmit: () =>
-                              changeRoute("editTemplate", row["_id"]),
-                          }}
-                        />
-                        <Button
-                          icon={
-                            <TbTrash size={"1.5rem"} className="text-red-600" />
-                          }
-                          events={{
-                            onSubmit: () =>
-                              setDialog({
-                                title: "کسب و کار حذف شود؟",
-                                confirmTitle: "بله",
-                                cancelTitle: "فعلا نه",
-                                confirm: () => {
-                                  deleteTemplate({ id: row["_id"] }, () =>
-                                    getAdminTemplates()
-                                  );
-                                },
-                              }),
-                          }}
-                          className="cursor-pointer !w-fit"
-                        />
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                ))}
+                {["watch", ...Object?.keys(row)]?.map((key, index) =>
+                  key !== "deletedAt" ? (
+                    <div
+                      className={`text-center my-1 py-4 md:text-sm`}
+                      key={index}
+                    >
+                      {key === "createdAt" || key === "expiredAt"
+                        ? row[key]?.split("T")[0]
+                        : row[key]}
+                      {key === "watch" ? (
+                        <div className="flex items-center justify-around !w-fit gap-10 md:gap-16 md:gap-auto">
+                          <Button
+                            className="cursor-pointer"
+                            icon={
+                              <MdZoomIn
+                                className="text-green-500"
+                                size="1.5rem"
+                              />
+                            }
+                            events={{
+                              onSubmit: () =>
+                                changeRoute("editTemplate", row["_id"]),
+                            }}
+                          />
+                          <Button
+                            icon={
+                              <TbTrash
+                                size={"1.5rem"}
+                                className="text-red-600"
+                              />
+                            }
+                            events={{
+                              onSubmit: () =>
+                                setDialog({
+                                  title: "کسب و کار حذف شود؟",
+                                  confirmTitle: "بله",
+                                  cancelTitle: "فعلا نه",
+                                  confirm: () => {
+                                    deleteTemplate({ id: row["_id"] }, () =>
+                                      getAdminTemplates()
+                                    );
+                                  },
+                                }),
+                            }}
+                            className="cursor-pointer !w-fit"
+                          />
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  ) : null
+                )}
               </div>
             ))}
           />

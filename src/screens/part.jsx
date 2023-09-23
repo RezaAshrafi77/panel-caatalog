@@ -25,8 +25,19 @@ export const Part = ({ template, events, data }) => {
     adminPartUpdate,
     customerPartUpdate,
     setDialog,
+    uploadFile,
   } = events;
   const [selectedCats, setSelectedCats] = useState([]);
+  const [file, setFile] = useState(null);
+  const [fileIds, setFileIds] = useState(
+    part?.fileIds?.length ? [...part?.fileIds?.map((file) => file?._id)] : []
+  );
+  const [categoryIds, setCategoryIds] = useState(
+    part?.categories?.length
+      ? [...part?.categoryIds?.map((cat) => cat?._id)]
+      : []
+  );
+  const [catsTextInputValue, setCatsTextInputValue] = useState("");
 
   const submitForm = () => {
     if (isSuperAdmin) {
@@ -36,91 +47,99 @@ export const Part = ({ template, events, data }) => {
           partId: part?._id,
           title: part?.title,
           text: part["text"],
-          fileIds: uploadFileID
-            ? [...part?.fileIds?.map((file) => file?._id), uploadFileID]
-            : part?.fileIds?.map((file) => file?._id),
-          categoryIds: part?.categoryIds?.map((cat) => cat?._id),
+          fileIds,
+          categoryIds,
           position: part?.position,
           ord: part?.ord,
           pid: part?.pid,
           link: part?.link,
-        });
+        }, changeRoute("editTemplate"));
       } else {
-        adminPartCreate({
-          templateId: template?._id,
-          partId: part?._id,
-          title: part?.title,
-          text: part?.text,
-          fileIds: uploadFileID
-            ? [...part?.fileIds?.map((file) => file?._id), uploadFileID]
-            : part?.fileIds?.map((file) => file?._id),
-          categoryIds: part?.categoryIds?.map((cat) => cat?._id),
-          position: part?.position,
-          ord: part?.ord,
-          pid: part?.pid,
-          link: part?.link,
-        });
+        adminPartCreate(
+          {
+            templateId: template?._id,
+            partId: part?._id,
+            title: part?.title,
+            text: part?.text,
+            fileIds,
+            categoryIds,
+            position: part?.position,
+            ord: part?.ord,
+            pid: part?.pid,
+            link: part?.link,
+          },
+          changeRoute("editTemplate")
+        );
       }
     } else {
       if (isEditPage) {
-        customerPartUpdate({
-          templateId: template?._id,
-          partId: part?._id,
-          title: part?.title,
-          text: part["text"],
-          fileIds: uploadFileID
-            ? [...part?.fileIds?.map((file) => file?._id), uploadFileID]
-            : part?.fileIds?.map((file) => file?._id),
-          categoryIds: part?.categoryIds?.map((cat) => cat?._id),
-          position: part?.position,
-          ord: part?.ord,
-          pid: part?.pid,
-          link: part?.link,
-        });
+        customerPartUpdate(
+          {
+            templateId: template?._id,
+            partId: part?._id,
+            title: part?.title,
+            text: part["text"],
+            fileIds,
+            categoryIds,
+            position: part?.position,
+            ord: part?.ord,
+            pid: part?.pid,
+            link: part?.link,
+          },
+          changeRoute("editTemplate")
+        );
       } else {
         customerPartCreate({
           templateId: template?._id,
           partId: part?._id,
           title: part?.title,
           text: part["text"],
-          fileIds: part?.fileIds?.map((file) => file?._id),
-          categoryIds: part?.categoryIds?.map((cat) => cat?._id),
+          fileIds,
+          categoryIds,
           position: part?.position,
           ord: part?.ord,
           pid: part?.pid,
           link: part?.link,
-        });
+        }, changeRoute("editTemplate"));
       }
     }
   };
 
   useEffect(() => {
     if (uploadFileID) {
-      submitForm();
+      setFileIds([...fileIds, uploadFileID]);
     }
-  }, [uploadFileID, part]);
+  }, [uploadFileID]);
+
+  useEffect(() => {
+    if (file) {
+      uploadFile(file);
+    }
+  }, [file]);
 
   return (
     <div className="flex flex-col flex-1 max-w-full max-h-full h-full overflow-y-scroll ">
       <Navbar
         classNames="text-white min-h-[54px] !bg-gray-900"
-        leading={part ? <strong>{part?.title}</strong> : null}
+        leading={<strong>{part ? part?.title : null}</strong>}
         actions={[
-          <Button
-            icon={<TbTrash size={"1.75rem"} />}
-            events={{
-              onSubmit: () =>
-                setDialog({
-                  title: "محصول حذف شود؟",
-                  confirmTitle: "بله",
-                  cancelTitle: "فعلا نه",
-                  confirm: () => {
-                    submitForm();
-                  },
-                }),
-            }}
-            className="text-primary cursor-pointer"
-          />,
+          isEditPage ? (
+            <Button
+              icon={<TbTrash size={"1.75rem"} />}
+              events={{
+                onSubmit: () =>
+                  setDialog({
+                    title: "محصول حذف شود؟",
+                    confirmTitle: "بله",
+                    cancelTitle: "فعلا نه",
+                    confirm: () => {
+                      submitForm();
+                    },
+                  }),
+              }}
+              className="text-primary cursor-pointer"
+            />
+          ) : null,
           <Button
             icon={<MdChevronLeft size={"2.5rem"} />}
             events={{ onSubmit: () => changeRoute("editTemplate") }}
@@ -140,14 +159,17 @@ export const Part = ({ template, events, data }) => {
             key={"upload-file"}
             type="uploadFile"
             name="fileId"
-            classNames="bg-opacity-20 md:min-w-[16vw] md:h-[12vw] md:!max-h-[200px] rounded-md"
+            classNames="bg-opacity-20 min-w-[30vw] h-[30vw] md:min-w-[16vw] md:h-[12vw] md:!max-h-[200px] rounded-md"
+            events={{
+              onChange: (file) => setFile(file),
+            }}
           />
-          {part?.fileIds?.map((file, index) => (
+          {fileIds?.map((file, index) => (
             <div className="relative group" key={"files-" + index}>
               <Image
                 key={"product-images-" + index}
-                src={baseUrl + "/files/" + file?._id}
-                classNames="object-contained md:min-w-[16vw] md:h-[12vw] md:!max-h-[200px] bg-black rounded-md"
+                src={baseUrl + "/files/" + file}
+                classNames="object-contained min-w-[30vw] h-[30vw] md:min-w-[16vw] md:h-[12vw] md:!max-h-[200px] bg-black rounded-md"
                 events={{ onClick: () => {} }}
               />
               <Button
@@ -159,13 +181,7 @@ export const Part = ({ template, events, data }) => {
                       confirmTitle: "بله",
                       cancelTitle: "فعلا نه",
                       confirm: () => {
-                        changeActivePart({
-                          ...part,
-                          fileIds: part?.fileIds?.filter(
-                            (filee) => filee?._id !== file?._id
-                          ),
-                        });
-                        submitForm();
+                        setFileIds(fileIds?.filter((filee) => filee !== file));
                       },
                     }),
                 }}
@@ -186,8 +202,8 @@ export const Part = ({ template, events, data }) => {
               onChange: (name, value) =>
                 changeActivePart({ ...part, ["title"]: value }),
             }}
-            classNames="text-white !w-full !bg-transparent !px-4 !text-sm placeholder:text-sm placeholder:text-gray-400"
-            placeholder="dfd"
+            classNames="text-white !w-full !bg-transparent !px-4 !text-sm"
+            placeholder="عنوان محصول را وارد کنید ..."
             label="عنوان"
             containerClassNames="!bg-transparent !w-full md:my-0 border-b border-solid border-gray-500 overflow-hidden rounded-none pb-3 md:pb-1"
             labelClassNames="text-gray-200 mb-1 text-xs"
@@ -211,13 +227,61 @@ export const Part = ({ template, events, data }) => {
             name="categories"
             options={categories}
             selectedList={selectedCats}
+            textInputValue={catsTextInputValue}
+            placeholder="دسته بندی محصول ..."
             events={{
               pop: (obj) =>
                 setSelectedCats(
                   selectedCats?.filter((cat) => cat?.name !== obj?.name)
                 ),
               push: (obj) => setSelectedCats([...selectedCats, obj]),
+              setTextInputValue: (val) => setCatsTextInputValue(val),
             }}
+            optionsRender={
+              <div className="flex flex-col w-full">
+                {categories
+                  ?.filter((option) =>
+                    option?.name?.includes(catsTextInputValue)
+                  )
+                  ?.map((option, index) => (
+                    <div
+                      key={"option-" + index}
+                      className={`${
+                        selectedCats?.find(
+                          (item) => item?.name === option?.name
+                        )
+                          ? "border-r-4 border-r-green-600"
+                          : ""
+                      } py-1.5 cursor-pointer w-full border-gray-600 border-b select-none`}
+                      onClick={() => {
+                        if (
+                          selectedCats?.find(
+                            (item) => item?.name === option?.name
+                          )
+                        ) {
+                          setSelectedCats(
+                            selectedCats?.filter(
+                              (cat) => cat?.name !== option?.name
+                            )
+                          );
+                          setCategoryIds(
+                            categoryIds?.filter((id) => id !== option?._id)
+                          );
+                        } else {
+                          setSelectedCats([...selectedCats, option]);
+                          setCategoryIds([...categoryIds, option?._id]);
+                        }
+                      }}
+                    >
+                      <div className="w-full items-center flex">
+                        <div className="mx-2 leading-6 text-sm">
+                          {option?.name}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            }
           />
           <Button
             classNames="!w-1/2 mt-4 text-white !bg-primary !rounded-full md:!max-h-[45px] text-sm"

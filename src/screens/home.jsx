@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import {
@@ -18,7 +18,8 @@ import {
   users,
   part,
 } from "../redux/actions";
-import { Button } from "../components";
+import { Button, Drawer } from "../components";
+import { MdMenu, MdPerson } from "react-icons/md";
 
 export const Home = ({
   admin,
@@ -53,7 +54,7 @@ export const Home = ({
   templateLoading,
   uploadLoading,
 }) => {
-  const [route, setRoute] = useState("report");
+  const [route, setRoute] = useState("users");
   const [activePart, setActivePart] = useState(null);
   const [activeTemplateID, setActiveTemplateID] = useState(null);
   const [activeUserID, setActiveUserID] = useState(null);
@@ -83,7 +84,7 @@ export const Home = ({
   const sidebarCallToActions = [
     <Button
       title="خروج"
-      classNames="text-red-600 !w-fit px-4"
+      classNames="text-red-600 !text-lg md:text-sm !w-fit px-4"
       events={{
         onSubmit: () => {
           localStorage.clear();
@@ -134,7 +135,19 @@ export const Home = ({
 
   // Pages
   const content = {
-    report: <Report />,
+    report: (
+      <Report
+        data={{
+          sidebarCallToActions,
+          sidebarRoutes,
+          activeRoute: route,
+          admin,
+        }}
+        events={{
+          changeRoute: (route) => setRoute(route),
+        }}
+      />
+    ),
     users: isSuperAdmin ? (
       <Users
         data={{
@@ -164,7 +177,8 @@ export const Home = ({
             setActiveTemplateID(ID);
             setRoute(route);
           },
-          getAdminTemplates: () => getAdminsTemplates({ ownerId: activeUserID }),
+          getAdminTemplates: () =>
+            getAdminsTemplates({ ownerId: activeUserID }),
           deleteTemplate,
           setDialog,
         }}
@@ -244,7 +258,6 @@ export const Home = ({
           templateLoading,
           categories,
           part: activePart,
-          isEditPage: true,
         }}
         events={{
           changeRoute: (route) => setRoute(route),
@@ -254,6 +267,7 @@ export const Home = ({
           customerPartUpdate,
           adminPartCreate,
           customerPartCreate,
+          uploadFile,
         }}
       />
     ),
@@ -293,10 +307,6 @@ export const Home = ({
 
   return (
     <div className="flex flex-1 flex-col md:flex-row max-w-full max-h-full h-full overflow-hidden bg-gray-800 text-background">
-      <Navbar
-        classNames="md:hidden !fixed !pt-8 !text-white backdrop-blur-sm"
-        logo={<Image src="/icons/logo.svg" classNames="w-10 rounded-md" />}
-      />
       <Sidebar
         activeRoute={route}
         events={{
@@ -346,7 +356,7 @@ const mapDispatchToProps = {
   customerPartUpdate: part.customerPartUpdate,
   adminPartCreate: part.adminPartCreate,
   customerPartCreate: part.customerPartCreate,
-  deleteTemplate: template.del
+  deleteTemplate: template.del,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

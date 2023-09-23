@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { MdArrowDropDown, MdCameraAlt, MdDelete } from "react-icons/md";
+import { MdArrowDropDown, MdCameraAlt, MdRemove } from "react-icons/md";
 import { Button, Image } from "./index";
 import { toast } from "react-toastify";
 import { baseUrl } from "../config";
 
 function Input({ classNames, events, data, ...props }) {
   const [dropdownFlag, setDropwdownFlag] = useState(false);
-  const [multiSelectInputValue, setMultiSelectInputValue] = useState("");
 
   const inputs = {
     checkbox: <input type="checkbox" name={props?.name} value={props?.value} />, // label
@@ -68,7 +67,7 @@ function Input({ classNames, events, data, ...props }) {
             type="text"
             name={props?.name || ""}
             value={props?.value || ""}
-            className={`${classNames} w-full h-full font-medium flex-1 text-base placeholder:text-base placeholder:font-normal placeholder:text-black font-sm outline-none bg-[transparent] lg:py-3 lg:text-xl `}
+            className={`${classNames} w-full h-full font-medium flex-1 text-base placeholder:text-sm placeholder:font-normal placeholder:text-white outline-none bg-[transparent] lg:py-3 lg:text-xl `}
             placeholder={props?.placeholder}
             autoComplete="off"
             onChange={(e) =>
@@ -158,33 +157,35 @@ function Input({ classNames, events, data, ...props }) {
     multiSelect: (
       <div className="w-full">
         <div className="flex flex-col items-center relative">
-          <div className="w-full  svelte-1l8159u">
-            <div className="flex border rounded svelte-1l8159u">
-              <div className="flex flex-auto flex-wrap">
-                <div className="flex gap-2">
+          <div className="w-full">
+            <div className="flex border rounded">
+              <div className="flex flex-auto flex-wrap items-center px-3 py-2">
+                <div className="flex gap-2 flex-wrap">
                   {props?.selectedList?.map((tag, index) => (
                     <Button
                       key={"selected-cat-" + index}
                       title={tag?.name}
-                      classNames="!w-fit rounded-full"
-                      icon={<MdDelete size="0.5rem" color="black" />}
+                      classNames="!w-fit !min-w-fit rounded-full !ml-2 !gap-2 bg-green-600 bg-opacity-50 !max-h-[25px] px-1 text-xs"
+                      icon={<MdRemove size="1rem" color="white" />}
                       events={{
                         onSubmit: () => events["pop"](tag),
                       }}
                     />
                   ))}
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 min-w-[50%]">
                   <Input
-                    classNames="px-4 !my-0"
+                    classNames="!my-0 !text-sm"
                     containerClassNames="!p-0 !my-0 bg-transparent"
                     type="text"
                     name={props?.name}
-                    value={multiSelectInputValue}
+                    value={props?.textInputValue}
                     placeholder={props?.placeholder}
                     events={{
-                      onChange: (name, value) =>
-                        setMultiSelectInputValue(value),
+                      onChange: (name, value) => {
+                        events["setTextInputValue"](value);
+                      },
+                      onFocus: (e) => setDropwdownFlag(true),
                     }}
                   />
                 </div>
@@ -197,32 +198,16 @@ function Input({ classNames, events, data, ...props }) {
                     className={`${dropdownFlag} ? "rotate-180" : ""`}
                   />
                 }
-                classNames="!border-r border-white border-solid"
+                classNames="bg-white bg-opacity-5"
                 events={{ onSubmit: () => setDropwdownFlag(!dropdownFlag) }}
               />
             </div>
           </div>
           {dropdownFlag ? (
             <div
-              className={`${props?.optionContainerClassNames} absolute shadow top-100 bg-gray-900 z-40 w-full lef-0 rounded max-h-select overflow-y-auto svelte-5uyqqj`}
+              className={`${props?.optionContainerClassNames} absolute shadow top-full bg-gray-900 z-40 w-full lef-0 rounded max-h-select overflow-y-auto svelte-5uyqqj`}
             >
-              <div className="flex flex-col w-full">
-                {props?.options
-                  ?.filter((option) =>
-                    option?.name?.includes(multiSelectInputValue)
-                  )
-                  ?.map((option, index) => (
-                    <div
-                      key={"option-" + index}
-                      className={`${props?.option?.classNames} cursor-pointer w-full border-gray-600 border-b`}
-                      onClick={() => events["onSelect"](option)}
-                    >
-                      <div className="w-full items-center flex">
-                        <div className="mx-2 leading-6 ">{option?.name}</div>
-                      </div>
-                    </div>
-                  ))}
-              </div>
+              {props?.optionsRender}
             </div>
           ) : null}
         </div>
