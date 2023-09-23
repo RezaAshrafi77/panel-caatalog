@@ -19,7 +19,7 @@ const users = {
             type: "users/admin/create",
             data: res?.data?.data,
           });
-          calllback()
+          calllback();
         })
         .catch((error) => {
           dispatch({ type: "users/error", data: error });
@@ -95,6 +95,24 @@ const users = {
             type: "users/admin/info",
             data: res?.data?.data,
           });
+        })
+        .catch((error) => {
+          dispatch({ type: "users/error", data: error });
+        });
+    },
+  addRole:
+    (data = {}, callback = () => {}) =>
+    async (dispatch) => {
+      dispatch({ type: "users/loading" });
+      await axios
+        .patch(`${baseUrl}/users/admin/role/add`, data, {
+          headers: getHeaders(),
+        })
+        .then((res) => {
+          dispatch({
+            type: "/users/admin/role/add",
+          });
+          callback();
         })
         .catch((error) => {
           dispatch({ type: "users/error", data: error });

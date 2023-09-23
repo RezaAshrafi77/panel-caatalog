@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 export const CreateUser = ({ data, events }) => {
   const { isEditPage, userInfo, loading, uploadFileID } = data;
   const { updateUser, createUser, changeRoute, uploadFile } = events;
-  const [formLoading, setFormLoading] = useState(false);
 
   const [formValues, setFormValues] = useState(userInfo);
   const [pass2, setPass2] = useState("");
@@ -74,16 +73,6 @@ export const CreateUser = ({ data, events }) => {
         className="flex-1  flex-center-center flex-col my-10 gap-8 max-w-[500px] w-full px-6"
         onSubmit={(e) => e.preventDefault()}
       >
-        {/* <Input
-          type="uploadFile"
-          classNames="w-28 h-28 rounded-full mb-6 bg-opacity-20"
-          data={{
-            fileId: uploadFileID || formValues?.picFileId,
-          }}
-          events={{
-            onChange: (file) => setFile(file),
-          }}
-        /> */}
         <Input
           type="text"
           name="username"
@@ -129,15 +118,11 @@ export const CreateUser = ({ data, events }) => {
           classNames="!w-1/2 mt-4 text-white !bg-primary !rounded-full md:!max-h-[45px] text-sm"
           type="contained"
           primary="primary"
-          loading={formLoading || loading}
+          loading={loading}
           title={isEditPage ? "ویرایش کاربر" : "ایجاد کاربر"}
           events={{
             onSubmit: (e) => {
-              setFormLoading(true);
               formHandler();
-              setTimeout(() => {
-                setFormLoading(false);
-              }, 1500);
             },
           }}
         />
