@@ -54,7 +54,7 @@ export const Home = ({
   templateLoading,
   uploadLoading,
 }) => {
-  const [route, setRoute] = useState("users");
+  const [route, setRoute] = useState("report");
   const [activePart, setActivePart] = useState(null);
   const [activeTemplateID, setActiveTemplateID] = useState(null);
   const [activeUserID, setActiveUserID] = useState(null);
@@ -109,7 +109,7 @@ export const Home = ({
           getAdminsTemplates({ ownerId: admin?._id });
         }
       } else {
-        getCustomersTemplates();
+        getCustomersTemplates({ownerId: admin?._id});
       }
     } else if (route === "editUser") {
       if (activeUserID !== userInfo?._id) {
@@ -338,25 +338,28 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
+  // admin
   getUsers: users.list,
   getUserInfo: users.adminInfo,
   deleteUser: users.del,
   createUser: users.create,
   updateUserAdmin: users.adminUpdate,
-  setDialog: dialog.set,
   getAdminsTemplates: template.getAdminsTemplates,
-  getCustomersTemplates: template.getCustomersTemplates,
   getAdminTemplates: template.getAdminTemplates,
   createTemplate: template.create,
   adminUpdateTemplate: template.adminUpdateTemplate,
-  updateTemplate: template.updateTemplate,
-  uploadFile: file.upload,
+  adminPartCreate: part.adminPartCreate,
+  deleteTemplate: template.del,
   getAdminCategories: category.getAdminCategories,
   adminPartUpdate: part.adminPartUpdate,
+  // customer
+  updateTemplate: template.updateTemplate,
   customerPartUpdate: part.customerPartUpdate,
-  adminPartCreate: part.adminPartCreate,
+  getCustomersTemplates: template.getCustomersTemplates,
   customerPartCreate: part.customerPartCreate,
-  deleteTemplate: template.del,
+  // global
+  uploadFile: file.upload,
+  setDialog: dialog.set,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

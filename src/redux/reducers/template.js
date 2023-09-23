@@ -18,7 +18,7 @@ export default function template(state = initialState, action) {
       return { ...state, templates: data, loading: false, error: null };
     case "template/admin/create":
       toast.success("عملیات با موفقیت انجام شد.");
-      return { ...state, template: data, loading: false, error: null };
+      return { ...state, loading: false, error: null };
     case "template/admin/remove":
       toast.success("کسب و کار با موفقیت حذف شد.");
       return { ...state, loading: false, error: null };

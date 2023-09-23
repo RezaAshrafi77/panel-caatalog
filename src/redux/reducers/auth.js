@@ -12,7 +12,6 @@ export default function auth(state = initialState, action) {
   let { type, data } = action;
   switch (type) {
     case "auth/login":
-      toast.success("به پنل مدیریتی خوش آمدید");
       return {
         ...state,
         loading: false,
@@ -21,8 +20,8 @@ export default function auth(state = initialState, action) {
     case "auth/loading":
       return { ...state, loading: true };
     case "auth/error":
-      toast.error(data.message);
-      return { ...state, loading: false, error: data.message };
+      // toast.error(data.message);
+      return { ...state, loading: false };
     default:
       return state;
   }

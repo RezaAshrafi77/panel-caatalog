@@ -28,14 +28,14 @@ function Dialog({ classNames, events, data, ...props }) {
                   props?.reset();
                 },
               }}
-              classNames="bg-primary text-white max-h-[35px] md:max-h-[45px]"
+              classNames="bg-primary text-white max-h-[40px]"
             />
             <Button
               title={props?.cancelTitle}
               events={{
                 onSubmit: () => props?.reset(),
               }}
-              classNames="border border-solid border-gray-700 text-white max-h-[35px] md:max-h-[45px]"
+              classNames="border border-solid border-gray-700 text-white max-h-[40px]"
             />
           </div>
         </div>

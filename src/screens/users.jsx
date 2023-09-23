@@ -15,7 +15,7 @@ export const Users = ({ events, data }) => {
         leading={
           <Button
             classNames="md:hidden"
-            icon={<MdChevronRight color="#e1e1e1" size="2.5rem" />}
+            icon={<MdChevronRight color="#e1e1e1" size="2.25rem" />}
             events={{
               onSubmit: () => changeRoute("report"),
             }}
@@ -28,7 +28,7 @@ export const Users = ({ events, data }) => {
             <Button
               icon={<MdPersonAdd color="rgb(22, 163, 74)" size="1.65rem" />}
               title="افزودن کاربر"
-              classNames="!text-green-600 flex-row-reverse !gap-2 border border-solid border-green-600 gap-2 !font-medium rounded-md py-0 !max-h-[38px] cursor-pointer text-white !w-fit px-3 text-sm"
+              classNames="!text-green-600 flex-row-reverse !gap-2 border border-solid border-green-600 gap-2 !font-medium rounded-md py-0 !max-h-[35px] cursor-pointer text-white !w-fit px-3 text-sm"
               events={{
                 onSubmit: () => changeRoute("createUser"),
               }}
@@ -39,7 +39,7 @@ export const Users = ({ events, data }) => {
       <div className="flex-1 flex flex-col md:px-6 overflow-x-scroll">
         <Table
           cols={3}
-          classNames="my-5 px-4 w-[600px] md:w-auto "
+          classNames="my-5 px-4 w-[600px] md:w-full "
           data={{
             theads: adminsUsersTheads,
           }}

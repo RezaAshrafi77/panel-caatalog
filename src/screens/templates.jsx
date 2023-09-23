@@ -3,6 +3,7 @@ import { TbTrash } from "react-icons/tb";
 
 import { Table, Button, Navbar, Loading } from "../components";
 import { adminsTemplatesTheads } from "../shared/data";
+import { Fragment } from "react";
 
 export const Templates = ({ data, events }) => {
   const { isSuperAdmin, templates, loading, activeUserID } = data;
@@ -10,10 +11,10 @@ export const Templates = ({ data, events }) => {
 
   return (
     <div className="flex flex-1 flex-col max-w-full max-h-full h-full overflow-hidden">
-      {isSuperAdmin ? (
-        <Navbar
-          classNames="text-white min-h-[54px] !bg-gray-900"
-          leading={
+      <Navbar
+        classNames="text-white min-h-[54px] !bg-gray-900"
+        leading={
+          isSuperAdmin ? (
             loading ? (
               <Loading />
             ) : (
@@ -26,16 +27,16 @@ export const Templates = ({ data, events }) => {
                 }}
               />
             )
-          }
-          actions={[
-            <Button
-              icon={<MdChevronLeft size={"2.5rem"} />}
-              events={{ onSubmit: () => changeRoute("users") }}
-              className="text-white cursor-pointer"
-            />,
-          ]}
-        />
-      ) : null}
+          ) : <div></div>
+        }
+        actions={[
+          <Button
+            icon={<MdChevronLeft size={"2.5rem"} />}
+            events={{ onSubmit: () => isSuperAdmin ? changeRoute("users") : changeRoute("report") }}
+            className="text-white cursor-pointer"
+          />,
+        ]}
+      />
       {templates?.length === 0 && !loading ? (
         <div className="flex-center-center flex-1 text-yellow-400">
           <span>هیچ کسب و کاری یافت نشد.</span>

@@ -67,7 +67,7 @@ function Input({ classNames, events, data, ...props }) {
             type="text"
             name={props?.name || ""}
             value={props?.value || ""}
-            className={`${classNames} w-full h-full font-medium flex-1 text-base placeholder:text-sm placeholder:font-normal placeholder:text-white outline-none bg-[transparent] lg:py-3 lg:text-xl `}
+            className={`w-full h-full font-medium flex-1 text-base placeholder:text-sm placeholder:font-normal placeholder:text-white outline-none bg-[transparent] lg:py-3 lg:text-xl ${classNames} `}
             placeholder={props?.placeholder}
             autoComplete="off"
             onChange={(e) =>
@@ -139,9 +139,9 @@ function Input({ classNames, events, data, ...props }) {
             }
           }}
         />
-        {data?.fileId ? (
+        {props?.fileId ? (
           <Image
-            src={baseUrl + `/files/${data?.fileId}`}
+            src={baseUrl + `/files/${props?.fileId}`}
             classNames="w-full h-full"
           />
         ) : props?.src ? (

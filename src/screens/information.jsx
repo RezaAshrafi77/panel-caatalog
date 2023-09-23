@@ -206,6 +206,7 @@ export const Information = ({ data, events }) => {
         </strong>
         <span className="flex-1 h-0.5 bg-gray-700"></span>
       </div>
+      {console.log(uploadFileID, formData)}
       {formSections?.backgroundImage ? (
         <div className="flex flex-col gap-5">
           <p
