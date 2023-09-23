@@ -44,7 +44,7 @@ export const Login = ({ admin, signup, login, loading, ...props }) => {
                 onChange: (name, value) =>
                   setFormValues({ ...formValues, username: value }),
               }}
-              classNames="!w-full ltr !px-4 !text-sm placeholder:text-sm placeholder:text-opacity-50 placeholder:text-black"
+              classNames="!w-full ltr !px-4 !text-sm placeholder:text-sm placeholder:text-opacity-50 !placeholder:text-black"
               placeholder="Type your username"
               label="Username"
               containerClassNames="!w-full md:my-0 border-b border-solid border-gray-400 overflow-hidden rounded-none pb-3 md:pb-1"

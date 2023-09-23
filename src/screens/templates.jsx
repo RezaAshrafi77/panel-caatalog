@@ -44,7 +44,7 @@ export const Templates = ({ data, events }) => {
         <div className="flex flex-col flex-1 px-4 py-6 overflow-x-scroll md:overflow-hidden">
           <Table
             cols={5}
-            classNames="my-5 w-[900px] md:w-full"
+            classNames="my-5 !w-[900px] !md:w-full"
             data={{
               theads: adminsTemplatesTheads,
             }}
