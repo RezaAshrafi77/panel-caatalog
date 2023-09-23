@@ -67,7 +67,7 @@ function Input({ classNames, events, data, ...props }) {
             type="text"
             name={props?.name || ""}
             value={props?.value || ""}
-            className={`w-full h-full font-medium flex-1 text-base placeholder:text-sm placeholder:font-normal placeholder:text-white outline-none bg-[transparent] lg:py-3 lg:text-xl ${classNames} `}
+            className={`${classNames} w-full h-full font-medium flex-1 text-base placeholder:text-sm placeholder:font-normal placeholder:text-gray-600 outline-none bg-[transparent] lg:py-3 lg:text-xl `}
             placeholder={props?.placeholder}
             autoComplete="off"
             onChange={(e) =>
