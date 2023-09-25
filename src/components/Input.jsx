@@ -11,9 +11,15 @@ function Input({ classNames, events, data, ...props }) {
     checkbox: <input type="checkbox" name={props?.name} value={props?.value} />, // label
     radio: <input type="radio" name={props?.name} value={props?.value} />, // label
     select: (
-      <div className={`${props?.containerClassNames} relative flex my-3`}>
+      <div
+        className={`${props?.containerClassNames} relative bg-transparent flex my-3`}
+      >
         {props?.leftIcon || ""}
-        <select name={props?.name} className={classNames}>
+        <select
+          name={props?.name}
+          className={classNames}
+          onChange={(e) => events["onChange"](e.target.value)}
+        >
           {props?.options}
         </select>
       </div>
@@ -160,19 +166,7 @@ function Input({ classNames, events, data, ...props }) {
           <div className="w-full">
             <div className="flex border rounded">
               <div className="flex flex-auto flex-wrap items-center px-3 py-2">
-                <div className="flex gap-2 flex-wrap">
-                  {props?.selectedList?.map((tag, index) => (
-                    <Button
-                      key={"selected-cat-" + index}
-                      title={tag?.name}
-                      classNames="!w-fit !min-w-fit rounded-full !ml-2 !gap-2 bg-green-600 bg-opacity-50 !max-h-[25px] px-1 text-xs"
-                      icon={<MdRemove size="1rem" color="white" />}
-                      events={{
-                        onSubmit: () => events["pop"](tag),
-                      }}
-                    />
-                  ))}
-                </div>
+                <div className="flex gap-2 flex-wrap">{props?.tagsRender}</div>
                 <div className="flex-1 min-w-[50%]">
                   <Input
                     classNames="!my-0 !text-sm"

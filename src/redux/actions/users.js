@@ -118,6 +118,24 @@ const users = {
           dispatch({ type: "users/error", data: error });
         });
     },
+  removeRole:
+    (data = {}, callback = () => {}) =>
+    async (dispatch) => {
+      dispatch({ type: "users/loading" });
+      await axios
+        .patch(`${baseUrl}/users/admin/role/remove`, data, {
+          headers: getHeaders(),
+        })
+        .then((res) => {
+          dispatch({
+            type: "/users/admin/role/remove",
+          });
+          callback();
+        })
+        .catch((error) => {
+          dispatch({ type: "users/error", data: error });
+        });
+    },
 };
 
 export default users;

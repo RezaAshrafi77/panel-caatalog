@@ -17,6 +17,7 @@ import {
   template,
   users,
   part,
+  roles,
 } from "../redux/actions";
 import { Button, Drawer } from "../components";
 import { MdMenu, MdPerson } from "react-icons/md";
@@ -29,12 +30,14 @@ export const Home = ({
   templates,
   categories,
   uploadFileID,
+  roles,
   // actions
   getUsers,
   getUserInfo,
   deleteUser,
   setDialog,
   addRole,
+  removeRole,
   getAdminsTemplates,
   getCustomersTemplates,
   createTemplate,
@@ -50,10 +53,12 @@ export const Home = ({
   adminPartCreate,
   customerPartCreate,
   deleteTemplate,
+  getRoles,
   // loading
   usersLoading,
   templateLoading,
   uploadLoading,
+  rolesLoading,
 }) => {
   const [route, setRoute] = useState("report");
   const [activePart, setActivePart] = useState(null);
@@ -110,11 +115,14 @@ export const Home = ({
           getAdminsTemplates({ ownerId: admin?._id });
         }
       } else {
-        getCustomersTemplates({ownerId: admin?._id});
+        getCustomersTemplates({ ownerId: admin?._id });
       }
     } else if (route === "editUser") {
-      if (activeUserID !== userInfo?._id) {
+      if(activeUserID){
         getUserInfo({ id: activeUserID });
+      }
+      if (!roles?.length) {
+        getRoles();
       }
     } else if (route === "editTemplate") {
       if (template?._id !== activeTemplateID) {
@@ -132,6 +140,7 @@ export const Home = ({
     activeUserID,
     template,
     activeTemplateID,
+    roles,
   ]);
 
   // Pages
@@ -293,14 +302,18 @@ export const Home = ({
           isEditPage: true,
           userInfo,
           uploadFileID,
-          loading: usersLoading,
+          usersLoading,
+          rolesLoading,
           userInfo,
+          roles,
         }}
         events={{
           changeRoute: (route) => setRoute(route),
           createUser,
           updateUser: updateUserAdmin,
           uploadFileID,
+          addRole,
+          removeRole,
         }}
       />
     ) : null,
@@ -332,10 +345,12 @@ const mapStateToProps = (state) => ({
   users: state.users.users,
   categories: state.category.categories,
   uploadFileID: state.file.id,
+  roles: state.roles.list,
   // loadings
   usersLoading: state.users.loading,
   templateLoading: state.template.loading,
   uploadLoading: state.file.loading,
+  rolesLoading: state.roles.loading,
 });
 
 const mapDispatchToProps = {
@@ -345,6 +360,7 @@ const mapDispatchToProps = {
   deleteUser: users.del,
   createUser: users.create,
   addRole: users.addRole,
+  removeRole: users.removeRole,
   updateUserAdmin: users.adminUpdate,
   getAdminsTemplates: template.getAdminsTemplates,
   getAdminTemplates: template.getAdminTemplates,
@@ -354,6 +370,7 @@ const mapDispatchToProps = {
   deleteTemplate: template.del,
   getAdminCategories: category.getAdminCategories,
   adminPartUpdate: part.adminPartUpdate,
+  getRoles: roles.list,
   // customer
   updateTemplate: template.updateTemplate,
   customerPartUpdate: part.customerPartUpdate,
