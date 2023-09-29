@@ -18,7 +18,9 @@ export const AddRole = ({ data, events }) => {
       {userInfo?.roles?.length ? (
         <ul className="flex flex-col w-full list-disc">
           {userInfo?.roles?.map((role, index) => (
-            <li className="text-green-500" key={"user-active-role" + index}>{role}</li>
+            <li className="text-green-500" key={"user-active-role" + index}>
+              {role}
+            </li>
           ))}
         </ul>
       ) : (

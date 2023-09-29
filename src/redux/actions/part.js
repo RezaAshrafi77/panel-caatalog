@@ -21,7 +21,6 @@ const part = {
           });
           dispatch({
             type: "file/reset",
-            data: res?.data?.data,
           });
           callback();
         })

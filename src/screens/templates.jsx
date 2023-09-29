@@ -3,7 +3,6 @@ import { TbTrash } from "react-icons/tb";
 
 import { Table, Button, Navbar, Loading } from "../components";
 import { adminsTemplatesTheads } from "../shared/data";
-import { Fragment } from "react";
 
 export const Templates = ({ data, events }) => {
   const { isSuperAdmin, templates, loading, activeUserID } = data;
@@ -27,16 +26,20 @@ export const Templates = ({ data, events }) => {
                 }}
               />
             )
-          ) : <div></div>
+          ) : (
+            <div></div>
+          )
         }
         actions={[
           <Button
             icon={<MdChevronLeft size={"2.5rem"} />}
-            events={{ onSubmit: () => isSuperAdmin ? changeRoute("users") : changeRoute("report") }}
+            events={{
+              onSubmit: () =>
+                isSuperAdmin ? changeRoute("users") : changeRoute("report"),
+            }}
             className="text-white cursor-pointer"
           />,
         ]}
-        
       />
       {templates?.length === 0 && !loading ? (
         <div className="flex-center-center flex-1 text-yellow-400">
@@ -79,28 +82,30 @@ export const Templates = ({ data, events }) => {
                                 changeRoute("editTemplate", row["_id"]),
                             }}
                           />
-                          <Button
-                            icon={
-                              <TbTrash
-                                size={"1.5rem"}
-                                className="text-red-600"
-                              />
-                            }
-                            events={{
-                              onSubmit: () =>
-                                setDialog({
-                                  title: "کسب و کار حذف شود؟",
-                                  confirmTitle: "بله",
-                                  cancelTitle: "فعلا نه",
-                                  confirm: () => {
-                                    deleteTemplate({ id: row["_id"] }, () =>
-                                      getAdminTemplates()
-                                    );
-                                  },
-                                }),
-                            }}
-                            className="cursor-pointer !w-fit"
-                          />
+                          {isSuperAdmin ? (
+                            <Button
+                              icon={
+                                <TbTrash
+                                  size={"1.5rem"}
+                                  className="text-red-600"
+                                />
+                              }
+                              events={{
+                                onSubmit: () =>
+                                  setDialog({
+                                    title: "کسب و کار حذف شود؟",
+                                    confirmTitle: "بله",
+                                    cancelTitle: "فعلا نه",
+                                    confirm: () => {
+                                      deleteTemplate({ id: row["_id"] }, () =>
+                                        getAdminTemplates()
+                                      );
+                                    },
+                                  }),
+                              }}
+                              className="cursor-pointer !w-fit"
+                            />
+                          ) : null}
                         </div>
                       ) : (
                         ""

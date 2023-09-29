@@ -118,7 +118,7 @@ export const Home = ({
         getCustomersTemplates({ ownerId: admin?._id });
       }
     } else if (route === "editUser") {
-      if(activeUserID){
+      if(activeUserID !== userInfo?._id){
         getUserInfo({ id: activeUserID });
       }
       if (!roles?.length) {
@@ -196,7 +196,7 @@ export const Home = ({
     ),
     editTemplate: (
       <CreateTemplate
-        key={"edit-template-" + (template ? template["name"] : "template-name")}
+        key={"edit-template-" + (template ? template?.updatedAt : "template-name")}
         data={{
           isEditPage: true,
           template,

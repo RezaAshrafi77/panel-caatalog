@@ -169,7 +169,7 @@ function Input({ classNames, events, data, ...props }) {
                 <div className="flex gap-2 flex-wrap">{props?.tagsRender}</div>
                 <div className="flex-1 min-w-[50%]">
                   <Input
-                    classNames="!my-0 !text-sm"
+                    classNames="!my-0 !text-sm px-4"
                     containerClassNames="!p-0 !my-0 bg-transparent"
                     type="text"
                     name={props?.name}

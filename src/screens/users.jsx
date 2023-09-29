@@ -38,6 +38,7 @@ export const Users = ({ events, data }) => {
       />
       <div className="flex-1 flex flex-col md:px-6 overflow-x-scroll">
         <Table
+          key={users?.length}
           cols={3}
           classNames="my-5 px-4 w-[600px] md:w-full "
           data={{

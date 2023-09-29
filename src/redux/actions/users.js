@@ -111,6 +111,7 @@ const users = {
         .then((res) => {
           dispatch({
             type: "/users/admin/role/add",
+            data: res?.data?.data,
           });
           callback();
         })
@@ -129,6 +130,7 @@ const users = {
         .then((res) => {
           dispatch({
             type: "/users/admin/role/remove",
+            data: res?.data?.data,
           });
           callback();
         })

@@ -2,9 +2,7 @@ import React from "react";
 
 export default function Table({ data, classNames, events, ...props }) {
   return (
-    <div
-      className={`bg-transparent ${classNames}`}
-    >
+    <div className={`bg-transparent ${classNames}`} key={props?.key}>
       <div className={`${"grid-cols-" + props?.cols} grid mb-6`}>
         {data?.theads?.map((value, index) => (
           <div

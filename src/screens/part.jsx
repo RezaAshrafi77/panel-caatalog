@@ -2,7 +2,13 @@ import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import { Navbar, Button, Loading, Tab, Image, Input } from "../components";
-import { MdAdd, MdChevronLeft, MdPlusOne } from "react-icons/md";
+import {
+  MdAdd,
+  MdChevronLeft,
+  MdDelete,
+  MdPlusOne,
+  MdRemove,
+} from "react-icons/md";
 import { dialog, part, template } from "../redux/actions";
 import { baseUrl } from "../config";
 import { TbTrash } from "react-icons/tb";
@@ -27,13 +33,15 @@ export const Part = ({ template, events, data }) => {
     setDialog,
     uploadFile,
   } = events;
-  const [selectedCats, setSelectedCats] = useState([]);
+  const [selectedCats, setSelectedCats] = useState(
+    part?.categoryIds?.length ? part?.categoryIds : []
+  );
   const [file, setFile] = useState(null);
   const [fileIds, setFileIds] = useState(
     part?.fileIds?.length ? [...part?.fileIds?.map((file) => file?._id)] : []
   );
   const [categoryIds, setCategoryIds] = useState(
-    part?.categories?.length
+    part?.categoryIds?.length
       ? [...part?.categoryIds?.map((cat) => cat?._id)]
       : []
   );
@@ -42,18 +50,21 @@ export const Part = ({ template, events, data }) => {
   const submitForm = () => {
     if (isSuperAdmin) {
       if (isEditPage) {
-        adminPartUpdate({
-          templateId: template?._id,
-          partId: part?._id,
-          title: part?.title,
-          text: part["text"],
-          fileIds,
-          categoryIds,
-          position: part?.position,
-          ord: part?.ord,
-          pid: part?.pid,
-          link: part?.link,
-        }, changeRoute("editTemplate"));
+        adminPartUpdate(
+          {
+            templateId: template?._id,
+            partId: part?._id,
+            title: part?.title,
+            text: part?.text,
+            fileIds,
+            categoryIds,
+            position: part?.position,
+            ord: part?.ord,
+            pid: part?.pid,
+            link: part?.link,
+          },
+          changeRoute("editTemplate")
+        );
       } else {
         adminPartCreate(
           {
@@ -89,18 +100,21 @@ export const Part = ({ template, events, data }) => {
           changeRoute("editTemplate")
         );
       } else {
-        customerPartCreate({
-          templateId: template?._id,
-          partId: part?._id,
-          title: part?.title,
-          text: part["text"],
-          fileIds,
-          categoryIds,
-          position: part?.position,
-          ord: part?.ord,
-          pid: part?.pid,
-          link: part?.link,
-        }, changeRoute("editTemplate"));
+        customerPartCreate(
+          {
+            templateId: template?._id,
+            partId: part?._id,
+            title: part?.title,
+            text: part["text"],
+            fileIds,
+            categoryIds,
+            position: part?.position,
+            ord: part?.ord,
+            pid: part?.pid,
+            link: part?.link,
+          },
+          changeRoute("editTemplate")
+        );
       }
     }
   };
@@ -118,7 +132,7 @@ export const Part = ({ template, events, data }) => {
   }, [file]);
 
   return (
-    <div className="flex flex-col flex-1 max-w-full max-h-full h-full overflow-y-scroll ">
+    <div className="flex flex-col flex-1 max-w-full max-h-full h-full overflow-y-scroll pb-32">
       <Navbar
         classNames="text-white min-h-[54px] !bg-gray-900"
         leading={<strong>{part ? part?.title : null}</strong>}
@@ -148,48 +162,52 @@ export const Part = ({ template, events, data }) => {
         ]}
       />
       <div className="flex-1 flex flex-col py-8 px-6">
-        <div className="flex items-center gap-4 w-full">
-          <strong className="text-base font-medium text-gray-300">
-            {"عکس‌های انتخاب شده"}
-          </strong>
-          <span className="flex-1 h-0.5 bg-gray-700"></span>
+        <div className="flex flex-col">
+          <div className="flex items-center gap-4 w-full">
+            <strong className="text-base font-medium text-gray-300">
+              {"عکس‌های انتخاب شده"}
+            </strong>
+            <span className="flex-1 h-0.5 bg-gray-700"></span>
+          </div>
+          <ul className="flex gap-4 overflow-y-scroll mt-6 pb-4 pl-4 no-scrollbar">
+            <Input
+              key={"upload-file"}
+              type="uploadFile"
+              name="fileId"
+              classNames="bg-opacity-20 min-w-[30vw] h-[30vw] md:min-w-[16vw] md:h-[12vw] md:!max-h-[200px] rounded-md"
+              events={{
+                onChange: (file) => setFile(file),
+              }}
+            />
+            {fileIds?.map((file, index) => (
+              <div className="relative group" key={"files-" + index}>
+                <Image
+                  key={"product-images-" + index}
+                  src={baseUrl + "/files/" + file}
+                  classNames="object-contained min-w-[30vw] h-[30vw] md:min-w-[16vw] md:h-[12vw] md:!max-h-[200px] bg-black rounded-md"
+                  events={{ onClick: () => {} }}
+                />
+                <Button
+                  icon={<TbTrash size={"1.5rem"} />}
+                  events={{
+                    onSubmit: () =>
+                      setDialog({
+                        title: "عکس حذف شود؟",
+                        confirmTitle: "بله",
+                        cancelTitle: "فعلا نه",
+                        confirm: () => {
+                          setFileIds(
+                            fileIds?.filter((filee) => filee !== file)
+                          );
+                        },
+                      }),
+                  }}
+                  className="transition-all rounded-md absolute left-3 bottom-3 bg-red-700 bg-opacity-80 backdrop-filter backdrop-blur-md text-white cursor-pointer group-hover:opacity-100 opacity-0 p-1"
+                />
+              </div>
+            ))}
+          </ul>
         </div>
-        <ul className="flex gap-4 overflow-y-scroll mt-6 pb-4 pl-4 no-scrollbar">
-          <Input
-            key={"upload-file"}
-            type="uploadFile"
-            name="fileId"
-            classNames="bg-opacity-20 min-w-[30vw] h-[30vw] md:min-w-[16vw] md:h-[12vw] md:!max-h-[200px] rounded-md"
-            events={{
-              onChange: (file) => setFile(file),
-            }}
-          />
-          {fileIds?.map((file, index) => (
-            <div className="relative group" key={"files-" + index}>
-              <Image
-                key={"product-images-" + index}
-                src={baseUrl + "/files/" + file}
-                classNames="object-contained min-w-[30vw] h-[30vw] md:min-w-[16vw] md:h-[12vw] md:!max-h-[200px] bg-black rounded-md"
-                events={{ onClick: () => {} }}
-              />
-              <Button
-                icon={<TbTrash size={"1.5rem"} />}
-                events={{
-                  onSubmit: () =>
-                    setDialog({
-                      title: "عکس حذف شود؟",
-                      confirmTitle: "بله",
-                      cancelTitle: "فعلا نه",
-                      confirm: () => {
-                        setFileIds(fileIds?.filter((filee) => filee !== file));
-                      },
-                    }),
-                }}
-                className="transition-all rounded-md absolute left-3 bottom-3 bg-red-700 bg-opacity-80 backdrop-filter backdrop-blur-md text-white cursor-pointer group-hover:opacity-100 opacity-0 p-1"
-              />
-            </div>
-          ))}
-        </ul>
         <form
           className="flex flex-col my-10 gap-8 max-w-[400px] w-full"
           onSubmit={(e) => e.preventDefault()}
@@ -225,18 +243,29 @@ export const Part = ({ template, events, data }) => {
           <Input
             type="multiSelect"
             name="categories"
-            options={categories}
-            selectedList={selectedCats}
             textInputValue={catsTextInputValue}
             placeholder="دسته بندی محصول ..."
             events={{
-              pop: (obj) =>
-                setSelectedCats(
-                  selectedCats?.filter((cat) => cat?.name !== obj?.name)
-                ),
-              push: (obj) => setSelectedCats([...selectedCats, obj]),
               setTextInputValue: (val) => setCatsTextInputValue(val),
             }}
+            tagsRender={selectedCats?.map((cat, index) => (
+              <Button
+                key={"selected-cats-" + index}
+                title={cat?.name}
+                classNames="!w-fit bg-yellow-400 px-2 bg-opacity-10 !text-xs !gap-1.5"
+                icon={<MdRemove size="1rem" color="white" />}
+                events={{
+                  onSubmit: () => {
+                    setSelectedCats(
+                      selectedCats?.filter((sCat) => sCat?.name !== cat?.name)
+                    );
+                    setCategoryIds(
+                      categoryIds?.filter((id) => id !== cat?._id)
+                    );
+                  },
+                }}
+              />
+            ))}
             optionsRender={
               <div className="flex flex-col w-full">
                 {categories

@@ -22,13 +22,23 @@ export default function users(state = initialState, action) {
       return { ...state, users: data, loading: false, error: false };
     case "users/admin/remove":
       toast.success("با موفقیت ثبت شد.");
-      return { ...state, users: data, loading: false, error: false };
+      return { ...state, loading: false, error: false };
     case "/users/admin/role/add":
       toast.success("نقش با موفقیت افزوده شد.");
-      return { ...state, loading: false, error: false };
+      return {
+        ...state,
+        loading: false,
+        userInfo: null,
+        error: false,
+      };
     case "/users/admin/role/remove":
       toast.success("نقش با موفقیت حذف شد.");
-      return { ...state, loading: false, error: false };
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        userInfo: null,
+      };
     case "users/loading":
       return { ...state, loading: true };
     case "users/error":

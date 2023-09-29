@@ -15,7 +15,14 @@ export const CreateUser = ({ data, events }) => {
     uploadFileID,
     roles,
   } = data;
-  const { updateUser, createUser, changeRoute, uploadFile, addRole, removeRole } = events;
+  const {
+    updateUser,
+    createUser,
+    changeRoute,
+    uploadFile,
+    addRole,
+    removeRole,
+  } = events;
 
   const [formValues, setFormValues] = useState(userInfo);
   const [pass2, setPass2] = useState("");

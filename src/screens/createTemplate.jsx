@@ -69,7 +69,7 @@ export const CreateTemplate = ({ data, events }) => {
         />
       ) : null}
       {isEditPage ? (
-        <div className="flex-1 px-6 py-5">
+        <div className="flex-1 px-6 py-5 flex">
           {activeTab === 0 ? (
             <Parts
               events={{
