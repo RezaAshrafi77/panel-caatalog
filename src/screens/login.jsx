@@ -35,7 +35,7 @@ export const Login = ({ admin, signup, login, loading, ...props }) => {
         src={loginBG}
         classNames="fixed w-full h-full left-0 top-0 object-cover"
       />
-      <div className="flex flex-col justify-between md:justify-evenly text-black lg:justify-between items-center px-[8vw] md:px-6 md:py-12 md:max-w-[50vh] bg-white w-full h-full md:max-h-[85vh] z-10 md:rounded-xl md:shadow-xl overflow-y-scroll md:overflow-hidden">
+      <div className="flex flex-col justify-between md:justify-evenly bg-gray-900 text-gray-200 md:bg-white md:text-black lg:justify-between items-center px-[8vw] md:px-6 md:py-12 md:max-w-[50vh] w-full h-full md:max-h-[85vh] z-10 md:rounded-xl md:shadow-xl overflow-y-scroll md:overflow-hidden">
         <div className="w-full flex flex-col my-auto items-center gap-[10vh] md:gap-10">
           <strong className="font-bold text-3xl md:mb-10 overflow-hidden">
             {"Login"}
@@ -52,10 +52,11 @@ export const Login = ({ admin, signup, login, loading, ...props }) => {
                 onChange: (name, value) =>
                   setFormValues({ ...formValues, username: value }),
               }}
-              classNames="!w-full ltr !px-4 !text-sm placeholder:text-sm placeholder:text-opacity-50 placeholder:text-gray-600"
+              classNames="!w-full ltr !px-4 !text-sm placeholder:text-sm placeholder:text-opacity-50   placeholder:text-gray-200 md:placeholder:text-gray-600 bg-gray-900 md:bg-white"
+              containerClassNames="!w-full md:my-0 border-b border-solid border-gray-400 overflow-hidden rounded-none pb-3 md:pb-1 bg-gray-900 md:bg-white"
+
               placeholder="Type your username"
               label="Username"
-              containerClassNames="!w-full md:my-0 border-b border-solid border-gray-400 overflow-hidden rounded-none pb-3 md:pb-1"
               leftIcon={<MdAccountCircle size="1.5rem" color="#bbb" />}
               labelClassNames="ltr text-gray-500 text-sm"
             />
@@ -67,10 +68,10 @@ export const Login = ({ admin, signup, login, loading, ...props }) => {
                 onChange: (name, value) =>
                   setFormValues({ ...formValues, password: value }),
               }}
-              classNames="!w-full ltr !px-4 !text-sm placeholder:text-sm placeholder:text-opacity-50"
+              classNames="!w-full ltr !px-4 !text-sm placeholder:text-sm placeholder:text-opacity-50 placeholder:text-gray-200 md:placeholder:text-gray-600 bg-gray-900 md:bg-white"
+              containerClassNames="!w-full md:my-0 border-b border-solid border-gray-400 overflow-hidden rounded-none pb-3 md:pb-1 bg-gray-900 md:bg-white"
               placeholder="Type your password"
               label="Password"
-              containerClassNames="!w-full md:my-0 border-b border-solid border-gray-400 overflow-hidden rounded-none pb-3 md:pb-1"
               leftIcon={<MdLockOutline size="1.5rem" color="#bbb" />}
               labelClassNames="ltr text-gray-500 text-sm"
             />
@@ -88,7 +89,7 @@ export const Login = ({ admin, signup, login, loading, ...props }) => {
             />
           </form>
         </div>
-        <div className="flex flex-row-reverse gap-2 text-sm text-gray-500">
+        <div className="flex flex-row-reverse gap-2 text-sm text-gray-300 mb-4 md:mb-0">
           Powered by <Image src="/icons/logo.svg" classNames="w-5" />
         </div>
       </div>

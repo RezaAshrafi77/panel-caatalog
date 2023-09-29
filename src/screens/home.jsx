@@ -256,6 +256,7 @@ export const Home = ({
           customerPartUpdate,
           adminPartCreate,
           customerPartCreate,
+          uploadFile,
         }}
       />
     ),

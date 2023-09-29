@@ -42,7 +42,7 @@ function Input({ classNames, events, data, ...props }) {
             required={props?.required}
             name={props?.name || ""}
             value={props?.value || ""}
-            className={`${classNames} w-full h-full font-medium flex-1 text-base placeholder:text-base placeholder:font-normal font-sm outline-none bg-[transparent] lg:py-3 lg:text-xl `}
+            className={`${classNames} w-full h-full font-medium flex-1 text-base placeholder:text-sm placeholder:font-normal placeholder:text-gray-600 outline-none bg-[transparent] lg:py-3 lg:text-xl `}
             placeholder={props?.placeholder || "جستجو ..."}
             autoComplete="off"
             onChange={(e) =>
