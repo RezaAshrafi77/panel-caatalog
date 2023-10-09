@@ -104,8 +104,6 @@ const part = {
   adminDeletePart:
     (data = {}, callback = () => {}) =>
     async (dispatch) => {
-      console.log(data);
-
       dispatch({ type: "part/loading" });
       await axios
         .delete(`${baseUrl}/templates/admin/part/remove`, {

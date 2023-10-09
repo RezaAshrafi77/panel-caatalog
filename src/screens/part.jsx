@@ -124,7 +124,6 @@ export const Part = ({ events, data }) => {
   };
 
   const deleteHandler = () => {
-    console.log(template?._id);
     if (isSuperAdmin) {
       adminDeletePart(
         {
