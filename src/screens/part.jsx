@@ -9,11 +9,10 @@ import {
   MdPlusOne,
   MdRemove,
 } from "react-icons/md";
-import { dialog, part, template } from "../redux/actions";
 import { baseUrl } from "../config";
 import { TbTrash } from "react-icons/tb";
 
-export const Part = ({ template, events, data }) => {
+export const Part = ({ events, data }) => {
   const {
     isSuperAdmin,
     uploadFileID,
@@ -22,6 +21,7 @@ export const Part = ({ template, events, data }) => {
     part,
     isEditPage,
     templateLoading,
+    template,
   } = data;
   const {
     changeRoute,
@@ -32,7 +32,11 @@ export const Part = ({ template, events, data }) => {
     customerPartUpdate,
     setDialog,
     uploadFile,
+    adminDeletePart,
+    customerDeletePart,
+    refreshTemplate,
   } = events;
+
   const [selectedCats, setSelectedCats] = useState(
     part?.categoryIds?.length ? part?.categoryIds : []
   );
@@ -119,6 +123,33 @@ export const Part = ({ template, events, data }) => {
     }
   };
 
+  const deleteHandler = () => {
+    console.log(template?._id);
+    if (isSuperAdmin) {
+      adminDeletePart(
+        {
+          partId: part?._id,
+          templateId: template?._id,
+        },
+        () => {
+          refreshTemplate();
+          changeRoute("editTemplate");
+        }
+      );
+    } else {
+      customerDeletePart(
+        {
+          partId: part?._id,
+          templateId: template?._id,
+        },
+        () => {
+          refreshTemplate();
+          changeRoute("editTemplate");
+        }
+      );
+    }
+  };
+
   useEffect(() => {
     if (uploadFileID) {
       setFileIds([...fileIds, uploadFileID]);
@@ -147,7 +178,7 @@ export const Part = ({ template, events, data }) => {
                     confirmTitle: "بله",
                     cancelTitle: "فعلا نه",
                     confirm: () => {
-                      submitForm();
+                      deleteHandler();
                     },
                   }),
               }}
@@ -330,15 +361,4 @@ export const Part = ({ template, events, data }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  template: state.template.template,
-  templateLoading: state.template.loading,
-  partLoading: state.part.loading,
-});
-
-const mapDispatchToProps = {
-  updatePart: part.update,
-  setDialog: dialog.set,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Part);
+export default Part;

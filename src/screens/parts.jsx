@@ -1,10 +1,8 @@
 import { Loading, Product } from "../components";
 
 export const Parts = ({ events, data }) => {
-  const { template, loading, categories } = data;
-
-  console.log(template);
-
+  const { template, loading, categories } = data; 
+  
   return (
     <div className="flex flex-1 flex-col">
       {template?.allPartCategories?.length ? (

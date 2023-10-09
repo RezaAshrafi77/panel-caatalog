@@ -1,7 +1,6 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 import ApiConfig from "~/config";
-import { apiErrorHandler, getHeaders } from "../../middleware";
+import { getHeaders } from "../../middleware";
 
 const { baseUrl } = ApiConfig;
 

@@ -54,6 +54,8 @@ export const Home = ({
   customerPartCreate,
   deleteTemplate,
   getRoles,
+  adminDeletePart,
+  customerDeletePart,
   // loading
   usersLoading,
   templateLoading,
@@ -118,7 +120,7 @@ export const Home = ({
         getCustomersTemplates({ ownerId: admin?._id });
       }
     } else if (route === "editUser") {
-      if(activeUserID !== userInfo?._id){
+      if (activeUserID !== userInfo?._id) {
         getUserInfo({ id: activeUserID });
       }
       if (!roles?.length) {
@@ -196,7 +198,9 @@ export const Home = ({
     ),
     editTemplate: (
       <CreateTemplate
-        key={"edit-template-" + (template ? template?.updatedAt : "template-name")}
+        key={
+          "edit-template-" + (template ? template?.updatedAt : "template-name")
+        }
         data={{
           isEditPage: true,
           template,
@@ -247,6 +251,7 @@ export const Home = ({
           categories,
           part: activePart,
           isEditPage: true,
+          template
         }}
         events={{
           changeRoute: (route) => setRoute(route),
@@ -257,6 +262,9 @@ export const Home = ({
           adminPartCreate,
           customerPartCreate,
           uploadFile,
+          adminDeletePart,
+          customerDeletePart,
+          refreshTemplate: () => getAdminTemplates({ id: activeTemplateID }),
         }}
       />
     ),
@@ -269,6 +277,7 @@ export const Home = ({
           templateLoading,
           categories,
           part: activePart,
+          template
         }}
         events={{
           changeRoute: (route) => setRoute(route),
@@ -372,11 +381,13 @@ const mapDispatchToProps = {
   getAdminCategories: category.getAdminCategories,
   adminPartUpdate: part.adminPartUpdate,
   getRoles: roles.list,
+  adminDeletePart: part.adminDeletePart,
   // customer
   updateTemplate: template.updateTemplate,
   customerPartUpdate: part.customerPartUpdate,
   getCustomersTemplates: template.getCustomersTemplates,
   customerPartCreate: part.customerPartCreate,
+  customerDeletePart: part.customerDeletePart,
   // global
   uploadFile: file.upload,
   setDialog: dialog.set,

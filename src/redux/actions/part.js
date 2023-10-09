@@ -101,6 +101,54 @@ const part = {
           toast.error(error?.message);
         });
     },
+  adminDeletePart:
+    (data = {}, callback = () => {}) =>
+    async (dispatch) => {
+      console.log(data);
+
+      dispatch({ type: "part/loading" });
+      await axios
+        .delete(`${baseUrl}/templates/admin/part/remove`, {
+          data,
+          headers: getHeaders(),
+        })
+        .then((res) => {
+          callback();
+          dispatch({
+            type: "template/admin/part/remove",
+            data: res?.data?.data,
+          });
+          dispatch({
+            type: "file/reset",
+          });
+        })
+        .catch((error) => {
+          dispatch({ type: "part/error", data: error });
+        });
+    },
+
+  customerDeletePart:
+    (data = {}, callback = () => {}) =>
+    async (dispatch) => {
+      dispatch({ type: "part/loading" });
+      await axios
+        .delete(`${baseUrl}/templates/customer/part/remove`, {
+          data,
+          headers: getHeaders(),
+        })
+        .then((res) => {
+          callback();
+          dispatch({
+            type: "template/customer/part/remove",
+          });
+          dispatch({
+            type: "file/reset",
+          });
+        })
+        .catch((error) => {
+          dispatch({ type: "part/error", data: error });
+        });
+    },
 };
 
 export default part;
