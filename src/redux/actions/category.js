@@ -11,7 +11,7 @@ const category = {
     async (dispatch) => {
       dispatch({ type: "category/loading" });
       await axios
-        .get(`${baseUrl}/category/admin/list`, {
+        .get(`${baseUrl}/category/list`, {
           headers: getHeaders(),
         })
         .then((res) => {

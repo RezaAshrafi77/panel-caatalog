@@ -288,6 +288,7 @@ export const Home = ({
           adminPartCreate,
           customerPartCreate,
           uploadFile,
+          refreshTemplate: () => getAdminTemplates({ id: activeTemplateID }),
         }}
       />
     ),

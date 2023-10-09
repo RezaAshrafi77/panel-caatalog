@@ -67,7 +67,10 @@ export const Part = ({ events, data }) => {
             pid: part?.pid,
             link: part?.link,
           },
-          changeRoute("editTemplate")
+          () => {
+            refreshTemplate();
+            changeRoute("editTemplate");
+          }
         );
       } else {
         adminPartCreate(
@@ -83,7 +86,10 @@ export const Part = ({ events, data }) => {
             pid: part?.pid,
             link: part?.link,
           },
-          changeRoute("editTemplate")
+          () => {
+            refreshTemplate();
+            changeRoute("editTemplate");
+          }
         );
       }
     } else {
@@ -101,7 +107,10 @@ export const Part = ({ events, data }) => {
             pid: part?.pid,
             link: part?.link,
           },
-          changeRoute("editTemplate")
+          () => {
+            refreshTemplate();
+            changeRoute("editTemplate");
+          }
         );
       } else {
         customerPartCreate(
@@ -117,7 +126,10 @@ export const Part = ({ events, data }) => {
             pid: part?.pid,
             link: part?.link,
           },
-          changeRoute("editTemplate")
+          () => {
+            refreshTemplate();
+            changeRoute("editTemplate");
+          }
         );
       }
     }
@@ -297,7 +309,7 @@ export const Part = ({ events, data }) => {
               />
             ))}
             optionsRender={
-              <div className="flex flex-col w-full">
+              <div className="flex flex-col w-full max-h-[150px] overflow-y-scroll">
                 {categories
                   ?.filter((option) =>
                     option?.name?.includes(catsTextInputValue)
