@@ -12,3 +12,4 @@ export { default as Users } from "./users";
 export { default as CreateUser } from "./createUser";
 export { default as NotFound } from "./404";
 export { default as AddRole } from "./role";
+export { default as Categories } from "./categories";

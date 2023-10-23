@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 
 import { Navbar, Button, Loading, Tab, Image, Input } from "../components";
@@ -37,6 +37,7 @@ export const Part = ({ events, data }) => {
     refreshTemplate,
   } = events;
 
+  const [render, setRender] = useState(null);
   const [selectedCats, setSelectedCats] = useState(
     part?.categoryIds?.length ? part?.categoryIds : []
   );
@@ -48,6 +49,15 @@ export const Part = ({ events, data }) => {
     part?.categoryIds?.length
       ? [...part?.categoryIds?.map((cat) => cat?._id)]
       : []
+  );
+  const [specifications, setSpecifications] = useState(
+    part?.specifications || [
+      {
+        tag: "",
+        key: "",
+        value: "",
+      },
+    ]
   );
   const [catsTextInputValue, setCatsTextInputValue] = useState("");
 
@@ -66,6 +76,7 @@ export const Part = ({ events, data }) => {
             ord: part?.ord,
             pid: part?.pid,
             link: part?.link,
+            specifications,
           },
           () => {
             refreshTemplate();
@@ -85,6 +96,7 @@ export const Part = ({ events, data }) => {
             ord: part?.ord,
             pid: part?.pid,
             link: part?.link,
+            specifications,
           },
           () => {
             refreshTemplate();
@@ -106,6 +118,7 @@ export const Part = ({ events, data }) => {
             ord: part?.ord,
             pid: part?.pid,
             link: part?.link,
+            specifications,
           },
           () => {
             refreshTemplate();
@@ -125,6 +138,7 @@ export const Part = ({ events, data }) => {
             ord: part?.ord,
             pid: part?.pid,
             link: part?.link,
+            specifications,
           },
           () => {
             refreshTemplate();
@@ -173,6 +187,7 @@ export const Part = ({ events, data }) => {
     }
   }, [file]);
 
+  console.log(specifications);
   return (
     <div className="flex flex-col flex-1 max-w-full max-h-full h-full overflow-y-scroll pb-32">
       <Navbar
@@ -251,7 +266,7 @@ export const Part = ({ events, data }) => {
           </ul>
         </div>
         <form
-          className="flex flex-col my-10 gap-8 max-w-[400px] w-full"
+          className="flex flex-col my-10 gap-8 max-w-[600px] w-full"
           onSubmit={(e) => e.preventDefault()}
         >
           <Input
@@ -353,6 +368,101 @@ export const Part = ({ events, data }) => {
                   ))}
               </div>
             }
+          />
+          <strong className="mt-4 text-sm font-bold text-yellow-400">
+            مشخصات
+          </strong>
+          <div className="flex flex-col gap-6">
+            {specifications?.map((spec, index) => (
+              <div className="flex gap-4" key={"tag" + index}>
+                <Input
+                  type="text"
+                  name="tag"
+                  value={spec?.tag}
+                  events={{
+                    onChange: (name, value) => {
+                      setRender(value);
+                      let array = specifications;
+                      let obj = spec;
+                      obj = { ...obj, tag: value };
+                      array[index] = obj;
+                      setSpecifications(array);
+                    },
+                  }}
+                  classNames="text-white !w-full !bg-transparent !px-4 !text-sm"
+                  placeholder="عنوان تگ را وارد کنید ..."
+                  label="تگ"
+                  containerClassNames="!bg-transparent !w-full md:my-0 border-b border-solid border-gray-500 overflow-hidden rounded-none pb-3 md:pb-1"
+                  labelClassNames="text-gray-200 mb-1 text-xs"
+                />
+                <Input
+                  type="text"
+                  name="key"
+                  value={spec?.key}
+                  events={{
+                    onChange: (name, value) => {
+                      setRender(value);
+                      let array = specifications;
+                      let obj = spec;
+                      obj = { ...obj, key: value };
+                      array[index] = obj;
+                      setSpecifications(array);
+                    },
+                  }}
+                  classNames="text-white !w-full !bg-transparent !px-4 !text-sm"
+                  placeholder="نام ویژگی را وارد کنید ..."
+                  label="نام ویژگی"
+                  containerClassNames="!bg-transparent !w-full md:my-0 border-b border-solid border-gray-500 overflow-hidden rounded-none pb-3 md:pb-1"
+                  labelClassNames="text-gray-200 mb-1 text-xs"
+                />
+                <Input
+                  type="text"
+                  name="value"
+                  value={spec?.value}
+                  events={{
+                    onChange: (name, value) => {
+                      setRender(value);
+                      let array = specifications;
+                      let obj = spec;
+                      obj = { ...obj, value: value };
+                      array[index] = obj;
+                      setSpecifications(array);
+                    },
+                  }}
+                  classNames="text-white !w-full !bg-transparent !px-4 !text-sm"
+                  placeholder="مقدار ویژگی را وارد کنید ..."
+                  label="مقدار ویژگی"
+                  containerClassNames="!bg-transparent !w-full md:my-0 border-b border-solid border-gray-500 overflow-hidden rounded-none pb-3 md:pb-1"
+                  labelClassNames="text-gray-200 mb-1 text-xs"
+                />
+                <MdDelete
+                  size="5rem"
+                  color="red"
+                  onClick={() => {
+                    setRender(Math.random());
+                    let array = specifications;
+                    array.splice(index, 1);
+                    setSpecifications(array);
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+
+          <Button
+            title="افزودن ویژگی جدید"
+            classNames="!w-fit px-4 text-xs !max-h-[40px] bg-yellow-600"
+            events={{
+              onSubmit: () =>
+                setSpecifications([
+                  ...specifications,
+                  {
+                    tag: "",
+                    key: "",
+                    value: "",
+                  },
+                ]),
+            }}
           />
           <Button
             classNames="!w-1/2 mt-4 text-white !bg-primary !rounded-full md:!max-h-[45px] text-sm"

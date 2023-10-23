@@ -27,6 +27,52 @@ const category = {
           });
         });
     },
+
+  createAdminCategory:
+    (data = {}, callback) =>
+    async (dispatch) => {
+      dispatch({ type: "category/loading" });
+      await axios
+        .post(`${baseUrl}/category/admin/create`, data, {
+          headers: getHeaders(),
+        })
+        .then((res) => {
+          callback();
+          dispatch({
+            type: "category/admin/create",
+            data: res?.data?.data,
+          });
+        })
+        .catch((error) => {
+          toast.error(error?.response?.data?.message);
+          dispatch({
+            type: "category/error",
+          });
+        });
+    },
+  deleteAdminCategory:
+    (data = {}, callback) =>
+    async (dispatch) => {
+      dispatch({ type: "category/loading" });
+      await axios
+        .delete(`${baseUrl}/category/admin/remove`, {
+          data,
+          headers: getHeaders(),
+        })
+        .then((res) => {
+          callback();
+          dispatch({
+            type: "category/admin/delete",
+            data: res?.data?.data,
+          });
+        })
+        .catch((error) => {
+          // toast.error(error?.response?.data?.message);
+          dispatch({
+            type: "category/error",
+          });
+        });
+    },
 };
 
 export default category;

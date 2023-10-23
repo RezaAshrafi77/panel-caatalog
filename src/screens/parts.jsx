@@ -1,8 +1,8 @@
 import { Loading, Product } from "../components";
 
 export const Parts = ({ events, data }) => {
-  const { template, loading, categories } = data; 
-  
+  const { template, loading, categories } = data;
+
   return (
     <div className="flex flex-1 flex-col">
       {template?.allPartCategories?.length ? (
@@ -30,7 +30,7 @@ export const Parts = ({ events, data }) => {
                         (cat) => cat?.name === category?.name
                       )
                     )
-                    .map((part, index) => (
+                    ?.map((part, index) => (
                       <Product
                         classNames={`max-h-[30vw] min-h-[30vw] lg:max-h-[12vw] lg:min-h-[12vw] 2xl:max-h-[14vw] 2xl:min-h-[14vw] cursor-pointer`}
                         data={part}

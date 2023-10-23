@@ -11,6 +11,12 @@ export default function category(state = initialState, action) {
   switch (type) {
     case "category/admin/list":
       return { ...state, categories: data, loading: false, error: null };
+    case "category/admin/delete":
+      toast.success("دسته بندی با موفقیت حذف شد.")
+      return { ...state, loading: false, error: null };
+    case "category/admin/create":
+      toast.success("دسته بندی با موفقیت اضافه شد.")
+      return { ...state, loading: false, error: null };
     case "category/loading":
       return { ...state, loading: true };
     case "category/error":

@@ -19,8 +19,8 @@ import {
   part,
   roles,
 } from "../redux/actions";
-import { Button, Drawer } from "../components";
-import { MdMenu, MdPerson } from "react-icons/md";
+import { Button } from "../components";
+import Categories from "./categories";
 
 export const Home = ({
   admin,
@@ -56,6 +56,8 @@ export const Home = ({
   getRoles,
   adminDeletePart,
   customerDeletePart,
+  createAdminCategory,
+  deleteAdminCategory,
   // loading
   usersLoading,
   templateLoading,
@@ -77,6 +79,10 @@ export const Home = ({
         {
           title: "لیست مشتریان",
           name: "users",
+        },
+        {
+          title: "دسته بندی ها",
+          name: "categories",
         },
       ]
     : [
@@ -132,6 +138,10 @@ export const Home = ({
         getAdminCategories();
       }
     } else if (route === "editPart") {
+    } else if (route === "categories") {
+      if (!categories?.length) {
+        getAdminCategories();
+      }
     }
   }, [
     route,
@@ -156,6 +166,19 @@ export const Home = ({
           admin,
         }}
         events={{
+          changeRoute: (route) => setRoute(route),
+        }}
+      />
+    ),
+    categories: (
+      <Categories
+        data={{
+          categories,
+        }}
+        events={{
+          createAdminCategory,
+          deleteAdminCategory,
+          getAdminCategories,
           changeRoute: (route) => setRoute(route),
         }}
       />
@@ -251,7 +274,7 @@ export const Home = ({
           categories,
           part: activePart,
           isEditPage: true,
-          template
+          template,
         }}
         events={{
           changeRoute: (route) => setRoute(route),
@@ -277,7 +300,7 @@ export const Home = ({
           templateLoading,
           categories,
           part: activePart,
-          template
+          template,
         }}
         events={{
           changeRoute: (route) => setRoute(route),
@@ -329,6 +352,8 @@ export const Home = ({
       />
     ) : null,
   };
+
+  console.log(route);
 
   return (
     <div className="flex flex-1 flex-col md:flex-row max-w-full max-h-full h-full overflow-hidden bg-gray-800 text-background">
@@ -383,6 +408,8 @@ const mapDispatchToProps = {
   adminPartUpdate: part.adminPartUpdate,
   getRoles: roles.list,
   adminDeletePart: part.adminDeletePart,
+  createAdminCategory: category.createAdminCategory,
+  deleteAdminCategory: category.deleteAdminCategory,
   // customer
   updateTemplate: template.updateTemplate,
   customerPartUpdate: part.customerPartUpdate,
