@@ -106,7 +106,7 @@ function Input({ classNames, events, data, ...props }) {
           }
           onFocus={(e) => (events["onFocus"] ? events["onFocus"](e) : {})}
           onBlur={(e) => (events["onBlur"] ? events["onBlur"](e) : {})}
-          className={`${classNames} w-full my-3 outline-none border border-solid border-borderColor rounded-md text-base`}
+          className={`${classNames} w-full py-3 my-3 outline-none border border-solid border-borderColor rounded-md text-base`}
         />
       </div>
     ),
@@ -137,7 +137,7 @@ function Input({ classNames, events, data, ...props }) {
             let file = e.target.files[0];
             let validExtensions = props?.validFileTypes?.length
               ? props?.validFileTypes
-              : ["image/jpeg", "image/jpg", "image/png"];
+              : ["image/jpeg", "image/jpg", "image/png", "image/webp"];
             if (validExtensions.includes(file?.type)) {
               events["onChange"](file);
             } else {

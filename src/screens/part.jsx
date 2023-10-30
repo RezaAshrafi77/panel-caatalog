@@ -187,7 +187,6 @@ export const Part = ({ events, data }) => {
     }
   }, [file]);
 
-  console.log(specifications);
   return (
     <div className="flex flex-col flex-1 max-w-full max-h-full h-full overflow-y-scroll pb-32">
       <Navbar
@@ -284,7 +283,8 @@ export const Part = ({ events, data }) => {
             labelClassNames="text-gray-200 mb-1 text-xs"
           />
           <Input
-            type="text"
+            type="textarea"
+            rows={5}
             name="text"
             value={part?.text}
             events={{

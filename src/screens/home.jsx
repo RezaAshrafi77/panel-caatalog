@@ -353,8 +353,6 @@ export const Home = ({
     ) : null,
   };
 
-  console.log(route);
-
   return (
     <div className="flex flex-1 flex-col md:flex-row max-w-full max-h-full h-full overflow-hidden bg-gray-800 text-background">
       <Sidebar

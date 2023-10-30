@@ -17,7 +17,7 @@ export default function Navbar({ data, events, classNames, ...props }) {
           <div className="absolute-center-center">{props?.logo}</div>
         ) : null}
         {props?.actions?.length ? (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1 md:gap-3">
             {props?.actions?.map((action, index) => (
               <React.Fragment key={index}>{action}</React.Fragment>
             ))}

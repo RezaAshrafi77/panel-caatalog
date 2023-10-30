@@ -33,12 +33,11 @@ export const Information = ({ data, events }) => {
   }, [file]);
   return (
     <form
-      className={`flex flex-col gap-8 lg:max-w-[500px] lg:min-w-[500px] lg:mx-auto py-7 ${
+      className={`flex flex-col gap-8 w-full lg:max-w-[500px] lg:min-w-[500px] lg:mx-auto py-7 ${
         isEditPage ? "" : "px-6"
       }`}
       onSubmit={(e) => e.preventDefault()}
     >
-      
       <div
         className="flex items-center gap-4 w-full cursor-pointer"
         onClick={() =>
@@ -75,6 +74,23 @@ export const Information = ({ data, events }) => {
             classNames="text-white !w-full !bg-transparent !px-4 !text-sm placeholder:text-sm placeholder:text-gray-400"
             placeholder={"نام فروشگاه یا برند را وارد کنید ..."}
             label="عنوان فروشگاه"
+            containerClassNames="!bg-transparent !w-full md:my-0 border-b border-solid border-gray-500 overflow-hidden rounded-none pb-3 md:pb-1"
+            labelClassNames="text-gray-200 mb-1 text-sm"
+          />
+          <Input
+            type="text"
+            name="name"
+            value={formData?.position}
+            events={{
+              onChange: (name, value) =>
+                updateFormData({
+                  ...formData,
+                  ["position"]: value,
+                }),
+            }}
+            classNames="text-white !w-full !bg-transparent !px-4 !text-sm placeholder:text-sm placeholder:text-gray-400"
+            placeholder={"فیلد فروشگاه یا برند را وارد کنید ..."}
+            label="فیلد فروشگاه"
             containerClassNames="!bg-transparent !w-full md:my-0 border-b border-solid border-gray-500 overflow-hidden rounded-none pb-3 md:pb-1"
             labelClassNames="text-gray-200 mb-1 text-sm"
           />
